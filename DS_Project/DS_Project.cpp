@@ -8,7 +8,6 @@ using namespace std;
 int main()
 {
    /* creat_DB();*/
-    cout << "hoba";
 
     int press;
     bool flag = true;

@@ -1,5 +1,6 @@
 #include "Admin.h"
 #include "database_class.h"
+#include"database_class.cpp" 
 #include"sqlite/sqlite3.h"
 
 int Admin::id = 0;/*for static variable (id)*/
@@ -96,7 +97,6 @@ void Admin::Add_Student()
 
 			Admin::append(f_name1, s_name1, th_name1, password1, acadamic_year1);
 			insert_stud.insert_At_Student(f_name1, s_name1, th_name1, password1, acadamic_year1);
-
 
 		}
 

@@ -48,17 +48,18 @@ void database_class::creat_DB()
 
 }
 
-void database_class::insert_At_Student(string  first_name_student , string second_name_student  ,   string third_name_student ,  int student_password , int stud_academic_yer)
+void database_class::insert_At_Student(string  first_name_student , string second_name_student  ,   string third_name_student ,  int student_password , int stud_academic_year)
 {
-	char* err;
+	
+	char* err_add_stud;
 	sqlite3* db;
 	sqlite3_stmt* stmt;
 	sqlite3_open("myDb.db", &db);
-	string query = "insert into COURSE VALUES('" + first_name_student + "','" + second_name_student + "','" + third_name_student + "','" + to_string(student_password) + to_string(stud_academic_yer) +  "',300);";
+	string query = "insert into STUDENT VALUES('" + first_name_student + "','" + second_name_student + "','" + third_name_student + "','" + to_string(student_password) + "','"+ to_string(stud_academic_year) +  "',300);";
 	cout << query << endl;
-	int rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
+	int rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err_add_stud);
 	if (rc != SQLITE_OK) {
-		cout << "errroooooorrrrr insert: " << err;
+		cout << "errroooooorrrrr insert: " << err_add_stud << endl;
 	}
 }
 
