@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Admin.h"
 #include"sqlite/sqlite3.h"
 #include<string>
 using namespace std;
@@ -8,6 +9,66 @@ int main()
 {
    /* creat_DB();*/
     cout << "hoba";
+
+    int press;
+    bool flag = true;
+
+    Admin add_student;
+
+    while (flag) {
+        cout << "If you want to add student data press 1 " << endl;
+        cout << "If you want to display student data press 2 " << endl;
+        cout << "If you want to edit student data press 3 " << endl;
+        cout << "If you want to exit press 4 " << endl;
+
+        cin >> press;
+        switch (press) {
+
+        case 1:
+            add_student.Add_Student();
+            break;
+        case 2:
+
+
+            add_student.display();
+            break;
+        case 3:
+
+
+            break;
+
+        case 4:
+            
+            flag = false;
+            break;
+
+        default:
+
+
+            cout << " wrong choice " << endl;
+            break;
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
     return 0;
 }
 //void creat_DB() {

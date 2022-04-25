@@ -12,11 +12,6 @@ Student::Student(string fnam, string snam, string thnam, int pass, int aca) {
 	next = NULL;
 
 }
-/////////////////////////////////
-
-////////////////////////////////
-Student ::~Student() {}
-
 
 
 
@@ -46,8 +41,7 @@ int Student::get_student_id()
 
 
 }
-/////////////////////////////////
 
-////////////////////////////////
-Student ::~Student() {}
+Student ::~Student() {
+}
 
