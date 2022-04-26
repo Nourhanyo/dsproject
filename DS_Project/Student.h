@@ -17,6 +17,8 @@ private:
 public:
 	Student* next;
 	Student* next1;
+	Student* next2;
+
 	Student();
 	Student(string, string, string  , int, int);
 

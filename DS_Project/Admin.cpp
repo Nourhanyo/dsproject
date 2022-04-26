@@ -18,6 +18,7 @@ Admin::Admin()
 {
 }
 
+
 void Admin::insert_At_Student(string  first_name_student, string second_name_student, string third_name_student, int student_password, int stud_academic_year) {
 	char* err;
 	sqlite3* db;
@@ -66,10 +67,10 @@ void Admin::insert_At_in_progress_courses(int id, string in_p__courses )
 		cout << "errroooooorrrrr insert: " << err;
 	}
 }
-
+Student* n; 
 void Admin::add(string first_name, string second_name, string third_name,  int password, int academic_year)
 {
-	Student* n = new Student(first_name, second_name, third_name, password, academic_year);
+	 n = new Student(first_name, second_name, third_name, password, academic_year);
 
 	if (size == 0) {
 		
@@ -89,29 +90,50 @@ void Admin::add(string first_name, string second_name, string third_name,  int p
 	}
 }
 
-void Admin::add_finished_courses()
+void Admin::add_finished_courses(string  f_courses)
 {
-	string  f_courses;
-	cout << "enter your finished courses" << endl;
-	cin >> f_courses;
+	
 	Student* b = new Student();
 
 	if (size1 == 0) {
-		b->get_finished_coursese() = f_courses;
 		
 		head1 = tail1 = b; 
 
 		size1++;
 
 
+
 	}
 	else {
-		b->get_finished_coursese() = f_courses;
 
 		tail1->next1 = b;
 
 		tail1 = tail1->next1; 
 		size1++;
+
+	}
+}
+
+void Admin::add_in_progress_courses(string  in_p_courses)
+{
+
+	Student* z = new Student();
+
+	if (size2 == 0) {
+
+		head2 = tail2 = z;
+
+		size2++;
+
+
+
+	}
+	else {
+
+		tail2->next2 = z;
+
+		tail2 = tail2->next2;
+		size2++;
 
 	}
 }
@@ -152,8 +174,14 @@ void Admin::Add_Student()
 	string f_name1;
 	string s_name1;
 	string th_name1;
+	string f__course;
+	string in__p_course;
 	int password1;
 	int acadamic_year1;
+	bool flag1 = true;
+	bool flag2 = true;
+	string stop_;
+
 	cout << "if you want to add multiple students press 1 " << endl;
 	cout << "if you want to add one students press 2 " << endl;
 	cin >> press_;
@@ -169,9 +197,41 @@ void Admin::Add_Student()
 			cin >> password1;
 			cout << "enter student acadamic_year " << endl;
 			cin >> acadamic_year1;
-
 			Admin::add(f_name1, s_name1, th_name1, password1, acadamic_year1);
-			Admin :: insert_At_Student(f_name1, s_name1, th_name1, password1, acadamic_year1);
+			Admin::insert_At_Student(f_name1, s_name1, th_name1, password1, acadamic_year1);
+
+			cout << "enter your finished courses" << endl;
+			while (flag1) {
+				int s__id = n->get_student_id();
+				cin >> f__course;
+				Admin::add_finished_courses(f__course);
+				Admin::insert_At_finished_courses(s__id, f__course);
+				cout << " if you want to stop adding finished courses type stop " << endl;
+				cin >> stop_;
+				if (stop_ == "stop" || stop_ == "STOP" || stop_ == "Stop") {
+					flag1 == false;
+
+				}
+
+
+			}
+			cout << "enter your in progress courses" << endl;
+
+			while (flag2) {
+				int s__id = n->get_student_id();
+				cin >> in__p_course;
+
+				Admin::add_in_progress_courses(in__p_course);
+				Admin::insert_At_in_progress_courses(s__id, in__p_course);
+				cout << " if you want to stop adding finished courses type stop " << endl;
+				cin >> stop_;
+				if (stop_ == "stop" || stop_ == "STOP" || stop_ == "Stop") {
+					flag2 == false;
+
+				}
+
+
+			}
 
 		}
 
@@ -190,6 +250,38 @@ void Admin::Add_Student()
 		Admin::add(f_name1, s_name1, th_name1, password1, acadamic_year1);
 
 		Admin :: insert_At_Student(f_name1, s_name1, th_name1, password1, acadamic_year1);
+		cout << "enter your finished courses" << endl;
+		while (flag1) {
+			int s__id = n->get_student_id();
+			cin >> f__course;
+			Admin::add_finished_courses(f__course);
+			Admin::insert_At_finished_courses(s__id, f__course);
+			cout << " if you want to stop adding finished courses type stop " << endl;
+			cin >> stop_;
+			if (stop_ == "stop" || stop_ == "STOP" || stop_ == "Stop") {
+				flag1 == false;
+
+			}
+
+
+		}
+		cout << "enter your in progress courses" << endl;
+
+		while (flag2) {
+			int s__id = n->get_student_id();
+			cin >> in__p_course;
+
+			Admin::add_in_progress_courses(in__p_course);
+			Admin::insert_At_in_progress_courses(s__id, in__p_course);
+			cout << " if you want to stop adding finished courses type stop " << endl;
+			cin >> stop_;
+			if (stop_ == "stop" || stop_ == "STOP" || stop_ == "Stop") {
+				flag2 == false;
+
+			}
+
+
+		}
 
 
 

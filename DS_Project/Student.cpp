@@ -18,6 +18,7 @@ Student::Student()
 {
 	
 	next1 = NULL;
+	next2 = NULL;
 }
 
 string Student::get_f_name()
