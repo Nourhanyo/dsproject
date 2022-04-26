@@ -2,18 +2,23 @@
 #include "Student.h"
 #include "sqlite/sqlite3.h"
 int Student::id = 0;/*for static variable (id)*/
-Student::Student(string fnam, string snam, string thnam, int pass, int aca) {
+Student::Student(string fnam, string snam, string thnam , int pass, int aca) {
 	f_name = fnam;
 	s_name = snam;
 	th_name = thnam;
 	password = pass;
-	acadamic_year = aca;
 	id++;
 	next = NULL;
 
 }
 
 
+
+Student::Student()
+{
+	
+	next1 = NULL;
+}
 
 string Student::get_f_name()
 {
@@ -26,6 +31,14 @@ string Student::get_s_name()
 string Student::get_th_name()
 {
 	return th_name;
+}
+string Student::get_finished_coursese()
+{
+	return  finished_courses;
+}
+string Student::get_courses_in_progress()
+{
+	return   courses_in_progress; 
 }
 int Student::get_student_password()
 {
