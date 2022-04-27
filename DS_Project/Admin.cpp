@@ -67,17 +67,18 @@ void Admin::insert_At_in_progress_courses(int id, string in_p__courses )
 		cout << "errroooooorrrrr insert: " << err;
 	}
 }
-Student* n; 
+
+int stud__id;
 void Admin::add(string first_name, string second_name, string third_name,  int password, int academic_year)
 {
-	 n = new Student(first_name, second_name, third_name, password, academic_year);
+	Student* n = new Student(first_name, second_name, third_name, password, academic_year);
 
 	if (size == 0) {
 		
 		head = tail = n;
 
 		size++;
-
+		stud__id = n->get_student_id();
 
 	}
 	else {
@@ -88,6 +89,9 @@ void Admin::add(string first_name, string second_name, string third_name,  int p
 		size++;
 
 	}
+
+	
+
 }
 
 void Admin::add_finished_courses(string  f_courses)
@@ -202,7 +206,9 @@ void Admin::Add_Student()
 			cout << "enter the number of your finished courses" << endl;
 			cin >> num_of_finished_courses;
 			for (int i = 0; i <= num_of_finished_courses; i++) {
-				int s__id = n->get_student_id();
+				cout << "add  course " << endl;
+
+				int s__id = stud__id;
 				cin >> f__course;
 				Admin::add_finished_courses(f__course);
 				Admin::insert_At_finished_courses(s__id, f__course);
@@ -212,7 +218,9 @@ void Admin::Add_Student()
 			cout << "enter your in progress courses" << endl;
 			cin >> num_of_in_progress_courses;
 			for (int i = 0; i < num_of_in_progress_courses; i++) {
-				int s__id = n->get_student_id();
+				cout << "add  course " << endl;
+
+				int s__id = stud__id;
 				cin >> in__p_course;
 
 				Admin::add_in_progress_courses(in__p_course);
@@ -242,7 +250,8 @@ void Admin::Add_Student()
 		cout << "enter the number of your finished courses" << endl;
 		cin >> num_of_finished_courses;
 		for (int i = 0; i <= num_of_finished_courses; i++) {
-			int s__id = n->get_student_id();
+			cout << "add  course " << endl;
+			int s__id = stud__id;
 			cin >> f__course;
 			Admin::add_finished_courses(f__course);
 			Admin::insert_At_finished_courses(s__id, f__course);
@@ -252,12 +261,13 @@ void Admin::Add_Student()
 		cout << "enter your in progress courses" << endl;
 		cin >> num_of_in_progress_courses;
 		for (int i = 0; i < num_of_in_progress_courses; i++) {
-			int s__id = n->get_student_id();
+			cout << "add  course " << endl;
+
+			int s__id = stud__id;
 			cin >> in__p_course;
 
 			Admin::add_in_progress_courses(in__p_course);
 			Admin::insert_At_in_progress_courses(s__id, in__p_course);
-			cout << " if you want to stop adding in progress courses type stop " << endl;
 
 
 		}
