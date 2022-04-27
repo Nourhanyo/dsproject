@@ -178,10 +178,9 @@ void Admin::Add_Student()
 	string in__p_course;
 	int password1;
 	int acadamic_year1;
-	bool flag1 = true;
-	bool flag2 = true;
-	string stop_;
-
+	int num_of_finished_courses;
+	int num_of_in_progress_courses;
+	
 	cout << "if you want to add multiple students press 1 " << endl;
 	cout << "if you want to add one students press 2 " << endl;
 	cin >> press_;
@@ -200,36 +199,26 @@ void Admin::Add_Student()
 			Admin::add(f_name1, s_name1, th_name1, password1, acadamic_year1);
 			Admin::insert_At_Student(f_name1, s_name1, th_name1, password1, acadamic_year1);
 
-			cout << "enter your finished courses" << endl;
-			while (flag1) {
+			cout << "enter the number of your finished courses" << endl;
+			cin >> num_of_finished_courses;
+			for (int i = 0; i <= num_of_finished_courses; i++) {
 				int s__id = n->get_student_id();
 				cin >> f__course;
 				Admin::add_finished_courses(f__course);
 				Admin::insert_At_finished_courses(s__id, f__course);
-				cout << " if you want to stop adding finished courses type stop " << endl;
-				cin >> stop_;
-				if (stop_ == "stop" || stop_ == "STOP" || stop_ == "Stop") {
-					flag1 == false;
-
-				}
-
+				
 
 			}
 			cout << "enter your in progress courses" << endl;
-
-			while (flag2) {
+			cin >> num_of_in_progress_courses;
+			for (int i = 0; i < num_of_in_progress_courses; i++) {
 				int s__id = n->get_student_id();
 				cin >> in__p_course;
 
 				Admin::add_in_progress_courses(in__p_course);
 				Admin::insert_At_in_progress_courses(s__id, in__p_course);
-				cout << " if you want to stop adding finished courses type stop " << endl;
-				cin >> stop_;
-				if (stop_ == "stop" || stop_ == "STOP" || stop_ == "Stop") {
-					flag2 == false;
-
-				}
-
+				cout << " if you want to stop adding in progress courses type stop " << endl;
+				
 
 			}
 
@@ -250,43 +239,33 @@ void Admin::Add_Student()
 		Admin::add(f_name1, s_name1, th_name1, password1, acadamic_year1);
 
 		Admin :: insert_At_Student(f_name1, s_name1, th_name1, password1, acadamic_year1);
-		cout << "enter your finished courses" << endl;
-		while (flag1) {
+		cout << "enter the number of your finished courses" << endl;
+		cin >> num_of_finished_courses;
+		for (int i = 0; i <= num_of_finished_courses; i++) {
 			int s__id = n->get_student_id();
 			cin >> f__course;
 			Admin::add_finished_courses(f__course);
 			Admin::insert_At_finished_courses(s__id, f__course);
-			cout << " if you want to stop adding finished courses type stop " << endl;
-			cin >> stop_;
-			if (stop_ == "stop" || stop_ == "STOP" || stop_ == "Stop") {
-				flag1 == false;
-
-			}
 
 
 		}
 		cout << "enter your in progress courses" << endl;
-
-		while (flag2) {
+		cin >> num_of_in_progress_courses;
+		for (int i = 0; i < num_of_in_progress_courses; i++) {
 			int s__id = n->get_student_id();
 			cin >> in__p_course;
 
 			Admin::add_in_progress_courses(in__p_course);
 			Admin::insert_At_in_progress_courses(s__id, in__p_course);
-			cout << " if you want to stop adding finished courses type stop " << endl;
-			cin >> stop_;
-			if (stop_ == "stop" || stop_ == "STOP" || stop_ == "Stop") {
-				flag2 == false;
-
-			}
+			cout << " if you want to stop adding in progress courses type stop " << endl;
 
 
 		}
 
-
-
-
 	}
+
+
+	
 	else {
 		cout << "invaled number " << endl;
 	}

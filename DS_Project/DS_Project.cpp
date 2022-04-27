@@ -12,12 +12,12 @@ int main()
     bool flag = true;
 
     Admin add_student;
-
+    cout << "If you want to add student data press 1 " << endl;
+    cout << "If you want to display student data press 2 " << endl;
+    cout << "If you want to edit student data press 3 " << endl;
+    cout << "If you want to exit press 4 " << endl;
     while (flag) {
-        cout << "If you want to add student data press 1 " << endl;
-        cout << "If you want to display student data press 2 " << endl;
-        cout << "If you want to edit student data press 3 " << endl;
-        cout << "If you want to exit press 4 " << endl;
+       
 
         cin >> press;
         switch (press) {
