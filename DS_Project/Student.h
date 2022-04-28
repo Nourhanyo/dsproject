@@ -30,6 +30,7 @@ public:
 	int get_student_password();
 	int get_acadamic_year();
 	int get_student_id();
+	//void Edit_Stud_data();
 	~Student();
 
 };

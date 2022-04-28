@@ -45,8 +45,8 @@ void Admin::insert_At_finished_courses( int id , string f__courses)
 	int  s_id = id;
 	sqlite3_stmt* stmt;
 	sqlite3_open("myDb.db", &db);
-	string query = "insert into COURSE_FINSHED(STUD_ID , COURE_FINISHED)VALUES('" + to_string(s_id) + "','" + s  + "'); ";
-	cout << query << endl;
+	string query1 = "insert into COURSE_FINSHED(STUD_ID , COURE_FINISHED)VALUES('" + to_string(s_id) + "','" + s  + "'); ";
+	cout << query1 << endl;
 	int rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 	if (rc != SQLITE_OK) {
 		cout << "errroooooorrrrr insert: " << err;
@@ -62,8 +62,8 @@ void Admin::insert_At_in_progress_courses(int id, string in_p__courses )
 
 	sqlite3_stmt* stmt;
 	sqlite3_open("myDb.db", &db);
-	string query = "insert into COURSE_PROG(STUD_ID , COURE_IN_PROGRESS)VALUES('" + to_string(q) + "','" + s +  "'); ";
-	cout << query << endl;
+	string query2 = "insert into COURSE_PROG(STUD_ID , COURE_IN_PROGRESS)VALUES('" + to_string(q) + "','" + s +  "'); ";
+	cout << query2 << endl;
 	int rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 	if (rc != SQLITE_OK) {
 		cout << "errroooooorrrrr insert: " << err;
@@ -179,13 +179,16 @@ void Admin::add_courses_only()
 	int s__id;
 	cout << "enter the id of the student you want to add  course for " << endl;
 	cin << s__id;
-	int choice = 0; 
-	cout << "if the student has no finished courses " << endl;
-	cin >> choice;
+	
 	int num_of_finished_courses = 0;
 	int num_of_in_progress_courses = 0;
-
-	cout << "enter the number of your finished courses" << endl;
+	int press_for_course;
+	
+	cout << "if the student has no finished courses press 2 " << endl;
+	cin >> press_for_course;
+	switch(press_for_course){
+	case 1 :
+	cout << "enter the number of student  finished courses" << endl;
 	cin >> num_of_finished_courses;
 	for (int i = 0; i <= num_of_finished_courses; i++) {
 		cout << "add  course " << endl;
@@ -196,7 +199,7 @@ void Admin::add_courses_only()
 
 
 	}
-	cout << "enter your in progress courses" << endl;
+	cout << "enter the number of student  in progress courses" << endl;
 	cin >> num_of_in_progress_courses;
 	for (int i = 0; i < num_of_in_progress_courses; i++) {
 		cout << "add  course " << endl;
@@ -204,11 +207,27 @@ void Admin::add_courses_only()
 		cin >> in__p_course;
 
 		Admin::add_in_progress_courses(in__p_course);
+
 		Admin::insert_At_in_progress_courses(s__id, in__p_course);
 
 
 	}
+	break;
+	case 2 : 
+		cout << "enter the number of student  in progress courses" << endl;
+		cin >> num_of_in_progress_courses;
+		for (int i = 0; i < num_of_in_progress_courses; i++) {
+			cout << "add  course " << endl;
 
+			cin >> in__p_course;
+
+			Admin::add_in_progress_courses(in__p_course);
+
+			Admin::insert_At_in_progress_courses(s__id, in__p_course);
+			break;
+	default : 
+		cout << "invalid" << endl;
+		break; 
 }
 
 
