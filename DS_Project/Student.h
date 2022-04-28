@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include "database_class.h"
+
 #include"sqlite/sqlite3.h"
 using namespace std;
 class Student
@@ -30,7 +32,11 @@ public:
 	int get_student_password();
 	int get_acadamic_year();
 	int get_student_id();
-	//void Edit_Stud_data();
+	void Edit_Stud_data();
+	static int select_data();
+	static int callback(void* data, int argc, char** argv, char** azColName);
+
+	//static int callback(void* NotUsed, int argc, char** argv, char** azColName);
 	~Student();
 
 };

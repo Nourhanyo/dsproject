@@ -1,5 +1,7 @@
 #pragma once
 #include "Student.h"
+#include "database_class.h"
+
 #include <iostream>
 using namespace std;
 
