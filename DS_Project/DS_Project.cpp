@@ -28,7 +28,7 @@ int main()
         case 2:
 
 
-            add_student.display();
+            //add_student.display();
             break;
         case 3:
 

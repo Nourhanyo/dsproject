@@ -40,12 +40,12 @@ void Admin::insert_At_Student(string  first_name_student, string second_name_stu
 	}
 }
 
-void Admin::insert_At_finished_courses(int id, string f__courses)
+void Admin::insert_At_finished_courses(int st_id, string f__courses)
 {
 	char* err;
 	sqlite3* db;
 	string s = f__courses;
-	int  s_id = id;
+	int  s_id = st_id;
 	sqlite3_stmt* stmt;
 	sqlite3_open("myDb.db", &db);
 	string query = "insert into COURSE_FINSHED(STUD_ID , COURE_FINISHED)VALUES('" + to_string(s_id) + "','" + s + "'); ";
@@ -56,12 +56,12 @@ void Admin::insert_At_finished_courses(int id, string f__courses)
 	}
 }
 
-void Admin::insert_At_in_progress_courses(int id, string in_p__courses)
+void Admin::insert_At_in_progress_courses(int st_id, string in_p__courses)
 {
 	char* err;
 	sqlite3* db;
 	string s = in_p__courses;
-	int q = id;
+	int q = st_id;
 
 	sqlite3_stmt* stmt;
 	sqlite3_open("myDb.db", &db);
@@ -144,10 +144,6 @@ void Admin::add_in_progress_courses(string  in_p_courses)
 		size2++;
 
 	}
-}
-
-void Admin::add_courses_only()
-{
 }
 
 
