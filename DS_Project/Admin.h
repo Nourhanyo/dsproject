@@ -30,6 +30,7 @@ public:
 	void add(string, string  ,  string   , int, int);
 	void add_finished_courses(string);
 	void add_in_progress_courses(string); 
+	void add_courses_only();
 	void display();
 	void Add_Student();
 	Admin(string , string);

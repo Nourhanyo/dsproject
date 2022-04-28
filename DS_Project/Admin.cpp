@@ -1,6 +1,8 @@
 #include "Admin.h"
 #include"sqlite/sqlite3.h"
 #include<string>
+#include <iostream>
+using namespace std;
 
 
 int Admin::id = 0;/*for static variable (id)*/
@@ -68,17 +70,15 @@ void Admin::insert_At_in_progress_courses(int id, string in_p__courses )
 	}
 }
 
-int stud__id;
 void Admin::add(string first_name, string second_name, string third_name,  int password, int academic_year)
 {
 	Student* n = new Student(first_name, second_name, third_name, password, academic_year);
-
 	if (size == 0) {
 		
 		head = tail = n;
 
 		size++;
-		stud__id = n->get_student_id();
+		Admin::insert_At_Student(first_name, second_name, third_name, password, academic_year);
 
 	}
 	else {
@@ -87,6 +87,7 @@ void Admin::add(string first_name, string second_name, string third_name,  int p
 
 		tail = tail->next;
 		size++;
+		Admin::insert_At_Student(first_name, second_name, third_name, password, academic_year);
 
 	}
 
@@ -171,6 +172,49 @@ void Admin::display()
 
 
 }
+string f__course;
+string in__p_course;
+void Admin::add_courses_only()
+{
+	int s__id;
+	cout << "enter the id of the student you want to add  course for " << endl;
+	cin << s__id;
+	int choice = 0; 
+	cout << "if the student has no finished courses " << endl;
+	cin >> choice;
+	int num_of_finished_courses = 0;
+	int num_of_in_progress_courses = 0;
+
+	cout << "enter the number of your finished courses" << endl;
+	cin >> num_of_finished_courses;
+	for (int i = 0; i <= num_of_finished_courses; i++) {
+		cout << "add  course " << endl;
+
+		cin >> f__course;
+		Admin::add_finished_courses(f__course);
+		Admin::insert_At_finished_courses(s__id, f__course);
+
+
+	}
+	cout << "enter your in progress courses" << endl;
+	cin >> num_of_in_progress_courses;
+	for (int i = 0; i < num_of_in_progress_courses; i++) {
+		cout << "add  course " << endl;
+
+		cin >> in__p_course;
+
+		Admin::add_in_progress_courses(in__p_course);
+		Admin::insert_At_in_progress_courses(s__id, in__p_course);
+
+
+	}
+
+}
+
+
+
+}
+
 
 void Admin::Add_Student()
 {
@@ -178,12 +222,9 @@ void Admin::Add_Student()
 	string f_name1;
 	string s_name1;
 	string th_name1;
-	string f__course;
-	string in__p_course;
 	int password1;
 	int acadamic_year1;
-	int num_of_finished_courses;
-	int num_of_in_progress_courses;
+	
 	
 	cout << "if you want to add multiple students press 1 " << endl;
 	cout << "if you want to add one students press 2 " << endl;
@@ -201,14 +242,13 @@ void Admin::Add_Student()
 			cout << "enter student acadamic_year " << endl;
 			cin >> acadamic_year1;
 			Admin::add(f_name1, s_name1, th_name1, password1, acadamic_year1);
-			Admin::insert_At_Student(f_name1, s_name1, th_name1, password1, acadamic_year1);
+			//Admin::insert_At_Student(f_name1, s_name1, th_name1, password1, acadamic_year1);
 
 			cout << "enter the number of your finished courses" << endl;
 			cin >> num_of_finished_courses;
 			for (int i = 0; i <= num_of_finished_courses; i++) {
 				cout << "add  course " << endl;
 
-				int s__id = stud__id;
 				cin >> f__course;
 				Admin::add_finished_courses(f__course);
 				Admin::insert_At_finished_courses(s__id, f__course);
@@ -220,12 +260,10 @@ void Admin::Add_Student()
 			for (int i = 0; i < num_of_in_progress_courses; i++) {
 				cout << "add  course " << endl;
 
-				int s__id = stud__id;
 				cin >> in__p_course;
 
 				Admin::add_in_progress_courses(in__p_course);
 				Admin::insert_At_in_progress_courses(s__id, in__p_course);
-				cout << " if you want to stop adding in progress courses type stop " << endl;
 				
 
 			}
@@ -251,7 +289,6 @@ void Admin::Add_Student()
 		cin >> num_of_finished_courses;
 		for (int i = 0; i <= num_of_finished_courses; i++) {
 			cout << "add  course " << endl;
-			int s__id = stud__id;
 			cin >> f__course;
 			Admin::add_finished_courses(f__course);
 			Admin::insert_At_finished_courses(s__id, f__course);
@@ -263,7 +300,6 @@ void Admin::Add_Student()
 		for (int i = 0; i < num_of_in_progress_courses; i++) {
 			cout << "add  course " << endl;
 
-			int s__id = stud__id;
 			cin >> in__p_course;
 
 			Admin::add_in_progress_courses(in__p_course);
