@@ -1,6 +1,5 @@
 #pragma once
 #include "Student.h"
-#include "database_class.h"
 
 #include <iostream>
 using namespace std;
@@ -33,7 +32,6 @@ public:
 	void add_finished_courses(string);
 	void add_in_progress_courses(string); 
 	void add_courses_only();
-	//void display();
 	void Add_Student();
 	Admin(string , string);
 	~Admin();

@@ -1,7 +1,28 @@
 #include<iostream>
 #include "Student.h"
+#include "Admin.h"
 #include "sqlite/sqlite3.h"
+#include<string>
+ /*int Student :: callback(void* data, int argc, char** argv, char** azColName)
+{
+	//int i;
+	fprintf(stderr, "%s: ", (const char*)data);
 
+	Student* stud = new Student;
+
+	stud->get_f_name() = argv[0];
+	stud->get_s_name() = argv[1];
+	stud->get_th_name() = argv[2];
+	stud->get_student_password() = argv[3];
+	stud->get_acadamic_year() = argv[4];
+	stud->get_courses_in_progress() = argv[5];
+	stud->get_finished_coursese() = argv[6];
+	
+
+	printf("\n");
+	return 0;
+}
+*/
 int Student::id = 0;/*for static variable (id)*/
 Student::Student(string fnam, string snam, string thnam , int pass, int aca) {
 	f_name = fnam;
@@ -42,22 +63,22 @@ string Student::get_courses_in_progress()
 {
 	return   courses_in_progress; 
 }
-int Student::get_student_password()
+string Student::get_student_password()
 {
-	return  password;
+	return  to_string(password);
 }
-int Student::get_acadamic_year()
+string Student::get_acadamic_year()
 {
-	return  acadamic_year;
+	return  to_string(acadamic_year);
 }
-int Student::get_student_id()
+string Student::get_student_id()
 {
-	return   id;
+	return   to_string(id);
 
 
 }
 
-void Student::Edit_Stud_data()
+/*void Student::Edit_Stud_data()
 {
 	int My_id = 0;
 	int My_password;
@@ -72,15 +93,15 @@ void Student::Edit_Stud_data()
 	const char* data = "Callback function called";
 
 	/* Open database */
-	sqlite3_open("myDb.db", &db);
+	//sqlite3_open("myDb.db", &db);
 
 	
 	/* Create merged SQL statement */
-	sql = "UPDATE STUDENT set PASSWORD = 'My_password' where ID='My_id'   ; " 
-		"SELECT * from STUDENT";
+	//sql = "UPDATE STUDENT set PASSWORD = 'My_password' where ID='My_id'   ; " 
+	//	"SELECT * from STUDENT";
 
 	/* Execute SQL statement */
-	int rc = sqlite3_exec(db, sql.c_str(), callback, (void*)data, &zErrMsg);
+	/*int rc = sqlite3_exec(db, sql.c_str(), callback, (void*)data, &zErrMsg);
 
 	if(rc != SQLITE_OK) {
 		fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -91,7 +112,7 @@ void Student::Edit_Stud_data()
    }
 	
 }
-
+*/
 
 /*int Student::select_data()
 {
@@ -127,7 +148,7 @@ void Student::Edit_Stud_data()
 	
 }
 */
-int Student::callback(void* data, int argc, char** argv, char** azColName)
+/*int Student::callback(void* data, int argc, char** argv, char** azColName)
 {
 
 		int i;
@@ -142,7 +163,7 @@ int Student::callback(void* data, int argc, char** argv, char** azColName)
 	
 	return 0;
 }
-
+*/
 /*int Student::callback(void* NotUsed, int argc, char** argv, char** azColName)
 {
 	for (int i = 0; i < argc; i++) {

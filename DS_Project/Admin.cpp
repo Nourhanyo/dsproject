@@ -23,7 +23,6 @@ Admin::Admin()
 {
 }
 
-
 void Admin::insert_At_Student(string  first_name_student, string second_name_student, string third_name_student, int student_password, int stud_academic_year) {
 	char* err;
 	sqlite3* db;
@@ -148,34 +147,6 @@ void Admin::add_in_progress_courses(string  in_p_courses)
 
 
 
-/*void Admin::display()
-
-{
-
-
-	Student* tmp;
-	tmp = head;
-	while (tmp != NULL)
-	{
-
-		cout << tmp->get_f_name() << " " << tmp->get_s_name() << " " << tmp->get_th_name() << endl;
-		cout << tmp->get_student_id() << endl;
-		cout << tmp->get_acadamic_year() << endl;
-
-
-		tmp = tmp->next;
-
-
-
-
-	}
-
-
-
-
-
-}
-*/
 string f__course;
 string in__p_course;
 void Admin::add_courses_only()
