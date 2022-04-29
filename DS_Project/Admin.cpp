@@ -281,7 +281,7 @@ void Admin::Add_Student()
 
 
 		}
-		//Admin::loop_in_db_stud();
+		
 
 	}
 	else if (press_ == 2) {
@@ -295,7 +295,7 @@ void Admin::Add_Student()
 		cin >> academic_year1;
 
 		Admin::add(s_ID, f_name1, s_name1, th_name1, password1, academic_year1);
-	//	Admin::loop_in_db_stud();
+	
 
 	}
 
@@ -308,47 +308,8 @@ void Admin::Add_Student()
 
 
 }
-/*void Admin::loop_in_db_stud()
-{
-	Student* temp = head;
-	while (temp != NULL) {
-		string id_ =  temp->get_student_id(); 
-		int id = stoi(id_);
-		string p = temp->get_student_password();
-		int password = stoi(p);
-		string academic = temp->get_acadamic_year();
-		int academic_year_ = stoi(academic);
-		Admin::insert_At_Student(id, temp->get_f_name(), temp->get_s_name(), temp->get_th_name(), password,academic_year_);
-		temp = temp->next;
-	}
-}
 
-*/
-void Admin::loop_in_db_f_course()
-{
-	Student* temp1 = head1;
-	while (temp1 != NULL) {
-		string id_ = temp1->get_student_id();
-		int id = stoi(id_);
-		
-		Admin::insert_At_finished_courses(id, temp1->get_finished_coursese());
 
-		temp1 = temp1->next1;
-
-	}
-}
-
-void Admin::loop_in_db_in_p_course()
-{
-	Student* temp2 = head2;
-	while (temp2 != NULL) {
-		string id_ = temp2->get_student_id();
-		int id = stoi(id_);
-		
-		Admin::insert_At_in_progress_courses(id, temp2->get_courses_in_progress());
-		temp2 = temp2->next2;
-	}
-}
 
 Admin::~Admin(){
 	

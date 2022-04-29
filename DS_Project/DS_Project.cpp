@@ -25,7 +25,7 @@ int main()
             add_student.Add_Student();
             break;
         case 2:
-           // stud.Edit_Stud_data();
+            stud.Edit_Stud_data();
 
             break;
         case 3:

@@ -33,8 +33,6 @@ public:
 	void add_in_progress_courses(int ,string); 
 	void add_courses_only();
 	void Add_Student();
-	void loop_in_db_f_course();
-	void loop_in_db_in_p_course();
 	Admin(string , string);
 	~Admin();
 

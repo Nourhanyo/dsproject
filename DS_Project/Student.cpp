@@ -3,26 +3,38 @@
 #include "Admin.h"
 #include "sqlite/sqlite3.h"
 #include<string>
- /*int Student :: callback(void* data, int argc, char** argv, char** azColName)
+ int Student :: callback(void* data, int argc, char** argv, char** azColName)
 {
-	//int i;
+	int i;
 	fprintf(stderr, "%s: ", (const char*)data);
 
-	Student* stud = new Student;
-
-	stud->get_f_name() = argv[0];
-	stud->get_s_name() = argv[1];
-	stud->get_th_name() = argv[2];
-	stud->get_student_password() = argv[3];
-	stud->get_acadamic_year() = argv[4];
-	stud->get_courses_in_progress() = argv[5];
-	stud->get_finished_coursese() = argv[6];
+	Student stud;
+	//Admin  add;
 	
-
+	stud.f_name = argv[0];
+	stud.s_name = argv[1];
+	stud.th_name = argv[2];
+	string a  = argv[3];
+	int s_password = stoi(a);
+	stud.password = s_password;
+	string b =  argv[4];
+	int academic_year_ = stoi(b);
+	stud.acadamic_year = academic_year_;
+	//add.add();
+	
 	printf("\n");
 	return 0;
 }
-*/
+
+ int Student::callback1(void* data, int argc, char** argv, char** azColName)
+ {
+	 Student s; 
+	 s.finished_courses = argv[0];
+	 s.courses_in_progress = argv[1];
+
+	 return 0;
+ }
+
 int Student::id = 0;/*for static variable (id)*/
 Student::Student(int id ,string fnam, string snam, string thnam , int pass, int aca) {
 	this->id = id;
@@ -76,6 +88,60 @@ string Student::get_student_id()
 	return   to_string(id);
 
 
+}
+
+void Student::Edit_Stud_data()
+{
+	Student stud;
+	int id_;
+	cout << "Enter student  id  you want to edite ?: \n ";
+	cin >> id_;
+	
+	cout << "Enter student Name : \n ";
+	cin >> stud.f_name >> stud.s_name >> stud.th_name;
+	//transform(stud.f_name.begin(), stu.name.end(), course.name.begin(), ::tolower);
+	cout << "  \n\n ";
+	cout << "Enter student password : \n ";
+	cin >> stud.password;
+	//transform(course.code.begin(), course.code.end(), course.code.begin(), ::tolower);
+	cout << "  \n\n ";
+	cout << "Enter student  academic year : \n ";
+	cin >> stud.acadamic_year;
+	
+	sqlite3* db;
+	char* zErrMsg = 0;
+	int rc;
+	string sql;
+	const char* data = "Callback function called";
+
+	/* Open database */
+	rc = sqlite3_open("myDb.db", &db);
+
+	if (rc) {
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		return;
+	}
+	else {
+		fprintf(stderr, "Opened database successfully\n");
+	}
+
+	/* Create merged SQL statement */
+
+
+
+	sql = "UPDATE STUDENT SET(F_NAME , S_NAME ,TH_NAME , PASSWORD , ACADEMIC_YEAR) = ('" + stud.f_name + "', '" + stud.s_name + "', '" + "', '" + stud.th_name + "', '" +  to_string(stud.password) + "', '" + to_string(stud.acadamic_year) + "') where ID ='" + to_string(id_) + "'; ";
+
+	/* Execute SQL statement */
+	rc = sqlite3_exec(db, sql.c_str(), callback, (void*)data, &zErrMsg);
+
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+	}
+	else {
+		fprintf(stdout, "Operation done successfully\n\n");
+	}
+	sqlite3_close(db);
 }
 
 /*void Student::Edit_Stud_data()
