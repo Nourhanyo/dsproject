@@ -18,6 +18,7 @@ private:
 public:
 	static int callback(void* data, int argc, char** argv, char** azColName);
 	static int callback1(void* data, int argc, char** argv, char** azColName);
+	static int callback2(void* data, int argc, char** argv, char** azColName);
 
 	Student* next;
 	Student* next1;
@@ -35,9 +36,9 @@ public:
 	string get_acadamic_year();
 	string get_student_id();
 	void Edit_Stud_data();
-	
-	//static int select_data();
-	//static int callback(void* NotUsed, int argc, char** argv, char** azColName);
+	void Edit_f_course_data();
+	void Edit_in_p_course_data();
+
 	~Student();
 
 };

@@ -14,7 +14,11 @@ int main()
     Student stud;
     cout << "If you want to add student data press 1 " << endl;
     cout << "If you want to edit student data press 2 " << endl;
-    cout << "If you want to exit press 3 " << endl;
+    cout << "If you want to edit finished course  data press 3 " << endl;
+    cout << "If you want to edit in progress  course  data press 4 " << endl;
+
+
+    cout << "If you want to exit press 5 " << endl;
     while (flag) {
        
 
@@ -26,9 +30,18 @@ int main()
             break;
         case 2:
             stud.Edit_Stud_data();
-
+            
             break;
         case 3:
+
+            stud.Edit_f_course_data();
+            break;
+            case 4:
+
+                stud.Edit_in_p_course_data();
+            break;
+
+        case 5:
 
             flag = false;
             break;
