@@ -23,19 +23,25 @@ Admin::Admin()
 {
 }
 
-void Admin::insert_At_Student(string  first_name_student, string second_name_student, string third_name_student, int student_password, int stud_academic_year) {
+void Admin::insert_At_Student(int stud_id , string  first_name_student, string second_name_student, string third_name_student, int student_password, int stud_academic_year) {
 	char* err;
 	sqlite3* db;
 	string s = first_name_student, a = second_name_student, b = third_name_student;
-	int q = student_password, w = stud_academic_year;
+	int q = student_password, w = stud_academic_year, d = stud_id;
 
 	sqlite3_stmt* stmt;
 	sqlite3_open("myDb.db", &db);
-	string query = "insert into STUDENT(F_NAME , L_NAME ,TH_NAME , PASSWORD , ACADEMIC_YEAR)VALUES('" + s + "','" + a + "','" + b + "','" + to_string(q) + "','" + to_string(w) + "'); ";
+	string query = "insert into STUDENT(ID,F_NAME , L_NAME ,TH_NAME , PASSWORD , ACADEMIC_YEAR)VALUES('" + to_string(d) + "','" + s + "','" + a + "','" + b + "','" + to_string(q) + "','" + to_string(w) + "'); ";
 	cout << query << endl;
 	int rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 	if (rc != SQLITE_OK) {
 		cout << "errroooooorrrrr insert: " << err;
+	}
+	else {
+		Admin::loop_in_db_f_course();
+
+		Admin::loop_in_db_in_p_course();
+
 	}
 }
 
@@ -72,24 +78,36 @@ void Admin::insert_At_in_progress_courses(int st_id, string in_p__courses)
 	}
 }
 
-void Admin::add(string first_name, string second_name, string third_name, int password, int academic_year)
+void Admin::add(int student__id ,string first_name, string second_name, string third_name, int password, int academic_year)
 {
-	Student* n = new Student(first_name, second_name, third_name, password, academic_year);
+	Student* n = new Student(student__id ,first_name, second_name, third_name, password, academic_year);
 	if (size == 0) {
+		n->get_student_id() = student__id;
+		n->get_f_name() = first_name;
+		n->get_s_name() = second_name;
+		n->get_th_name() = third_name;
+		n->get_student_password() = password;
+		n->get_acadamic_year() = academic_year;
 
 		head = tail = n;
 
 		size++;
-		Admin::insert_At_Student(first_name, second_name, third_name, password, academic_year);
+	//	Admin::insert_At_Student(student__id ,first_name, second_name, third_name, password, academic_year);
 
 	}
 	else {
+		n->get_student_id() = student__id;
+		n->get_f_name() = first_name;
+		n->get_s_name() = second_name;
+		n->get_th_name() = third_name;
+		n->get_student_password() = password;
+		n->get_acadamic_year() = academic_year;
 
 		tail->next = n;
 
 		tail = tail->next;
 		size++;
-		Admin::insert_At_Student(first_name, second_name, third_name, password, academic_year);
+		//Admin::insert_At_Student(student__id ,first_name, second_name, third_name, password, academic_year);
 
 	}
 
@@ -97,12 +115,16 @@ void Admin::add(string first_name, string second_name, string third_name, int pa
 
 }
 
-void Admin::add_finished_courses(string  f_courses)
+void Admin::add_finished_courses(int Id ,string  f_courses )
 {
 
 	Student* b = new Student();
 
 	if (size1 == 0) {
+		b->get_student_id() = Id;
+
+		b->get_finished_coursese() = f_courses;
+		
 
 		head1 = tail1 = b;
 
@@ -113,6 +135,11 @@ void Admin::add_finished_courses(string  f_courses)
 	}
 	else {
 
+		b->get_student_id() = Id;
+
+		b->get_finished_coursese() = f_courses;
+
+
 		tail1->next1 = b;
 
 		tail1 = tail1->next1;
@@ -121,12 +148,16 @@ void Admin::add_finished_courses(string  f_courses)
 	}
 }
 
-void Admin::add_in_progress_courses(string  in_p_courses)
+void Admin::add_in_progress_courses(int ID ,string  in_p_courses  )
 {
 
 	Student* z = new Student();
 
 	if (size2 == 0) {
+		z->get_student_id() = ID;
+
+		z->get_courses_in_progress() = in_p_courses;
+
 
 		head2 = tail2 = z;
 
@@ -136,6 +167,11 @@ void Admin::add_in_progress_courses(string  in_p_courses)
 
 	}
 	else {
+
+		z->get_student_id() = ID;
+
+		z->get_courses_in_progress() = in_p_courses;
+
 
 		tail2->next2 = z;
 
@@ -149,11 +185,10 @@ void Admin::add_in_progress_courses(string  in_p_courses)
 
 string f__course;
 string in__p_course;
-void Admin::add_courses_only()
+void Admin::add_courses_only(int S_ID)
 {
-	int s__id;
-	cout << "enter the id of the student you want to add  course for " << endl;
-	cin >> s__id;
+	
+	
 
 	int num_of_finished_courses = 0;
 	int num_of_in_progress_courses = 0;
@@ -169,8 +204,8 @@ void Admin::add_courses_only()
 			cout << "add  course " << endl;
 
 			cin >> f__course;
-			Admin::add_finished_courses(f__course);
-			Admin::insert_At_finished_courses(s__id, f__course);
+			Admin::add_finished_courses(S_ID,f__course);
+			//Admin::insert_At_finished_courses(S_ID, f__course);
 
 
 		}
@@ -181,9 +216,9 @@ void Admin::add_courses_only()
 
 			cin >> in__p_course;
 
-			Admin::add_in_progress_courses(in__p_course);
+			Admin::add_in_progress_courses(S_ID,in__p_course);
 
-			Admin::insert_At_in_progress_courses(s__id, in__p_course);
+			//Admin::insert_At_in_progress_courses(S_ID, in__p_course);
 
 
 		}
@@ -196,11 +231,11 @@ void Admin::add_courses_only()
 
 			cin >> in__p_course;
 
-			Admin::add_in_progress_courses(in__p_course);
+			Admin::add_in_progress_courses(S_ID,in__p_course);
 
-			Admin::insert_At_in_progress_courses(s__id, in__p_course);
 		}
-			break;
+		
+		break;
 	default:
 		cout << "invalid" << endl;
 		break;
@@ -213,6 +248,7 @@ void Admin::add_courses_only()
 void Admin::Add_Student()
 {
 	int press_;
+	int s_ID;
 	string f_name1;
 	string s_name1;
 	string th_name1;
@@ -229,22 +265,26 @@ void Admin::Add_Student()
 		cout << "enter the number of stdent you want to add  " << endl;
 		cin >> num_of_students;
 		for (int i = 0; i < num_of_students; i++) {
+			cout << "enter the id of student" << endl;
+			cin >> s_ID;
 			cout << "enter student name " << endl;
 			cin >> f_name1 >> s_name1 >> th_name1;
 			cout << "enter student password " << endl;
 			cin >> password1;
 			cout << "enter student acadamic_year " << endl;
 			cin >> academic_year1;
-			Admin::add(f_name1, s_name1, th_name1, password1, academic_year1);
+			Admin::add(s_ID ,f_name1, s_name1, th_name1, password1, academic_year1);
 
-			Admin::add_courses_only();
+			Admin::add_courses_only(s_ID);
 
 
 
 		}
+		Admin::loop_in_db_stud();
 	}
 	else if (press_ == 2) {
-
+		cout << "enter the id of student" << endl;
+		cin >> s_ID;
 		cout << "enter student name " << endl;
 		cin >> f_name1 >> s_name1 >> th_name1;
 		cout << "enter student password " << endl;
@@ -252,8 +292,9 @@ void Admin::Add_Student()
 		cout << "enter student acadamic_year " << endl;
 		cin >> academic_year1;
 
-		Admin::add(f_name1, s_name1, th_name1, password1, academic_year1);
-		Admin::add_courses_only();
+		Admin::add(s_ID ,f_name1, s_name1, th_name1, password1, academic_year1);
+		Admin::add_courses_only(s_ID);
+		Admin::loop_in_db_stud();
 
 	}
 
@@ -264,6 +305,48 @@ void Admin::Add_Student()
 	}
 
 }
+
+void Admin::loop_in_db_stud()
+{
+	Student* temp = head;
+	while (temp != NULL) {
+		string id_ =  temp->get_student_id(); 
+		int id = stoi(id_);
+		string p = temp->get_student_password();
+		int password = stoi(p);
+		string academic = temp->get_acadamic_year();
+		int academic_year_ = stoi(academic);
+		Admin::insert_At_Student(id, temp->get_f_name(), temp->get_s_name(), temp->get_th_name(), password, academic_year_);
+		temp = temp->next;
+	}
+}
+
+void Admin::loop_in_db_f_course()
+{
+	Student* temp1 = head1;
+	while (temp1 != NULL) {
+		string id_ = temp1->get_student_id();
+		int id = stoi(id_);
+		
+		Admin::insert_At_finished_courses(id, temp1->get_finished_coursese());
+
+		temp1 = temp1->next1;
+
+	}
+}
+
+void Admin::loop_in_db_in_p_course()
+{
+	Student* temp2 = head2;
+	while (temp2 != NULL) {
+		string id_ = temp2->get_student_id();
+		int id = stoi(id_);
+		
+		Admin::insert_At_in_progress_courses(id, temp2->get_courses_in_progress());
+		temp2 = temp2->next2;
+	}
+}
+
 Admin::~Admin(){
 	
 

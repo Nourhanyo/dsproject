@@ -21,7 +21,7 @@ public:
 	Student* next2;
 
 	Student();
-	Student(string, string, string  , int, int);
+	Student(int ,string, string, string  , int, int);
 
 	string get_f_name();
 	string get_s_name();

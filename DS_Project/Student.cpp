@@ -24,7 +24,8 @@
 }
 */
 int Student::id = 0;/*for static variable (id)*/
-Student::Student(string fnam, string snam, string thnam , int pass, int aca) {
+Student::Student(int id ,string fnam, string snam, string thnam , int pass, int aca) {
+	this->id = id;
 	f_name = fnam;
 	s_name = snam;
 	th_name = thnam;
@@ -36,8 +37,7 @@ Student::Student(string fnam, string snam, string thnam , int pass, int aca) {
 
 
 
-Student::Student()
-{
+Student::Student() {
 	
 	next1 = NULL;
 	next2 = NULL;

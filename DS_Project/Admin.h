@@ -25,14 +25,17 @@ private:
 public:
 	Admin();
 	
-	void insert_At_Student(string, string, string, int, int);
+	void insert_At_Student(int ,string, string, string, int, int);
 	void insert_At_finished_courses(int , string);
 	void insert_At_in_progress_courses(int, string);
-	void add(string, string  ,  string   , int, int);
-	void add_finished_courses(string);
-	void add_in_progress_courses(string); 
-	void add_courses_only();
+	void add(int , string, string  ,  string   , int, int);
+	void add_finished_courses(int ,string);
+	void add_in_progress_courses(int ,string); 
+	void add_courses_only(int);
 	void Add_Student();
+	void loop_in_db_stud();
+	void loop_in_db_f_course();
+	void loop_in_db_in_p_course();
 	Admin(string , string);
 	~Admin();
 
