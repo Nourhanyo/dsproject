@@ -11,13 +11,13 @@
 	Student stud;
 	//Admin  add;
 	
-	stud.f_name = argv[0];
-	stud.s_name = argv[1];
-	stud.th_name = argv[2];
-	string a  = argv[3];
+	//stud.f_name = argv[0];
+	//stud.s_name = argv[1];
+	//stud.th_name = argv[2];
+	string a  = argv[4];
 	int s_password = stoi(a);
 	stud.password = s_password;
-	string b =  argv[4];
+	string b =  argv[5];
 	int academic_year_ = stoi(b);
 	stud.acadamic_year = academic_year_;
 	//add.add();
@@ -26,7 +26,7 @@
 	return 0;
 }
 
- int Student::callback1(void* data, int argc, char** argv, char** azColName)
+/* int Student::callback1(void* data, int argc, char** argv, char** azColName)
  {
 	 Student s; 
 	 s.finished_courses = argv[0];
@@ -34,6 +34,7 @@
 
 	 return 0;
  }
+ */
 
 int Student::id = 0;/*for static variable (id)*/
 Student::Student(int id ,string fnam, string snam, string thnam , int pass, int aca) {
@@ -97,8 +98,8 @@ void Student::Edit_Stud_data()
 	cout << "Enter student  id  you want to edite ?: \n ";
 	cin >> id_;
 	
-	cout << "Enter student Name : \n ";
-	cin >> stud.f_name >> stud.s_name >> stud.th_name;
+	//cout << "Enter student Name : \n ";
+	//cin >> stud.f_name >> stud.s_name >> stud.th_name;
 	//transform(stud.f_name.begin(), stu.name.end(), course.name.begin(), ::tolower);
 	cout << "  \n\n ";
 	cout << "Enter student password : \n ";
@@ -129,7 +130,7 @@ void Student::Edit_Stud_data()
 
 
 
-	sql = "UPDATE STUDENT SET(F_NAME , S_NAME ,TH_NAME , PASSWORD , ACADEMIC_YEAR) = ('" + stud.f_name + "', '" + stud.s_name + "', '" + "', '" + stud.th_name + "', '" +  to_string(stud.password) + "', '" + to_string(stud.acadamic_year) + "') where ID ='" + to_string(id_) + "'; ";
+	sql =("UPDATE STUDENT SET (PASSWORD , ACADEMIC_YEAR) = ('" + to_string(stud.password) + "', '" + to_string(stud.acadamic_year) + "') where ID ='" + to_string(id_) + "' ");
 
 	/* Execute SQL statement */
 	rc = sqlite3_exec(db, sql.c_str(), callback, (void*)data, &zErrMsg);
