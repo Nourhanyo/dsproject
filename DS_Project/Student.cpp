@@ -277,7 +277,7 @@ void Student::ViewAv_list()
 	// Selecting Finished Courses form DB
 	/*VIIIIP*/
 
-	string var = "1"; // Should be stored from student who logged in 
+	string var = "2"; // Should be stored from student who logged in 
 	sql = (" SELECT COURE_FINISHED  FROM  COURSE_FINSHED  where  STUD_ID = '" + var + "'  ;");
 	rc = sqlite3_exec(DB, sql.c_str(), finishedCrs_callback, (void*)data.c_str(), NULL);
 

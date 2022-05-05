@@ -10,9 +10,6 @@ using namespace std;
 int main()
 {
 	Student s;
-	s.CourseDetails();
-
-	//Admin a;
-	//a.list_student_of_course();
+	s.ViewAv_list();
 	return 0;
 }

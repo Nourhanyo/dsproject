@@ -105,6 +105,7 @@ Admin::Admin(string nam, string pass) {
 	password = pass;
 }Admin::Admin() {}
 ////////////////////////////////////////////////////////////////////////////
+/* we should call fillList inside this */
 void Admin::addCourse() {
 	system("cls");
 	Course course;
