@@ -142,6 +142,7 @@
     <ClCompile Include="Admin.cpp" />
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="DS_Project.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="sqlite\shell.c" />
     <ClCompile Include="sqlite\sqlite3.c" />
     <ClCompile Include="Student.cpp" />
@@ -149,7 +150,11 @@
   <ItemGroup>
     <ClInclude Include="Admin.h" />
     <ClInclude Include="Course.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Student.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
