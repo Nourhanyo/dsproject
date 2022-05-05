@@ -1,36 +1,31 @@
 #include <iostream>
 #include <stack>
 #include"sqlite/sqlite3.h"
+#include <vector>
 using namespace std;
 class Course
 {
 private:
-	
+
 	string name;
 	string code;
 	int max_numstud;
 	int hours;
 public:
 	Course(string, string, int, int);
+	Course();
 	~Course();
-
-
-
-	string get_Cname() {
-
-		return name;
-	}
-	int get_max_numstud() {
-
-		return max_numstud;
-	
-	}string get_code() {
-
-		return code;
-	}int get_Chours() {
-
-		return hours;
-	}
-
+	///////////////////////////////////////////////////////////////////////////
+	string get_Course_name();
+	void set_Course_Name(string);
+	///////////////////////////////////////////////////////////////////////////
+	int get_max_numstud();
+	void set_max_numstud(int);
+	///////////////////////////////////////////////////////////////////////////
+	string get_code();
+	void set_code(string);
+	///////////////////////////////////////////////////////////////////////////
+	int get_hours();
+	void set_hours(int);
+	///////////////////////////////////////////////////////////////////////////
 };
-
