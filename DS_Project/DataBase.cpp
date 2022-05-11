@@ -3,25 +3,26 @@
 #include <string>
 #include<iostream>
 #include <unordered_map>
+#include <map>
 using namespace std;
 
-
+static sqlite3* DB{};
 void DataBase::load_DB() {
-
+    sqlite3_open("myDb.db", &DB);
     load_students_in_memory(studentss);
     load_courses_in_memory(coursess);
     load_Admins_in_memory(adminss);
+    load_FinishedCourse_in_memory(finished_vector);
+    load_ProgressedCourse_in_memory(progress_vector);
+    sqlite3_close(DB);
 }
-///////////////////////////////////////////////
-bool DataBase::load_students_in_memory(std::unordered_map<std::string, Student>& students) // load student Data 
+/////////////////////////////////////////////////////////////////////////////////////////
+bool DataBase::load_students_in_memory(std::map<std::string, Student>& students) // load student Data 
 {
-    int exit = 0;
-    sqlite3* DB{};
-    exit = sqlite3_open("myDb.db", &DB);
+  
     sqlite3_stmt* result;
     // construct query
     string sql("SELECT * FROM STUDENT;");
-    cout << "Query: " << sql << std::endl;
     // execute prepared query
     int exec = sqlite3_prepare_v2(DB, sql.c_str(), -1, &result, NULL);
     // check query status
@@ -50,18 +51,14 @@ bool DataBase::load_students_in_memory(std::unordered_map<std::string, Student>&
 
         printf("Student: %s loaded successfully.\n", sqlite3_column_text(result, 1));
     }
-    sqlite3_close(DB);
     return true;
 }
-bool DataBase::load_courses_in_memory(std::unordered_map<std::string, Course>& courses) // load course data  
+/////////////////////////////////////////////////////////////////////////////////////////
+bool DataBase::load_courses_in_memory(std::map<std::string, Course>& courses) // load course data  
 {
-    int exit = 0;
-    sqlite3* DB{};
-    exit = sqlite3_open("myDb.db", &DB);
     sqlite3_stmt* result;
     // construct query
     string sql("SELECT * FROM COURSE;");
-    cout << "Query: " << sql << std::endl;
     // execute prepared query
     int exec = sqlite3_prepare_v2(DB, sql.c_str(), -1, &result, NULL);
     // check query status
@@ -89,18 +86,16 @@ bool DataBase::load_courses_in_memory(std::unordered_map<std::string, Course>& c
 
         printf("Course: %s loaded successfully.\n", sqlite3_column_text(result, 1));
     }
-    sqlite3_close(DB);
     return true;
 }
-bool DataBase::load_Admins_in_memory(std::unordered_map<std::string, Admin>& admins) // load Admin Data 
+/////////////////////////////////////////////////////////////////////////////////////////
+bool DataBase::load_Admins_in_memory(std::map<std::string, Admin>& admins) // load Admin Data 
 {
-    int exit = 0;
-    sqlite3* DB{};
-    exit = sqlite3_open("myDb.db", &DB);
+  
+    
     sqlite3_stmt* result;
     // construct query
     string sql("SELECT * FROM Admin;");
-    cout << "Query: " << sql << std::endl;
     // execute prepared query
     int exec = sqlite3_prepare_v2(DB, sql.c_str(), -1, &result, NULL);
     // check query status
@@ -127,45 +122,98 @@ bool DataBase::load_Admins_in_memory(std::unordered_map<std::string, Admin>& adm
 
         printf("Admin: %s loaded successfully.\n", sqlite3_column_text(result, 1));
     }
-    sqlite3_close(DB);
+ 
     return true;
 }
-// bool DataBase::load_FinishedCourse_in_memory(std::unordered_map<std::string, Course>& courses) // load course data  
-//{
-//    int exit = 0;
-//    sqlite3* DB{};
-//    exit = sqlite3_open("myDb.db", &DB);
-//    sqlite3_stmt* result;
-//    // construct query
-//    string sql("SELECT * FROM COURSE_FINSHED ;");
-//    cout << "Query: " << sql << std::endl;
-//    // execute prepared query
-//    int exec = sqlite3_prepare_v2(DB, sql.c_str(), -1, &result, NULL);
-//    // check query status
-//    if (exec != SQLITE_OK) {
-//        std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
-//        return false;
-//    }
-//
-//    while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
-//
-//        std::string code = std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 0)));
-//
-//        // create course object  
-//        Course course ;
-//
-//        course.set_code(stoi(code)); // set code
-//        course.set_Course_Name(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));// set course name
-//       course.set_hours(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 2))));// set course hours
-//        course.set_max_numstud(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 3))));// set course max num of student
-//         
-//    
-//  
-//        // load student to students hash tables
-//        courses[code] = course;
-//
-//        printf("Student: %s loaded successfully.\n", sqlite3_column_text(result, 1));
-//    }
-//    sqlite3_close(DB);
-//    return true;
-//}
+/////////////////////////////////////////////////////////////////////////////////////////
+bool DataBase::load_FinishedCourse_in_memory(vector<pair<int, string>>& finished_vec) // load course data  
+{
+   
+ 
+    sqlite3_stmt* result;
+    // construct query
+    string sql("SELECT * FROM COURSE_FINSHED ;");
+    // execute prepared query
+    int exec = sqlite3_prepare_v2(DB, sql.c_str(), -1, &result, NULL);
+    // check query status
+    if (exec != SQLITE_OK) {
+        std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
+        return false;
+    }
+
+    while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
+        int id_stud = stoi(reinterpret_cast<const char*>(sqlite3_column_text(result, 0)));
+
+        string course_name=(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
+        finished_vec.push_back(make_pair(id_stud, course_name));
+
+
+        printf("Finished Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+    }
+  
+    return true;
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+bool DataBase::load_ProgressedCourse_in_memory(vector<pair<int, string>>& prog_vector) {
+    int exit = 0;
+    sqlite3* DB{};
+    exit = sqlite3_open("myDb.db", &DB);
+    sqlite3_stmt* result;
+    // construct query
+    string sql("SELECT * FROM COURSE_PROG ;");
+    // execute prepared query
+    int exec = sqlite3_prepare_v2(DB, sql.c_str(), -1, &result, NULL);
+    // check query status
+    if (exec != SQLITE_OK) {
+        std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
+        return false;
+    }
+
+    while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
+        int id_stud = stoi(reinterpret_cast<const char*>(sqlite3_column_text(result, 0)));
+
+        string course_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
+        prog_vector.push_back(make_pair(id_stud, course_name));
+
+
+        printf("Progressed Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+    }
+    sqlite3_close(DB);
+    return true;
+
+
+
+
+
+
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+ //void DataBase::update_DB(){
+
+
+
+
+
+
+
+
+
+ //}
+ //void DataBase::update_Student() {
+
+ //   sqlite3_stmt* result;
+ //   // construct query
+ //   string sql("SELECT * FROM STUDENT;");
+ //   // execute prepared query
+ //   int exec = sqlite3_prepare_v2(DB, sql.c_str(), -1, &result, NULL);
+ //   // check query status
+ //   if (exec != SQLITE_OK) {
+ //       std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
+ //       
+ //   }
+
+
+
+
+
+ //}
