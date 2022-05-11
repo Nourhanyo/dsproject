@@ -9,7 +9,8 @@ class Admin
 private:
 	static int id;
 
-	string name;
+	string fname;
+	string lname;
 	string password;
 	int size = 0;
 	int size1 = 0;
@@ -26,6 +27,7 @@ private:
 
 public:
 	Admin();
+	Admin(string Fnam, string lName, string pass);
 	void Delete();
 	void insert_At_Student(int, string, string, string, int, int);
 	void insert_At_finished_courses(int, string);
@@ -43,6 +45,14 @@ public:
 	Admin(string, string);
 	void fillList();
 	void insertData(string , string , vector<string> );
+	string get_admin_id();
+	string get_fname();
+	string get_lname();
+	string get_admin_pass();
 
+	void set_admin_id(int);
+	void set_fname(string);
+	void set_lname(string); 
+	void set_admin_pass(string);
 	~Admin();
 };

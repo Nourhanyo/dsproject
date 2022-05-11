@@ -122,15 +122,40 @@ string Student::get_courses_in_progress()
 }
 string Student::get_student_password()
 {
-	return  to_string(password);
+	return  password;
 }
 string Student::get_acadamic_year()
 {
-	return  to_string(acadamic_year);
+	return  acadamic_year;
 }
 string Student::get_student_id()
 {
 	return   to_string(id);
+}
+///////////////////////////////////////////////////////////////////////////
+void Student::set_student_id(int idd)
+{
+	id = idd;
+}
+void Student::set_f_name(string f)
+{
+	f_name = f;
+}
+void Student::set_s_name(string s)
+{
+	s_name = s;
+}
+void Student::set_th_name(string th)
+{
+	th_name = th;
+}
+void Student::set_student_password(string pass)
+{
+	password = pass;
+}
+void Student::set_acadamic_year(string aca)
+{
+	acadamic_year = aca;
 }
 ///////////////////////////////////////////////////////////////////////////
 /*
@@ -155,7 +180,7 @@ void Student::Edit_Stud_data()
 	string sql;
 	const char* data = "************************************************";
 	rc = sqlite3_open("myDb.db", &db);
-	sql = ("UPDATE STUDENT SET (PASSWORD) = ('" + to_string(stud.password) + "') where ID ='" + to_string(id_) + "' ");
+	sql = ("UPDATE STUDENT SET (PASSWORD) = ('" + stud.password + "') where ID ='" + to_string(id_) + "' ");
 	rc = sqlite3_exec(db, sql.c_str(), NULL, (void*)data, &zErrMsg);
 	sqlite3_close(db);
 }

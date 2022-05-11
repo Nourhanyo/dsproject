@@ -99,9 +99,10 @@ static int callback2(void* data, int argc, char** argv, char** azColName)
 }
 ////////////////////////////////////////////////////////////////////////////
 int Admin::id = 0; /*for static variable (id)*/
-Admin::Admin(string nam, string pass) {
+Admin::Admin(string Fnam,string lName, string pass) {
 	id++;
-	name = nam;
+	get_fname() = Fnam;
+	get_lname() = lName;
 	password = pass;
 }Admin::Admin() {}
 ////////////////////////////////////////////////////////////////////////////
@@ -619,6 +620,39 @@ void Admin::insertData(string crscode, string cName, vector<string> preList_vec)
 	}
 
 	sqlite3_close(db);
+}
+/// ////////////////////////////////////////////////////////////////////////
+string Admin::get_admin_id()
+{
+	return to_string(id);
+}
+string Admin::get_fname()
+{
+	return  fname;
+}
+string Admin::get_lname()
+{
+	return lname;
+}
+string Admin::get_admin_pass()
+{
+	return password;
+}
+void Admin::set_admin_id(int idd)
+{
+	id = idd;
+}
+void Admin::set_fname(string fnam)
+{
+	fname = fnam;
+}
+void Admin::set_lname(string lnam)
+{
+	lname = lnam;
+}
+void Admin::set_admin_pass(string pas)
+{
+	password = pas;
 }
 Admin::~Admin() {}
 ///////////////////////////////////////////////////////////

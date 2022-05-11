@@ -13,8 +13,8 @@ private:
 	string th_name;
 	string finished_courses;
 	string courses_in_progress;
-	int password;
-	int acadamic_year;
+	string password;
+	string acadamic_year;
 	vector<string> finishedCrs;
 public:
 	static int callbackup(void* data, int argc, char** argv, char** azColName);
@@ -36,6 +36,12 @@ public:
 	string get_student_password();
 	string get_acadamic_year();
 	string get_student_id();
+	void set_student_id(int);
+	void set_f_name(string);
+	void set_s_name(string);
+	void set_th_name(string);
+	void set_student_password(string);
+	void set_acadamic_year(string);
 	///////////////////////////////////////////////////////////////////////////
 	void Edit_Stud_data();
 	void Drop_courses();
@@ -47,5 +53,6 @@ public:
 	void ViewAv_list();
 	void GetRemainCrs();
 	void GetAvailableCrs(int);
+ 	
 	~Student();
 };
