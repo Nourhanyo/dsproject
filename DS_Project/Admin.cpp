@@ -331,16 +331,17 @@ void Admin::list_Courses_of_Student() {
 	}
 	system("pause 0");
 }
-////////////////////////////////////////////////////////////////////////////
-void Admin::insert_At_Student(int stud_id, string  first_name_student, string second_name_student, string third_name_student, int student_password, int stud_academic_year) {
-	char* err;
+//////////////////////////////////////////////////////////////////////////
+void Admin::insert_At_Student(int stud_id, string  first_name_student, string second_name_student, string third_name_student, string student_password, string stud_academic_year) {
+	/*char* err;
 	sqlite3* db;
 	string s = first_name_student, a = second_name_student, b = third_name_student;
-	int q = student_password, w = stud_academic_year, d = stud_id;
+	string q = student_password, w = stud_academic_year;
+	int d = stud_id;
 
 	sqlite3_stmt* stmt;
 	sqlite3_open("myDb.db", &db);
-	string query = "insert into STUDENT(ID,F_NAME , L_NAME ,TH_NAME , PASSWORD , ACADEMIC_YEAR)VALUES('" + to_string(d) + "','" + s + "','" + a + "','" + b + "','" + to_string(q) + "','" + to_string(w) + "'); ";
+	string query = "insert into STUDENT(ID,F_NAME , L_NAME ,TH_NAME , PASSWORD , ACADEMIC_YEAR)VALUES('" + d + "', '" + s + "','" + a + "','" + b + "','" + q + "','" + w + "'); ";
 	cout << query << endl;
 	int rc = sqlite3_exec(db, query.c_str(), NULL, NULL, &err);
 	if (rc != SQLITE_OK) {
@@ -354,7 +355,7 @@ void Admin::insert_At_Student(int stud_id, string  first_name_student, string se
 
 
 		Admin::add_courses_only();
-	}
+	}*/
 }
 ////////////////////////////////////////////////////////////////////////////
 void Admin::insert_At_finished_courses(int st_id, string f__courses)
@@ -389,8 +390,8 @@ void Admin::insert_At_in_progress_courses(int st_id, string in_p__courses)
 		cout << "errroooooorrrrr insert: " << err;
 	}
 }
-////////////////////////////////////////////////////////////////////////////
-void Admin::add(int student__id, string first_name, string second_name, string third_name, int password, int academic_year)
+//////////////////////////////////////////////////////////////////////////
+void Admin::add(int student__id, string first_name, string second_name, string third_name, string password, string academic_year)
 {
 	Student* n = new Student(student__id, first_name, second_name, third_name, password, academic_year);
 	if (size == 0) {
@@ -534,8 +535,8 @@ void Admin::Add_Student()
 	string f_name1;
 	string s_name1;
 	string th_name1;
-	int password1;
-	int academic_year1;
+	string password1;
+	string academic_year1;
 
 	cout << "if you want to add multiple students press 1 " << endl;
 	cout << "if you want to add one students press 2 " << endl;
@@ -574,7 +575,7 @@ void Admin::Add_Student()
 		cout << "invaled number " << endl;
 	}
 }
-////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 void Admin::fillList()
 {
 	vector<string> preList_vec;

@@ -37,6 +37,11 @@ void Course::set_code(string cod) {
 	code = cod;
 }
 ////////////////////////////////////////////
-Course::Course() {}
+Course::Course() {
+	hours = 0;
+	name = "";
+	code = "";
+	max_numstud = 0;
+}
 ////////////////////////////////////////////
 Course::~Course() {}

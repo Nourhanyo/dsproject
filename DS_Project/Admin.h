@@ -29,10 +29,10 @@ public:
 	Admin();
 	Admin(string Fnam, string lName, string pass);
 	void Delete();
-	void insert_At_Student(int, string, string, string, int, int);
+	void insert_At_Student(int, string, string, string, string, string);
 	void insert_At_finished_courses(int, string);
 	void insert_At_in_progress_courses(int, string);
-	void add(int, string, string, string, int, int);
+	void add(int, string, string, string, string, string);
 	void add_finished_courses(int, string);
 	void add_in_progress_courses(int, string);
 	void add_courses_only();

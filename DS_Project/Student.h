@@ -17,6 +17,7 @@ private:
 	string acadamic_year;
 	vector<string> finishedCrs;
 public:
+
 	static int callbackup(void* data, int argc, char** argv, char** azColName);
 	static int callback_req(void* data, int argc, char** argv, char** azColName);
 	static int callback_ALL(void* data, int argc, char** argv, char** azColName);
@@ -26,7 +27,7 @@ public:
 	Student* next2;
 	///////////////////////////////////////////////////////////////////////////
 	Student();
-	Student(int, string, string, string, int, int);
+	Student(int, string, string, string, string, string);
 	///////////////////////////////////////////////////////////////////////////
 	string get_f_name();
 	string get_s_name();
