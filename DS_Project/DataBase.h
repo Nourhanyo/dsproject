@@ -18,17 +18,23 @@ public:
 	map<string, Admin> adminss;
 	vector<pair<int, string>> finished_vector;
 	vector<pair<int, string>> progress_vector;
-	vector<pair<int, string>> COURSE_PREREQUISITE;
+	vector<pair<string, string>> prerequisite_vector;
+	///////////////////////////////////////////////////////////////////////
 	void load_DB();
 	bool load_students_in_memory(std::map<std::string, Student>& students);
 	bool load_courses_in_memory(std::map<std::string, Course>& courses);
 	bool load_Admins_in_memory(std::map<std::string, Admin>& admins);
 	bool load_FinishedCourse_in_memory(vector<pair<int, string>>& finished_vec);
 	bool load_ProgressedCourse_in_memory(vector<pair<int, string>>& prog_vector);
+	bool load_CoursesPREREQUISITE_in_memory(vector<pair<string, string>>& prerequisite_vector);
 	void update_DB();
 	void update_Student();
 	void update_Course();
 	void update_Admin();
 	void update_prog_course();
+	void update_preList_course();
+	void update_finished_course();
+
+
 
 };

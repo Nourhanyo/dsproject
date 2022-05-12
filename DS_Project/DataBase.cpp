@@ -13,6 +13,7 @@ void DataBase::load_DB() {
 	load_Admins_in_memory(adminss);
 	load_FinishedCourse_in_memory(finished_vector);
 	load_ProgressedCourse_in_memory(progress_vector);
+	load_CoursesPREREQUISITE_in_memory(prerequisite_vector);
 	sqlite3_close(DB);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -131,8 +132,8 @@ bool DataBase::load_FinishedCourse_in_memory(vector<pair<int, string>>& finished
 	while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
 		int id_stud = stoi(reinterpret_cast<const char*>(sqlite3_column_text(result, 0)));
 
-		string course_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
-		finished_vec.push_back(make_pair(id_stud, course_name));
+		string Fcourse_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
+		finished_vec.push_back(make_pair(id_stud, Fcourse_name));
 
 		printf("Finished Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
@@ -158,8 +159,8 @@ bool DataBase::load_ProgressedCourse_in_memory(vector<pair<int, string>>& prog_v
 	while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
 		int id_stud = stoi(reinterpret_cast<const char*>(sqlite3_column_text(result, 0)));
 
-		string course_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
-		prog_vector.push_back(make_pair(id_stud, course_name));
+		string Pcourse_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
+		prog_vector.push_back(make_pair(id_stud, Pcourse_name));
 
 		printf("Progressed Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
@@ -167,7 +168,35 @@ bool DataBase::load_ProgressedCourse_in_memory(vector<pair<int, string>>& prog_v
 	return true;
 }
 /////////////////////////////////////////////////////////////////////////////////////////
+bool DataBase::load_CoursesPREREQUISITE_in_memory(vector<pair<string, string>>& prerequisite_vector)
+{
+	int exit = 0;
+	sqlite3* DB{};
+	exit = sqlite3_open("myDb.db", &DB);
+	sqlite3_stmt* result;
+	// construct query
+	string sql("SELECT * FROM COURSE_PREREQUISITE ;");
+	// execute prepared query
+	int exec = sqlite3_prepare_v2(DB, sql.c_str(), -1, &result, NULL);
+	// check query status
+	if (exec != SQLITE_OK) {
+		std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
+		return false;
+	}
 
+	while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
+		
+		string course_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 0))));
+		string preq_list_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
+		prerequisite_vector.push_back(make_pair( course_name, preq_list_name));
+
+		printf("PreqList Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+	}
+	sqlite3_close(DB);
+	return true;
+
+	return false;
+}
 /////////////////////////////////////////////////////////////////////////////////////////
 void DataBase::update_DB() {
 	sqlite3_open("myDb.db", &DB);
@@ -178,6 +207,8 @@ void DataBase::update_DB() {
 	Course c;
 	if (c.COURSE_CHANGED == true) { update_Course(); }
 	update_prog_course();
+	update_preList_course();
+	update_finished_course();
 	sqlite3_close(DB);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -258,7 +289,49 @@ void DataBase::update_prog_course(){
 	}
 	string query;
 	for (auto x : progress_vector) {
-		query = "insert into COURSE_PROG VALUES('" + to_string(x.first) + "','" + "hoba" +"'); ";
+		query = "insert into COURSE_PROG VALUES('" + to_string(x.first) + "','" + x.second +"'); ";
+		rc = sqlite3_exec(DB, query.c_str(), NULL, NULL, 0);
+	}
+
+	if (rc != SQLITE_OK) {
+		std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
+	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+void DataBase::update_preList_course() {
+	sqlite3_stmt* result;
+	// construct query
+	string sql("DELETE FROM COURSE_PREREQUISITE;");
+	// execute prepared query
+	int rc = sqlite3_exec(DB, sql.c_str(), NULL, NULL, 0);
+	// check query status
+	if (rc != SQLITE_OK) {
+		std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
+	}
+	string query;
+	for (auto x : prerequisite_vector) {
+		query = "insert into COURSE_PREREQUISITE VALUES('" + x.first + "','" + x.second + "'); ";
+		rc = sqlite3_exec(DB, query.c_str(), NULL, NULL, 0);
+	}
+
+	if (rc != SQLITE_OK) {
+		std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
+	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+void DataBase::update_finished_course() {
+	sqlite3_stmt* result;
+	// construct query
+	string sql("DELETE FROM COURSE_FINSHED;");
+	// execute prepared query
+	int rc = sqlite3_exec(DB, sql.c_str(), NULL, NULL, 0);
+	// check query status
+	if (rc != SQLITE_OK) {
+		std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
+	}
+	string query;
+	for (auto x : progress_vector) {
+		query = "insert into COURSE_FINSHED VALUES('" + to_string(x.first) + "','" + x.second + "'); ";
 		rc = sqlite3_exec(DB, query.c_str(), NULL, NULL, 0);
 	}
 
@@ -268,4 +341,4 @@ void DataBase::update_prog_course(){
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////
+

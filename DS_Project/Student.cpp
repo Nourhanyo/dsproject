@@ -14,6 +14,7 @@ vector<string> preRequisite_vec;
 vector<string> remainCrs_vec;
 vector<string> AvailabeCrs_vec;
 bool Student::STUDENT_CHANGED = false;
+
 int Student::callbackup(void* data, int argc, char** argv, char** azColName)
 {
 	fprintf(stderr, "%s \n", (const char*)data);
@@ -333,6 +334,7 @@ void Student::ViewAv_list()
 }
 ///////////////////////////////////////////////////////////////////////////
 void Student::GetRemainCrs() {
+	
 	for (int i = 0; i < allCourses_vec.size(); i++)
 	{
 		int flag = 0;
@@ -344,6 +346,22 @@ void Student::GetRemainCrs() {
 			remainCrs_vec.push_back(allCourses_vec[i]);
 	}
 }
+//void Student::GetRemainCrs() {
+//	for (auto i : data_base.coursess)
+//	{
+//		int flag = 0;
+//		for (auto j : data_base.finished_vector) {
+//			if (i.second.get_Course_name() == j.second)
+//				flag = 1;
+//		}
+//		if (flag == 0)
+//			remainCrs_vec.push_back(i.second.get_Course_name());
+//	}
+//	for (size_t i = 0; i < remainCrs_vec.size(); i++)
+//	{
+//		cout << remainCrs_vec[i] << endl;
+//	}
+//}
 ///////////////////////////////////////////////////////////////////////////
 void Student::GetAvailableCrs(int remainIndx) {
 	string av_Crs = remainCrs_vec[remainIndx];
