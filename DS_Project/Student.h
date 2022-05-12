@@ -17,7 +17,8 @@ private:
 	string acadamic_year;
 	vector<string> finishedCrs;
 public:
-
+	static bool STUDENT_CHANGED;
+    /////////////////////////////////////////////////////////////////////
 	static int callbackup(void* data, int argc, char** argv, char** azColName);
 	static int callback_req(void* data, int argc, char** argv, char** azColName);
 	static int callback_ALL(void* data, int argc, char** argv, char** azColName);
@@ -54,6 +55,6 @@ public:
 	void ViewAv_list();
 	void GetRemainCrs();
 	void GetAvailableCrs(int);
- 	
+
 	~Student();
 };

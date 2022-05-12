@@ -27,5 +27,8 @@ public:
 	bool load_ProgressedCourse_in_memory(vector<pair<int, string>>& prog_vector);
 	void update_DB();
 	void update_Student();
-};
+	void update_Course();
+	void update_Admin();
+	void update_prog_course();
 
+};

@@ -23,7 +23,6 @@ private:
 	Student* tail1 = NULL;
 	Student* head2 = NULL;
 	Student* tail2 = NULL;
-	
 
 public:
 	Admin();
@@ -44,7 +43,7 @@ public:
 	void list_Courses_of_Student();
 	Admin(string, string);
 	void fillList();
-	void insertData(string , string , vector<string> );
+	void insertData(string, string, vector<string>);
 	string get_admin_id();
 	string get_fname();
 	string get_lname();
@@ -52,7 +51,8 @@ public:
 
 	void set_admin_id(int);
 	void set_fname(string);
-	void set_lname(string); 
+	void set_lname(string);
 	void set_admin_pass(string);
+    static bool ADMIN_CHANGED;
 	~Admin();
 };

@@ -15,6 +15,7 @@ public:
 	Course(string, string, int, int);
 	Course();
 	~Course();
+	static bool COURSE_CHANGED;
 	///////////////////////////////////////////////////////////////////////////
 	string get_Course_name();
 	void set_Course_Name(string);

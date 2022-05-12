@@ -2,13 +2,13 @@
 #include"sqlite/sqlite3.h"
 #include<vector>
 #include <algorithm>
+bool Course::COURSE_CHANGED=false;
 Course::Course(string cod, string nam, int h, int max) {
 	code = cod;
 	name = nam;
 	hours = h;
 	max_numstud = max;
 }
-
 int Course::get_max_numstud() {
 	return max_numstud;
 }

@@ -13,6 +13,7 @@ vector<string> finishedCourses_vec;
 vector<string> preRequisite_vec;
 vector<string> remainCrs_vec;
 vector<string> AvailabeCrs_vec;
+bool Student::STUDENT_CHANGED = false;
 int Student::callbackup(void* data, int argc, char** argv, char** azColName)
 {
 	fprintf(stderr, "%s \n", (const char*)data);
@@ -75,7 +76,6 @@ static int finishedCrs_callback(void* data, int argc, char** argv, char** azColN
 ///////////////////////////////////////////////////////////////////////////
 static int preRequisiteList_callback(void* data, int argc, char** argv, char** azColName)
 {
-
 	for (int i = 0; i < argc; i++)
 	{
 		preRequisite_vec.push_back(argv[i]);
@@ -201,7 +201,7 @@ void Student::Drop_courses()
 	char* zErrMsg = 0;
 	const char* data = "";
 	int rc = sqlite3_open("myDb.db", &db);
-	string sql= "DELETE from  COURSE_PROG  where STUD_ID ='" + to_string(id_s_) + "' AND COURE_IN_PROGRESS ='" + in_p_course + "'  ";
+	string sql = "DELETE from  COURSE_PROG  where STUD_ID ='" + to_string(id_s_) + "' AND COURE_IN_PROGRESS ='" + in_p_course + "'  ";
 	rc = sqlite3_exec(db, sql.c_str(), NULL, (void*)data, &zErrMsg);
 	sqlite3_close(db);
 }
@@ -251,14 +251,13 @@ void Student::VIEW_STUD_COURSES() {
 	int IID = 0, rc;
 	cout << "enter stud ID : ";
 	cin >> IID;
-	cout << "\n"; 
+	cout << "\n";
 	view_prog_courses(IID);
 	cout << "*********************************************************\n";
 	view_finished_courses(IID);
-
 }
 ///////////////////////////////////////////////////////////////////////////
-void Student:: view_prog_courses(int iid) {
+void Student::view_prog_courses(int iid) {
 	sqlite3_open("myDb.db", &DB);
 	string data("*********************************************************");
 	string sql = ("SELECT COURE_IN_PROGRESS FROM COURSE_PROG where STUD_ID ='" + to_string(iid) + "' ;");
@@ -296,20 +295,14 @@ void Student::ViewAv_list()
 	sql = (" SELECT NAME   FROM COURSE  ;");
 	int rc = sqlite3_exec(DB, sql.c_str(), allCrs_callback, (void*)data.c_str(), NULL);
 
-
-
-
 	// Selecting Finished Courses form DB
 	/*VIIIIP*/
 
-	string var = "2"; // Should be stored from student who logged in 
+	string var = "2"; // Should be stored from student who logged in
 	sql = (" SELECT COURE_FINISHED  FROM  COURSE_FINSHED  where  STUD_ID = '" + var + "'  ;");
 	rc = sqlite3_exec(DB, sql.c_str(), finishedCrs_callback, (void*)data.c_str(), NULL);
 
-
-
-	GetRemainCrs(); // Difference Between All Courses & Finished Courses -> remainCrs_vec 
-
+	GetRemainCrs(); // Difference Between All Courses & Finished Courses -> remainCrs_vec
 
   // Selecting Prerequisite List for each remain course from DB
 	for (int i = 0; i < remainCrs_vec.size(); i++)
@@ -320,8 +313,7 @@ void Student::ViewAv_list()
 
 		GetAvailableCrs(i); //Get Available Courses by checking Prerequisite of remain course vector
 
-
-		preRequisite_vec.clear(); // reset Prerequisite vector after each itteration of RemainCrs vector 
+		preRequisite_vec.clear(); // reset Prerequisite vector after each itteration of RemainCrs vector
 	}
 
 	// Printing Avaliable Crs
@@ -338,8 +330,6 @@ void Student::ViewAv_list()
 	else
 		cout << "Operation OK!" << endl;
 		*/
-
-
 }
 ///////////////////////////////////////////////////////////////////////////
 void Student::GetRemainCrs() {
@@ -347,25 +337,20 @@ void Student::GetRemainCrs() {
 	{
 		int flag = 0;
 		for (int j = 0; j < finishedCourses_vec.size(); j++) {
-
 			if (allCourses_vec[i] == finishedCourses_vec[j])
 				flag = 1;
-
 		}
 		if (flag == 0)
 			remainCrs_vec.push_back(allCourses_vec[i]);
 	}
-
 }
 ///////////////////////////////////////////////////////////////////////////
 void Student::GetAvailableCrs(int remainIndx) {
-
 	string av_Crs = remainCrs_vec[remainIndx];
 	int flag2 = -1;
 	for (int j = 0; j < preRequisite_vec.size(); j++) {
 		flag2 = 1;
 		for (int z = 0; z < finishedCourses_vec.size(); z++) {
-
 			if (preRequisite_vec[j] == finishedCourses_vec[z])
 			{
 				flag2 = 0;
@@ -375,7 +360,6 @@ void Student::GetAvailableCrs(int remainIndx) {
 	}
 	if (flag2 == 0 || preRequisite_vec.size() == 0)
 		AvailabeCrs_vec.push_back(av_Crs);
-
 }
 ///////////////////////////////////////////////////////////////////////////
 Student ::~Student() {}

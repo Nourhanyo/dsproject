@@ -6,13 +6,12 @@
 #include <iostream>
 #include "Menu.h"
 #include "DataBase.h"
-using namespace std; 
-
+using namespace std;
 
 using namespace std;
 int main() {
-
 	DataBase a;
 	a.load_DB();
-
+	a.update_DB();
+	return 0;
 }

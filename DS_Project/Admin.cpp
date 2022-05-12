@@ -93,18 +93,22 @@ static int callback2(void* data, int argc, char** argv, char** azColName)
 	for (int i = 0; i < argc; i++) {
 		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 	}
-	
+
 	printf("\n\n");
 	return 0;
 }
 ////////////////////////////////////////////////////////////////////////////
 int Admin::id = 0; /*for static variable (id)*/
-Admin::Admin(string Fnam,string lName, string pass) {
+bool Admin::ADMIN_CHANGED = false;
+Admin::Admin(string Fnam, string lName, string pass) {
 	id++;
 	get_fname() = Fnam;
 	get_lname() = lName;
 	password = pass;
-}Admin::Admin() {}
+}
+Admin::Admin() {
+	
+}
 ////////////////////////////////////////////////////////////////////////////
 /* we should call fillList inside this */
 void Admin::addCourse() {
@@ -266,7 +270,7 @@ void Admin::list_student_of_course() {
 	cin >> name;
 
 	sql = ("SELECT  STUDENT.ID ,STUDENT.F_NAME ,STUDENT.L_NAME ,STUDENT.TH_NAME ,STUDENT.ACADEMIC_YEAR  FROM STUDENT,COURSE,COURSE_PROG   WHERE  COURSE_PROG.STUD_ID=STUDENT.ID AND COURSE.NAME=COURSE_PROG.COURE_IN_PROGRESS  AND COURSE.NAME = '" + name + "';");
-	
+
 	int rc = sqlite3_exec(DB, sql.c_str(), callback2, (void*)data.c_str(), NULL);
 
 	int choice;
@@ -349,11 +353,6 @@ void Admin::insert_At_Student(int stud_id, string  first_name_student, string se
 	}
 
 	else {
-
-
-
-
-
 		Admin::add_courses_only();
 	}*/
 }
@@ -585,11 +584,11 @@ void Admin::fillList()
 	string cName;
 	cout << "Enter course Code :\n";
 	cin >> crsCode;
-	transform(crsCode.begin(), crsCode.end(), crsCode.begin(), ::tolower);  // to change  string into lowercase 
+	transform(crsCode.begin(), crsCode.end(), crsCode.begin(), ::tolower);  // to change  string into lowercase
 
 	cout << "Enter course Name :\n";
 	cin >> cName;
-	transform(cName.begin(), cName.end(), cName.begin(), ::tolower);// to change  string into lowercase 
+	transform(cName.begin(), cName.end(), cName.begin(), ::tolower);// to change  string into lowercase
 
 	cout << "Enter number of prerequist courses :\n";
 	cin >> numOfPre;
@@ -597,12 +596,11 @@ void Admin::fillList()
 	{
 		cout << "Enter Course number " << i + 1 << " : \n";
 		cin >> preName;
-		transform(preName.begin(), preName.end(), preName.begin(), ::tolower);  // to change  string into lowercase 
+		transform(preName.begin(), preName.end(), preName.begin(), ::tolower);  // to change  string into lowercase
 
 		preList_vec.push_back(preName);
 	}
 	insertData(crsCode, cName, preList_vec);
-
 }
 ////////////////////////////////////////////////////////////////////////////
 void Admin::insertData(string crscode, string cName, vector<string> preList_vec)
