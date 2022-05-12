@@ -4,7 +4,6 @@
 #include"Admin.h"
 #include "Student.h"
 #include"Course.h"
-#include "Menu.h"
 #include "DataBase.h"
 
 using namespace std;
@@ -18,7 +17,7 @@ int main() {
 		*****************************************************************************************************************
 		To use any vector or map in any class we should write DataBase::(name of vec or map) .. DataBase::courses_map
 		like // DataBase::progress_vector.pushback(make_pair(#,#)) \\..// DataBase::students_map[#]=# \\...
-									**go to line  657 in Admin.cpp to see example**
+									**go to line  56 in Admin.cpp to see example**
 										*##don't make object of DataBase...##*
 										* ------------------------------------*
 		**important**
