@@ -1,11 +1,10 @@
 #include<iostream>
-#include "Student.h"
-#include "Admin.h"
-#include "Course.h"
 #include "sqlite/sqlite3.h"
 #include<string>
 #include <vector>
 #include <algorithm>
+#include"Student.h"
+#include"DataBase.h"
 using namespace std;
 sqlite3* DB;
 vector<string> allCourses_vec;
@@ -22,6 +21,7 @@ int Student::callbackup(void* data, int argc, char** argv, char** azColName)
 		printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 	}
 	printf("\n");
+
 	return 0;
 }
 ///////////////////////////////////////////////////////////////////////////
@@ -334,7 +334,6 @@ void Student::ViewAv_list()
 }
 ///////////////////////////////////////////////////////////////////////////
 void Student::GetRemainCrs() {
-	
 	for (int i = 0; i < allCourses_vec.size(); i++)
 	{
 		int flag = 0;

@@ -1,9 +1,14 @@
+#pragma once
 #include <iostream>
 #include <stack>
 #include"sqlite/sqlite3.h"
 #include <vector>
+#include"Student.h"
+#include "Admin.h"
+
 using namespace std;
 class Course
+
 {
 private:
 

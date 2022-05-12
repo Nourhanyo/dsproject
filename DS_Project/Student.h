@@ -3,6 +3,9 @@
 #include <vector>
 #include <algorithm>
 #include"sqlite/sqlite3.h"
+#include"Course.h"
+#include"Admin.h"
+
 using namespace std;
 class Student
 {
@@ -18,7 +21,7 @@ private:
 	vector<string> finishedCrs;
 public:
 	static bool STUDENT_CHANGED;
-    /////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////
 	static int callbackup(void* data, int argc, char** argv, char** azColName);
 	static int callback_req(void* data, int argc, char** argv, char** azColName);
 	static int callback_ALL(void* data, int argc, char** argv, char** azColName);

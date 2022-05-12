@@ -2,7 +2,8 @@
 #include"sqlite/sqlite3.h"
 #include<vector>
 #include <algorithm>
-bool Course::COURSE_CHANGED=false;
+#include"DataBase.h"
+bool Course::COURSE_CHANGED = false;
 Course::Course(string cod, string nam, int h, int max) {
 	code = cod;
 	name = nam;

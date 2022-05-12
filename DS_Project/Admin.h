@@ -2,6 +2,8 @@
 #include "Student.h"
 #include<vector>
 #include <iostream>
+#include"Course.h"
+
 using namespace std;
 
 class Admin
@@ -16,26 +18,26 @@ private:
 	int size1 = 0;
 	int size2 = 0;
 
-	Student* head = NULL;
+	/*Student* head = NULL;
 	Student* tail = NULL;
 
 	Student* head1 = NULL;
 	Student* tail1 = NULL;
 	Student* head2 = NULL;
-	Student* tail2 = NULL;
+	Student* tail2 = NULL;*/
 
 public:
 	Admin();
 	Admin(string Fnam, string lName, string pass);
 	void Delete();
-	void insert_At_Student(int, string, string, string, string, string);
+	/*void insert_At_Student(int, string, string, string, string, string);
 	void insert_At_finished_courses(int, string);
 	void insert_At_in_progress_courses(int, string);
 	void add(int, string, string, string, string, string);
 	void add_finished_courses(int, string);
 	void add_in_progress_courses(int, string);
 	void add_courses_only();
-	void Add_Student();
+	void Add_Student();*/
 	void addCourse();
 	void update();
 	void list_student_of_course();
@@ -53,6 +55,7 @@ public:
 	void set_fname(string);
 	void set_lname(string);
 	void set_admin_pass(string);
-    static bool ADMIN_CHANGED;
+	static bool ADMIN_CHANGED;
+	void test();
 	~Admin();
 };

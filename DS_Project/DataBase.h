@@ -13,12 +13,12 @@ using namespace std;
 class DataBase
 {
 public:
-	map<string, Student> studentss;
-	map<string, Course> coursess;
-	map<string, Admin> adminss;
-	vector<pair<int, string>> finished_vector;
-	vector<pair<int, string>> progress_vector;
-	vector<pair<string, string>> prerequisite_vector;
+	static map<string, Student> students_map;
+	static map<string, Course> courses_map;
+	static map<string, Admin> admins_map;
+	static vector<pair<int, string>> finished_vector;
+	static vector<pair<int, string>> progress_vector;
+	static vector<pair<string, string>> prerequisite_vector;
 	///////////////////////////////////////////////////////////////////////
 	void load_DB();
 	bool load_students_in_memory(std::map<std::string, Student>& students);
@@ -34,7 +34,4 @@ public:
 	void update_prog_course();
 	void update_preList_course();
 	void update_finished_course();
-
-
-
 };
