@@ -45,5 +45,11 @@ public:
 	bool check_taken_course_before(int,string);
 	bool check_course_exist(string);
 	bool check_max_num_studs(string,string);
+	void View_CoursesDetails();
+	bool check_course_exist(string code);
+
+		 //////////////////////////////////////////////////////////////////////
+
+
 	~Student();
 };
