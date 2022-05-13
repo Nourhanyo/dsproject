@@ -35,7 +35,10 @@ public:
 	void set_th_name(string);
 	void set_student_password(string);
 	void set_acadamic_year(string);
-	///////////////////////////////////////////////////////////////////////////
+	void View_CoursesDetails();
+	bool check_course_exist(string code);
+
+		 //////////////////////////////////////////////////////////////////////
 
 
 	~Student();

@@ -3,9 +3,7 @@
 #include<vector>
 #include <iostream>
 #include"Course.h"
-
 using namespace std;
-
 class Admin
 {
 private:
@@ -13,6 +11,10 @@ private:
 	string fname;
 	string lname;
 	string password;
+	void Delete();
+	void Edit();
+	void Undo(string, string, int, int, string);
+
 public:
 	Admin();
 	Admin(string Fnam, string lName, string pass);
@@ -26,6 +28,16 @@ public:
 	void set_lname(string);
 	void set_admin_pass(string);
 	static bool ADMIN_CHANGED;
-	void test();
 	~Admin();
+	/////////////////////////////////////////////////////////////
+	void Addcourse();
+	void ModifyCourses();
+	bool check_course_exist(string);
+	bool check_cname_exist(string);
+	bool check_ccode_exist(string);
+	bool check_ccode2_exist(string,string);
+	bool check_cname2_exist(string,string);
+
+
+
 };
