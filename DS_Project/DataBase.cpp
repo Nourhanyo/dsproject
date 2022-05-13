@@ -217,8 +217,10 @@ void DataBase::update_DB() {
 	if (a.ADMIN_CHANGED == true) { update_Admin(); }
 	Course c;
 	if (c.COURSE_CHANGED == true) { update_Course(); }
+
 	update_prog_course();
-	update_preList_course();
+
+	if (a.PRE_LIST_CHANGED == true) { update_preList_course(); }
 	update_finished_course();
 	sqlite3_close(DB);
 }

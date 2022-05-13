@@ -7,6 +7,7 @@
 using namespace std;
 
 class Admin
+	
 {
 private:
 	static int id;
@@ -14,6 +15,8 @@ private:
 	string lname;
 	string password;
 public:
+	static bool ADMIN_CHANGED;
+	static bool PRE_LIST_CHANGED;
 	Admin();
 	Admin(string Fnam, string lName, string pass);
 	string get_admin_id();
@@ -25,7 +28,10 @@ public:
 	void set_fname(string);
 	void set_lname(string);
 	void set_admin_pass(string);
-	static bool ADMIN_CHANGED;
+	///////////////////////////////////////////////////////
+
+	void fill_prerequisite_list();
 	void test();
+
 	~Admin();
 };

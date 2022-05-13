@@ -6,6 +6,10 @@
 #include"Student.h"
 #include"DataBase.h"
 using namespace std;
+vector<string> finishedCourses_forStud_vec;
+vector<string> preList_forStud_vec;
+vector<string> remainCrs_vec;
+vector<string> AvailabeCrs_vec;
 sqlite3* DB;
 bool Student::STUDENT_CHANGED = false;
 int Student::id = 0;/*for static variable (id)*/
@@ -17,8 +21,12 @@ Student::Student(int id, string fnam, string snam, string thnam, string pass, st
 	password = pass;
 	id++;
 }
-Student::Student() {
-}
+Student::Student() {}
+///////////////////////////////////////////////////////
+
+
+
+
 ///////////////////////////////////////////////////////////////////////////
 string Student::get_f_name()
 {
@@ -194,6 +202,85 @@ bool Student::check_max_num_studs(string course_name,string code)
 	return true;
 }
 ///////////////////////////////////////////////////////////////////////////
+void Student::view_available_courses()
+{
+	int id;
+	cout << "enter your id\n";
+	cin >> id;
+	get_finished_courses(id);
+	get_remain_courses();
+	fill_pre_list();
+	
+	// Printing Avaliable Crs
+	  cout << "\nAvaliableCrs\n*************\n";
+	  for (size_t i = 0; i < AvailabeCrs_vec.size(); i++)
+	  {
+		  cout << AvailabeCrs_vec[i] << endl;
+	  }
+}
+/////////////////////////////////////////////////////////////////////////
+void Student::fill_available_crsVector(string remain){
+  
+	int flag2 = -1;
+	  for (int j = 0; j < preList_forStud_vec.size(); j++) {
+		   flag2 = 1;
+		  for (int z = 0; z < finishedCourses_forStud_vec.size(); z++) {
+
+			  if (preList_forStud_vec[j] == finishedCourses_forStud_vec[z])
+			  {
+				  flag2 = 0;
+				  break;
+			  }
+		  }
+	  }
+	  if (flag2 == 0 || preList_forStud_vec.size()==0)
+		  AvailabeCrs_vec.push_back(remain);
+	
+}
+///////////////////////////////////////////////////////////////////////////
+void Student::fill_pre_list() 
+{
+	for (int i = 0; i < remainCrs_vec.size(); i++) {
+		string reamain_ok = remainCrs_vec[i];
+		for (auto x : DataBase::prerequisite_vector) 
+		{
+			if (remainCrs_vec[i] == x.first) { preList_forStud_vec.push_back(x.second);}
+		}
+		// fill av_vector
+		fill_available_crsVector(reamain_ok);
+		// clear pre_vec
+		preList_forStud_vec.clear();
+	}
+}
+///////////////////////////////////////////////////////////////////////////
+void Student::get_finished_courses(int iid)
+{
+	for (auto x : DataBase::finished_vector)
+	{
+		if (iid == x.first) { finishedCourses_forStud_vec.push_back(x.second); }
+	}
+	
+
+}
+///////////////////////////////////////////////////////////////////////////
+void Student::get_remain_courses() {
+
+	for (auto i: DataBase::courses_map) // all courses
+	{
+		int flag = 0;
+		for (auto j: finishedCourses_forStud_vec) { // finished courses
+
+			if (i.second.get_Course_name() == j)
+				flag = 1;
+
+		}
+		if (flag == 0)
+			remainCrs_vec.push_back(i.second.get_Course_name()); // difference between all & finished
+	}
+	
+
+}
+////////////////////////////////////////////////////////////////////////////
 Student::~Student(){
 }
 

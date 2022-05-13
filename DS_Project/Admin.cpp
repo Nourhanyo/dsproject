@@ -8,6 +8,7 @@
 #include"DataBase.h"
 sqlite3* dd;
 bool Admin::ADMIN_CHANGED = false;
+bool Admin::PRE_LIST_CHANGED = false;
 int Admin::id = 0; /*for static variable (id)*/
 Admin::Admin(string Fnam, string lName, string pass) {
 	id++;
@@ -53,6 +54,31 @@ void Admin::set_admin_pass(string pas)
 }
 Admin::~Admin() {}
 //////////////////////////////////////////////////////////////////////////
+void Admin::fill_prerequisite_list()
+{
+	vector<string> preList_vec;
+	int numOfPre;
+	string preName;
+	string cName;
+	
+	cout << "Enter course Name :\n";
+	cin >> cName;
+	transform(cName.begin(), cName.end(), cName.begin(), ::tolower);// to change  string into lowercase 
+
+	cout << "Enter number of prerequist courses :\n";
+	cin >> numOfPre;
+	for (int i = 0; i < numOfPre; i++)
+	{
+		cout << "Enter Course number " << i + 1<<" : \n";
+		cin >> preName;
+		transform(preName.begin(), preName.end(), preName.begin(), ::tolower);  // to change  string into lowercase 
+
+		DataBase::prerequisite_vector.push_back(make_pair(cName, preName));
+	}
+	PRE_LIST_CHANGED = true;
+
+}
+
 void Admin::test() {
 	DataBase::finished_vector.push_back(make_pair(45, "mohab"));
 	cout << DataBase::finished_vector.size();
