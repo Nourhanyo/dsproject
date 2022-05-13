@@ -70,4 +70,131 @@ void Student::set_acadamic_year(string aca)
 	acadamic_year = aca;
 }
 ///////////////////////////////////////////////////////////////////////////
-Student ::~Student() {}
+void Student::view_stud_courses(){
+	cout << endl << "Enter id: ";
+	int id_;
+	cin >> id_;
+	view_prog_courses(id_);
+	vies_finished_courses(id_);
+}
+/*****************************************/
+void Student::view_prog_courses(int iid){
+	cout << "Your Progress courses are :\n";
+	int count = 0;
+	for (auto x : DataBase::progress_vector) {
+		if (iid == x.first) {
+			count++;
+			cout <<count<<"-" << x.second << endl;
+		}
+	}
+}
+/*************************************************/
+void Student::vies_finished_courses(int iid){
+	cout << "Your Finished courses are :\n";
+	int count = 0;
+	for (auto x : DataBase::finished_vector) {
+		if (iid == x.first) {
+			count++;
+			cout << count << "-" << x.second << endl;
+		}
+	}
+}
+///////////////////////////////////////////////////////////////////////////
+void Student::Request_course(int iid) {//Before it ->view available courses
+	string code, course_name;
+	bool flag = true;
+	if (check_num_courses(iid)) {
+		while (flag) {
+			cout << "Enter Course Code That You Want To Take: ";
+			cin >> code;
+
+			if (check_course_exist(code)) {
+
+				for (auto x : DataBase::courses_map) {
+					if (code == x.first) {
+						course_name = x.second.get_Course_name();
+						break;
+					}
+				}
+			}
+			else {
+				cout << "This Code is incorrect\n";
+				system("pause");
+				system("cls");
+				continue;
+			}
+			if (check_max_num_studs(course_name, code)) {
+
+
+				if (check_taken_course_before(iid, course_name)) {
+					DataBase::progress_vector.push_back(make_pair(iid, course_name));
+					cout << "You Take: " << course_name << " Course Successfully...\n";
+					flag = false;
+				}
+				else {
+					cout << "You Have Already Taken: " << course_name << endl;
+					flag = false;
+				}
+			}
+			else {
+				cout << "\nSorry You Can't take " << course_name << " Course Because It has Max Number of Students...";
+			}
+		}
+	}
+	else {
+		cout << "Sorry You Can't Take Any Course Because You Have 7 Courses";
+
+	}
+
+
+}
+/***********************************************/
+bool Student::check_num_courses(int iid){
+	const int max_num_courses = 7;
+	int count = 0;
+	for (auto x : DataBase::progress_vector) {
+		if (iid == x.first) {
+			count++;
+		}
+	}
+	if (count < max_num_courses) {
+		return true;
+	}
+	else
+		return false;
+}
+/************************************************/
+bool Student::check_taken_course_before(int iid,string course_name){
+	for (auto x : DataBase::progress_vector) {
+		if (iid == x.first && course_name==x.second) {
+			return false;
+		}
+	}
+	return true;
+}
+/***************************************************************************/
+bool Student::check_course_exist(string code){
+	for (auto x : DataBase::courses_map) {
+		if (code == x.first)
+			return true;
+	}
+	return false;
+}
+/******************************************************/
+bool Student::check_max_num_studs(string course_name,string code)
+{
+	int count = 0;
+	for (auto x : DataBase::progress_vector) {
+		if (x.second == course_name)
+			count++;
+	}
+	if (DataBase::courses_map[code].get_max_numstud() == count) {
+		return false;
+	}
+	return true;
+}
+///////////////////////////////////////////////////////////////////////////
+Student::~Student(){
+}
+
+

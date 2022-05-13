@@ -36,7 +36,14 @@ public:
 	void set_student_password(string);
 	void set_acadamic_year(string);
 	///////////////////////////////////////////////////////////////////////////
-
-
+	void view_stud_courses();
+	void view_prog_courses(int);
+	void vies_finished_courses(int);
+	///////////////////////////////////////////////////////////////////////////
+	void Request_course(int);
+	bool check_num_courses(int);
+	bool check_taken_course_before(int,string);
+	bool check_course_exist(string);
+	bool check_max_num_studs(string,string);
 	~Student();
 };

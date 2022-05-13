@@ -53,7 +53,7 @@ bool DataBase::load_students_in_memory(std::map<std::string, Student>& students)
 		// load student to students hash tables
 		students[id] = student;
 
-		printf("Student: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+		//printf("Student: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
 	return true;
 }
@@ -85,7 +85,7 @@ bool DataBase::load_courses_in_memory(std::map<std::string, Course>& courses) //
 		// load student to students hash tables
 		courses[code] = course;
 
-		printf("Course: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+		//printf("Course: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
 	return true;
 }
@@ -117,7 +117,7 @@ bool DataBase::load_Admins_in_memory(std::map<std::string, Admin>& admins) // lo
 		 // load student to students hash tables
 		admins[id] = admin;
 
-		printf("Admin: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+		//printf("Admin: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
 
 	return true;
@@ -142,7 +142,7 @@ bool DataBase::load_FinishedCourse_in_memory(vector<pair<int, string>>& finished
 		string Fcourse_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
 		finished_vec.push_back(make_pair(id_stud, Fcourse_name));
 
-		printf("Finished Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+		//printf("Finished Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
 
 	return true;
@@ -169,7 +169,7 @@ bool DataBase::load_ProgressedCourse_in_memory(vector<pair<int, string>>& prog_v
 		string Pcourse_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
 		prog_vector.push_back(make_pair(id_stud, Pcourse_name));
 
-		printf("Progressed Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+		//printf("Progressed Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
 	sqlite3_close(DB);
 	return true;
@@ -196,7 +196,7 @@ bool DataBase::load_CoursesPREREQUISITE_in_memory(vector<pair<string, string>>& 
 		string preq_list_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
 		prerequisite_vector.push_back(make_pair(course_name, preq_list_name));
 
-		printf("PreqList Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
+		//printf("PreqList Courses: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
 	sqlite3_close(DB);
 	return true;
