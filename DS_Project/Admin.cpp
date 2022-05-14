@@ -1,5 +1,4 @@
 #include "Admin.h"
-#include "Finished__course.h"
 #include <iostream>
 #include <algorithm>
 #include <cstdio>
@@ -88,13 +87,13 @@ bool Admin::check_id_repeated(string st_id)
 
 	return flag;
 }
-bool Admin::check_if_id_exist(int  id )
+bool Admin::check_if_id_exist(string  id )
 {
 	bool flag = false;
 
 
 	for (auto x : DataBase::students_map) {
-		if (to_string(id) == x.first) {
+		if (id == x.first) {
 
 			flag = true;
 		}
@@ -121,10 +120,25 @@ bool Admin::check_row_repeated(int id ,string f_course )
 
 	return flag;
 }
+bool Admin::check_row_repeated2(int id , string progress_course )
+{
+	bool flag = true;
+
+
+	for (auto x : DataBase::progress_vector) {
+		if (id == x.first && progress_course == x.second) {
+
+			flag = false;
+		}
+
+
+	}
+
+	return flag;
+}
 void Admin::add_stud()
 {
 	int num_of_students;
-	int press;
 	int s_id; 
 	string f_name1;
 	string s_name1;
@@ -167,7 +181,7 @@ void Admin::add_stud()
 
 void Admin::add_f_course_in_p_course()
 {
-	
+	bool flag = true;
 	int press;
 	int id_;
 	int clk;
@@ -177,46 +191,106 @@ void Admin::add_f_course_in_p_course()
 	cout << "if you want to add finished courses for student press 1 " << endl;
 	cout << "if you want to add in progress  courses for student press 2 " << endl;
 	cout << "if you want to exit press 3 " << endl;
-	cin >> press;
-	switch (press) {
+	Student stud;
+	while (flag) {
 
-	case 1:
-		cout << "enter the number of stdent you want to add  " << endl;
-		cin >> stud_num;
-		for (int i = 0; i < stud_num ; i++) {
-			cout << "enter student id " << endl;
-			cin >> id_;
-			Finished__course stud_f_course;
-			stud_f_course.set_student_id_(id_);
-			if (Admin::check_if_id_exist(stud_f_course.get_student_id_())) {
-				vector<Finished__course> finish_course;
-				cout << "enter the number of finished courses you want add " << endl;
+		cin >> press;
+
+		switch (press) {
+
+		case 1:
+			cout << "enter the number of stdent you want to add  " << endl;
+			cin >> stud_num;
+			for (int i = 0; i < stud_num; i++) {
+				cout << "enter student id " << endl;
+				cin >> id_;
+
+
+				stud.set_student_id(id_);
+				if (Admin::check_if_id_exist(stud.get_student_id())) {
+					cout << "enter the number of finished courses you want add " << endl;
 					cin >> clk;
 					for (int j = 0; j < clk; j++) {
-						
+
 						cout << "enter finished course name" << endl;
 						cin >> f_courses;
-						stud_f_course.set_finished_course(f_courses);
-						//st.push_back(stud.get_student_id(), stud.get_f_name(), stud.get_s_name(), stud.get_th_name(), stud.get_student_password(), stud.get_acadamic_year());
+						if (Admin::check_row_repeated(stoi(stud.get_student_id()), f_courses)) {
+							DataBase::finished_vector.push_back(make_pair(stoi(stud.get_student_id()), f_courses));
+						}
+						else {
+							continue;
+						}
 					}
 
-					//if (Admin::check_row_repeated(stoi(stud.get_student_id()), stud.get_finished_course())) {
-					//	DataBase::finished_vector.push_back(make_pair(stoi(stud.get_student_id()), stud.get_finished_course()));
 
 
-				//	}
+				}
+
+
+
+				else {
+
+
+					cout << "id does not exist " << endl;
+
+				}
+
+
+
+
+			}
+			break;
+		case 2:
+
+			cout << "enter the number of stdent you want to add  " << endl;
+			cin >> stud_num;
+			for (int i = 0; i < stud_num; i++) {
+				cout << "enter student id " << endl;
+				cin >> id_;
+
+				stud.set_student_id(id_);
+				if (Admin::check_if_id_exist(stud.get_student_id())) {
+					cout << "enter the number of in progrss  courses you want add " << endl;
+					cin >> clk;
+					for (int j = 0; j < clk; j++) {
+
+						cout << "enter  in progrss course name" << endl;
+						cin >> in_p_courses;
+						if (Admin::check_row_repeated2(stoi(stud.get_student_id()), in_p_courses)) {
+							DataBase::progress_vector.push_back(make_pair(stoi(stud.get_student_id()), in_p_courses));
+						}
+						else {
+							continue;
+						}
+					}
+
+
+
+				}
+
+
+
+				else {
+
+
+					cout << "id does not exist " << endl;
+
+				}
+
+
 
 			}
 
-			//else {
+			break;
+		case 3:
+			flag = false;
+			break;
 
 
-				//cout << "id does not exist " << endl;
 
-			//}
 		}
+
 	}
-		
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
