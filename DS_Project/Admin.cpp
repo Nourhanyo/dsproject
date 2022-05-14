@@ -21,32 +21,31 @@ Admin::Admin() {
 }
 Admin::~Admin() {}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-string Admin::get_admin_id(){
+string Admin::get_admin_id() {
 	return to_string(id);
 }
-string Admin::get_fname(){
+string Admin::get_fname() {
 	return  fname;
 }
-string Admin::get_lname(){
+string Admin::get_lname() {
 	return lname;
 }
-string Admin::get_admin_pass(){
+string Admin::get_admin_pass() {
 	return password;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Admin::set_admin_id(int idd){
+void Admin::set_admin_id(int idd) {
 	id = idd;
 }
-void Admin::set_fname(string fnam){
+void Admin::set_fname(string fnam) {
 	fname = fnam;
 }
-void Admin::set_lname(string lnam){
+void Admin::set_lname(string lnam) {
 	lname = lnam;
 }
-void Admin::set_admin_pass(string pas){
+void Admin::set_admin_pass(string pas) {
 	password = pas;
 }
- 
 //////////////////////////////////////////////////////////////////////////
 void Admin::fill_prerequisite_list()
 {
@@ -54,30 +53,22 @@ void Admin::fill_prerequisite_list()
 	int numOfPre;
 	string preName;
 	string cName;
-	
+
 	cout << "Enter course Name :\n";
 	cin >> cName;
-	transform(cName.begin(), cName.end(), cName.begin(), ::tolower);// to change  string into lowercase 
+	transform(cName.begin(), cName.end(), cName.begin(), ::tolower);// to change  string into lowercase
 
 	cout << "Enter number of prerequist courses :\n";
 	cin >> numOfPre;
 	for (int i = 0; i < numOfPre; i++)
 	{
-		cout << "Enter Course number " << i + 1<<" : \n";
+		cout << "Enter Course number " << i + 1 << " : \n";
 		cin >> preName;
-		transform(preName.begin(), preName.end(), preName.begin(), ::tolower);  // to change  string into lowercase 
+		transform(preName.begin(), preName.end(), preName.begin(), ::tolower);  // to change  string into lowercase
 
 		DataBase::prerequisite_vector.push_back(make_pair(cName, preName));
 	}
 	PRE_LIST_CHANGED = true;
-
-}
-
-void Admin::test() {
-	DataBase::finished_vector.push_back(make_pair(45, "mohab"));
-	cout << DataBase::finished_vector.size();
-	for (auto x : DataBase::finished_vector)
-		cout << x.second << endl;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Admin::Addcourse() {
@@ -89,9 +80,9 @@ void Admin::Addcourse() {
 	cout << "Enter Course Code : \n";
 	cin >> cod;
 	course.set_code(cod);
-	 
+
 	if (check_ccode_exist(course.get_code())) {
-	    cout << "  \n\n";
+		cout << "  \n\n";
 		cout << "Enter Course Name : \n";
 		cin >> nam;
 		course.set_Course_Name(nam);
@@ -117,7 +108,6 @@ void Admin::Addcourse() {
 			system("pause 0");
 			system("cls");
 			Addcourse();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
-
 		}
 	}
 	else {
@@ -128,7 +118,7 @@ void Admin::Addcourse() {
 	}
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Admin::ModifyCourses(){
+void Admin::ModifyCourses() {
 	system("cls");
 	cout << "***********************************Update_Page***********************************\n\n\n";
 	cout << "1-Edite Course Data \n\n";
@@ -156,8 +146,8 @@ void Admin::ModifyCourses(){
 		ModifyCourses();
 		break;
 	}
-} 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Admin::Edit() {
 	system("cls");
 	Course course;
@@ -250,7 +240,6 @@ void Admin::Edit() {
 				system("pause 0");
 				system("cls");
 				Edit();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
-
 			}
 		}
 		else {
@@ -267,7 +256,7 @@ void Admin::Edit() {
 		ModifyCourses();
 	}
 }
- /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Admin::Delete() {
 	system("cls");
 	Course course;
@@ -275,25 +264,33 @@ void Admin::Delete() {
 	cout << "*********************************DELETE PAGE *************************************\n\n\n";
 	cout << "Enter COURSE code YOU WANT to DELETE ? ....\n";
 	cin >> code;
-	course.set_code(code);
-	DataBase::courses_map.erase(course.get_code());
-	course.COURSE_CHANGED = true;
-	cout << "Course " << code << " Deleted succesfully\n\n";
-	int choice;
-	cout << endl << endl;
-	cout << "if you Wanna go back choose (1) \n\n" << "if you Wanna exist choose (0)\n\n";
-	cout << "ENTER YOUR Choice ...\n";
-	cin >> choice;
-	switch (choice)
-	{
-	case 1:
+	if (check_course_exist(code)) {
+		course.set_code(code);
+		DataBase::courses_map.erase(course.get_code());
+		course.COURSE_CHANGED = true;
+		cout << "Course " << code << " Deleted succesfully\n\n";
+		int choice;
+		cout << endl << endl;
+		cout << "if you Wanna go back choose (1) \n\n" << "if you Wanna exist choose (0)\n\n";
+		cout << "ENTER YOUR Choice ...\n";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			ModifyCourses();
+			break;
+		default:
+			cout << "..........................................................\n";
+			cout << ".......................See You Soon....................... \n";
+			cout << "..........................................................\n\n";
+			break;
+		}
+	}
+	else {
+		cout << "This Code Is Incorrect..\n";
+		system("pause 0");
+		system("cls");
 		ModifyCourses();
-		break;
-	default:
-		cout << "..........................................................\n";
-		cout << ".......................See You Soon....................... \n";
-		cout << "..........................................................\n\n";
-		break;
 	}
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -307,7 +304,7 @@ bool Admin::check_course_exist(string code) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Admin::check_cname_exist(string name) {
 	for (auto x : DataBase::courses_map) {
-		if ( name== x.second.get_Course_name() )
+		if (name == x.second.get_Course_name())
 			return false;
 	}
 	return true;
@@ -315,7 +312,7 @@ bool Admin::check_cname_exist(string name) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Admin::check_ccode_exist(string code) {
 	for (auto x : DataBase::courses_map) {
-		if ( code== x.first )
+		if (code == x.first)
 			return false;
 	}
 	return true;

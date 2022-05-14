@@ -5,7 +5,7 @@
 #include"Course.h"
 using namespace std;
 class Admin
-	
+
 {
 private:
 	static int id;
@@ -35,7 +35,6 @@ public:
 	void fill_prerequisite_list();
 	void test();
 
-	
 	~Admin();
 	/////////////////////////////////////////////////////////////
 	void Addcourse();
@@ -43,9 +42,6 @@ public:
 	bool check_course_exist(string);
 	bool check_cname_exist(string);
 	bool check_ccode_exist(string);
-	bool check_ccode2_exist(string,string);
-	bool check_cname2_exist(string,string);
-
-
-
+	bool check_ccode2_exist(string, string);
+	bool check_cname2_exist(string, string);
 };

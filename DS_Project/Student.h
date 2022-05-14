@@ -16,6 +16,10 @@ private:
 	string th_name;
 	string password;
 	string acadamic_year;
+	bool check_num_courses(int);
+	bool check_taken_course_before(int, string);
+	bool check_course_exist(string);
+	bool check_max_num_studs(string, string);
 public:
 	static bool STUDENT_CHANGED;
 	///////////////////////////////////////////////////////////////////////////
@@ -42,16 +46,11 @@ public:
 	void vies_finished_courses(int);
 	///////////////////////////////////////////////////////////////////////////
 	void Request_course(int);
-	bool check_num_courses(int);
-	bool check_taken_course_before(int,string);
-	bool check_course_exist(string);
-	bool check_max_num_studs(string,string);
 	///////////////////////////////////////////////////////////////////////////
 	void view_available_courses();
 	void fill_available_crsVector(string s);
 	void fill_pre_list();
 	void get_remain_courses();
-	//void GetAvailableCrs(int remainIndx);
 	void get_finished_courses(int id);
 
 	~Student();
