@@ -35,6 +35,7 @@ public:
 	void set_th_name(string);
 	void set_student_password(string);
 	void set_acadamic_year(string);
+	void View_CoursesDetails();
 	///////////////////////////////////////////////////////////////////////////
 	void view_stud_courses();
 	void view_prog_courses(int);

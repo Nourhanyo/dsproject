@@ -46,7 +46,7 @@ void Admin::set_lname(string lnam){
 void Admin::set_admin_pass(string pas){
 	password = pas;
 }
-Admin::~Admin() {}
+ 
 //////////////////////////////////////////////////////////////////////////
 void Admin::fill_prerequisite_list()
 {
