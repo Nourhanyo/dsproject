@@ -5,6 +5,7 @@
 #include"Course.h"
 using namespace std;
 class Admin
+	
 {
 private:
 	static int id;
@@ -16,6 +17,8 @@ private:
 	void Undo(string, string, int, int, string);
 
 public:
+	static bool ADMIN_CHANGED;
+	static bool PRE_LIST_CHANGED;
 	Admin();
 	Admin(string Fnam, string lName, string pass);
 	string get_admin_id();
@@ -27,6 +30,11 @@ public:
 	void set_fname(string);
 	void set_lname(string);
 	void set_admin_pass(string);
+	///////////////////////////////////////////////////////
+
+	void fill_prerequisite_list();
+	void test();
+
 	static bool ADMIN_CHANGED;
 	~Admin();
 	/////////////////////////////////////////////////////////////

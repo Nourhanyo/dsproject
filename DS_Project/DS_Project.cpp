@@ -10,10 +10,10 @@ using namespace std;
 
 using namespace std;
 int main() {
-	DataBase a;
-	a.load_DB();
+	DataBase d;
+	d.load_DB();
 	Student s;
-	s.Request_course(1);
-	a.update_DB();
+	s.view_available_courses();
+	d.update_DB();
 	return 0;
 }
