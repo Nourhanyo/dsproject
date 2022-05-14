@@ -212,12 +212,11 @@ bool DataBase::load_CoursesPREREQUISITE_in_memory(vector<pair<string, string>>& 
 void DataBase::update_DB() {
 	sqlite3_open("myDb.db", &DB);
 	Student s;
-	if (s.STUDENT_CHANGED == true) { update_Student(); }
+	if (s.STUDENT_CHANGED == true) { update_Student();}
 	Admin a;
-	if (a.ADMIN_CHANGED == true) { update_Admin(); }
+	if (a.ADMIN_CHANGED   == true) { update_Admin();  }
 	Course c;
-	if (c.COURSE_CHANGED == true) { update_Course(); }
-
+	if (c.COURSE_CHANGED  == true) { update_Course(); }
 	update_prog_course();
 
 	if (a.PRE_LIST_CHANGED == true) { update_preList_course(); }

@@ -23,6 +23,7 @@ int Course::get_hours() {
 void Course::set_hours(int hour) {
 	hours = hour;
 }
+ 
 //////////////////////////////////////////////////////
 string Course::get_Course_name() {
 	return name;
@@ -44,5 +45,5 @@ Course::Course() {
 	code = "";
 	max_numstud = 0;
 }
-////////////////////////////////////////////
+///////////////////////////////////////////////
 Course::~Course() {}
