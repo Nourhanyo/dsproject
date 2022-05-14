@@ -41,6 +41,7 @@ string Student::get_acadamic_year() {
 string Student::get_student_id() {
 	return   to_string(id);
 }
+
 ///////////////////////////////////////////////////////////////////////////
 void Student::set_student_id(int idd) {
 	id = idd;
@@ -60,6 +61,7 @@ void Student::set_student_password(string pass) {
 void Student::set_acadamic_year(string aca) {
 	acadamic_year = aca;
 }
+
 ////////////////////////////////////////////////////////////////////////
 void Student::View_CoursesDetails() {
 	system("cls");

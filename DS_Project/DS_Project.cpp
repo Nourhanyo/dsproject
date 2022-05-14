@@ -14,7 +14,8 @@ int main() {
 	d.load_DB();
 	Student s;
 	Admin ad;
-	ad.ModifyCourses();
+	ad.add_stud();
+	//ad.ModifyCourses();
 	//s.view_available_courses();
 	d.update_DB();
 	return 0;

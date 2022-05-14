@@ -138,7 +138,6 @@ bool DataBase::load_FinishedCourse_in_memory(vector<pair<int, string>>& finished
 
 	while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
 		int id_stud = stoi(reinterpret_cast<const char*>(sqlite3_column_text(result, 0)));
-
 		string Fcourse_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
 		finished_vec.push_back(make_pair(id_stud, Fcourse_name));
 
