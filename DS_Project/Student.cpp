@@ -88,14 +88,7 @@ void Student::View_CoursesDetails() {
 		View_CoursesDetails();
 	}
 }
-///////////////////////////////////////////////////////////////////////////
-bool Student::check_course_exist(string code) {
-	for (auto x : DataBase::courses_map) {
-		if (code == x.first)
-			return true;
-	}
-	return false;
-}
+
 ///////////////////////////////////////////////////////////////////////////
 void Student::view_stud_courses(){
 	cout << endl << "Enter id: ";
@@ -224,7 +217,7 @@ bool Student::check_max_num_studs(string course_name,string code)
 void Student::view_available_courses()
 {
 	int id;
-	cout << "enter your id\n";
+	cout << "Enter Your Id :\n";
 	cin >> id;
 	get_finished_courses(id);
 	get_remain_courses();

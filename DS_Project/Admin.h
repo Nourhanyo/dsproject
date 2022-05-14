@@ -35,7 +35,7 @@ public:
 	void fill_prerequisite_list();
 	void test();
 
-	static bool ADMIN_CHANGED;
+	
 	~Admin();
 	/////////////////////////////////////////////////////////////
 	void Addcourse();
