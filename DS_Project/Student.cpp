@@ -250,8 +250,7 @@ void Student::fill_pre_list()
 	}
 }
 ///////////////////////////////////////////////////////////////////////////
-void Student::get_finished_courses(int iid)
-{
+void Student::get_finished_courses(int iid){
 	for (auto x : DataBase::finished_vector)
 	{
 		if (iid == x.first) { finishedCourses_forStud_vec.push_back(x.second); }

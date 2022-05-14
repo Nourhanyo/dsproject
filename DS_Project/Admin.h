@@ -14,7 +14,11 @@ private:
 	string password;
 	void Delete();
 	void Edit();
-	void Undo(string, string, int, int, string);
+	bool check_course_exist(string);
+	bool check_cname_exist(string);
+	bool check_ccode_exist(string);
+	bool check_ccode2_exist(string, string);
+	bool check_cname2_exist(string, string);
 
 public:
 	static bool ADMIN_CHANGED;
@@ -31,17 +35,15 @@ public:
 	void set_lname(string);
 	void set_admin_pass(string);
 	///////////////////////////////////////////////////////
-
 	void fill_prerequisite_list();
-	void test();
-
 	~Admin();
 	/////////////////////////////////////////////////////////////
 	void Addcourse();
 	void ModifyCourses();
-	bool check_course_exist(string);
-	bool check_cname_exist(string);
-	bool check_ccode_exist(string);
-	bool check_ccode2_exist(string, string);
-	bool check_cname2_exist(string, string);
+	/////////////////////////////////////////////////////////////
+	void view_courses_of_stud();
+	void view_stud_prog_courses(int);
+	void view_stud_finished_courses(int);
+	/////////////////////////////////////////////////////////////
+	void view_studs_of_course();
 };

@@ -333,3 +333,56 @@ bool Admin::check_cname2_exist(string name, string nam) {
 	}
 	return true;
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Admin::view_courses_of_stud() {
+	int stud_id;
+	cout << "Enter the ID for Student \n";
+	cin >> stud_id;
+	view_stud_prog_courses(stud_id);
+	view_stud_finished_courses(stud_id);
+}
+/****************************************/
+void Admin::view_stud_prog_courses(int id_) {
+	for (auto x : DataBase::progress_vector) {
+		if (id_ == x.first){
+			cout << "the courses progress are\n" << x.second;
+		}
+	}
+}
+/****************************************************/
+void Admin::view_stud_finished_courses(int id_) {
+	for (auto x : DataBase::finished_vector) {
+		if (id_ == x.first){
+			cout << "the courses finsished are\n" << x.second;
+		}
+	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Admin::view_studs_of_course() {
+	string course_name;
+	vector <int>id;
+	cout << "Enter the course name\n";
+	cin >> course_name;
+
+	for (auto x : DataBase::progress_vector) {
+		if (course_name == x.second)
+		{
+			id.push_back(x.first);
+		}
+	}
+	
+	for (int i = 0; i < id.size(); i++)
+	{
+		Student student=DataBase::students_map[to_string(id[i])];
+		cout << student.get_f_name() << endl;
+	}
+	//for (auto x : DataBase::students_map) {
+	//	for (int i = 0; i < id.size(); i++)
+	//	{
+	//		if (stoi(x.first) == id[i]){
+	//			cout << x.second.get_f_name() <<" " << x.second.get_s_name() << " " << x.second.get_th_name()<<endl;
+	//		}
+	//	}
+	//}
+}
+	
