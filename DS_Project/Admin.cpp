@@ -338,19 +338,29 @@ void Admin::view_courses_of_stud() {
 	int stud_id;
 	cout << "Enter the ID for Student \n";
 	cin >> stud_id;
-	view_stud_prog_courses(stud_id);
-	view_stud_finished_courses(stud_id);
+	if (DataBase::students_map.size() > stud_id) {
+		view_stud_prog_courses(stud_id);
+		view_stud_finished_courses(stud_id);
+	}
+	else{
+		cout << "This ID Has NO Student...\n";
+	}
 }
 /****************************************/
 void Admin::view_stud_prog_courses(int id_) {
+	Student student = DataBase::students_map[to_string(id_)];
+	cout << "The Courses in Progress for " <<student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " are:\n";
+	int count = 0;
 	for (auto x : DataBase::progress_vector) {
 		if (id_ == x.first){
-			cout << "the courses progress are\n" << x.second;
+			cout <<count<<"- " << x.second;
+			count++;
 		}
 	}
 }
 /****************************************************/
 void Admin::view_stud_finished_courses(int id_) {
+
 	for (auto x : DataBase::finished_vector) {
 		if (id_ == x.first){
 			cout << "the courses finsished are\n" << x.second;
