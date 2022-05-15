@@ -29,7 +29,8 @@ int main() {
             ad.add_stud();
             break;
         case 2:
-            ad.add_f_course_in_p_course();
+            s.edit_stud_data();
+           // ad.add_f_course_in_p_course();
             break;
         case 3:
 

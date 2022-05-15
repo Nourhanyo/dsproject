@@ -38,6 +38,132 @@ string Student::get_student_password() {
 string Student::get_acadamic_year() {
 	return  acadamic_year;
 }
+void Student::edit_stud_data()
+{
+	Student stud1;
+	int id;
+	int p;
+	string password;
+	int num_of_finished_c;
+	string f_course_name;
+	string in_p_name;
+	string new_f_course; 
+	string new_p_course;
+
+	int clk;
+	cout << "enter the password of student you want to edit " << endl;
+	cin >> password;
+	stud1.set_student_password(password);
+	cout << "enter the id of student you want to edit " << endl;
+	cin >> id;
+	stud1.set_student_id(id);
+	if (Student::check_row_exist(stud1.get_student_id(), stud1.get_student_password())) {
+		cout << "if you want to edit finished courses for student press 1 " << endl;
+		cout << "if you want to edit in progress  courses for student press 2 " << endl;
+		cin >> p;
+		switch (p) {
+		case 1:
+			cout << "enter the number of  finished courses you want to edit " << endl;
+			cin >> num_of_finished_c;
+			if (num_of_finished_c <= DataBase::finished_vector.capacity()) {
+				for (int i = 0; i < num_of_finished_c; i++) {
+					cout << "enter the name of finished course you want to edit " << endl;
+					cin >> f_course_name;
+					if (Student::check_row_exist_f(id, f_course_name)) {
+						cout << "enter the name of finished course you want to edit " << endl;
+						cin >> new_f_course;
+						cout << "if you want to submit click 1 " << endl;
+						cin >> clk;
+						if (clk == 1) {
+							int index = 0;
+							for (auto x : DataBase::finished_vector) {
+								if (x.first == id && x.second == f_course_name)
+								{
+
+									break;
+
+								
+								}
+
+								index++;
+
+
+							}
+							cout << index;
+							DataBase::finished_vector[index].first = id;
+							DataBase::finished_vector[index].second = new_f_course;
+
+
+						}
+						else {
+
+
+
+
+						}
+					}
+				}
+			}
+
+		default:
+			break;
+			}
+
+		
+	}
+}
+bool Student::check_row_exist(string id, string password)
+{
+	bool flag = false;
+
+
+	for (auto x : DataBase::students_map) {
+		if (id == x.first && password == x.second.get_student_password()) {
+
+			flag = true;
+		}
+
+
+	}
+
+	return flag;
+}
+bool Student::check_row_exist_f( int id , string f_course  )
+{
+	bool flag = false;
+
+
+	for (auto x : DataBase::finished_vector) {
+		if (id == x.first && f_course == x.second) {
+
+			flag = true;
+		}
+
+
+	}
+
+	return flag;
+}
+bool Student::check_row_exist_p(int id , string in_p_course  )
+{
+	bool flag = false;
+
+
+	for (auto x : DataBase::progress_vector) {
+		if (id == x.first && in_p_course == x.second) {
+
+			flag = true;
+		}
+
+
+	}
+
+	return flag;
+}
+
+
+
+
 string Student::get_student_id() {
 	return   to_string(id);
 }
