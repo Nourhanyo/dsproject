@@ -414,7 +414,6 @@ void Admin::Edit() {
 				cout << "Enter New Course hours : \n";
 				cin >> hour;
 				course.set_hours(hour);
-
 				cout << "  \n";
 				cout << "Enter New max_numstud : \n";
 				cin >> maxx;
