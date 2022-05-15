@@ -43,19 +43,32 @@ void Student::edit_stud_data()
 	Student stud2;
 	int id;
 	int p;
-	string password;
+	string password1;
 	string new_password;
 	int clk1;
-
+	string f_name1;
+	string s_name1;
+	string th_name1;
+	string academic_year1;
 	cout << "enter the password of student you want to edit " << endl;
-	cin >> password;
+	cin >> password1;
 	cout << "enter the id of student you want to edit " << endl;
 	cin >> id;
 	stud2.set_student_id(id);
-	if (Student::check_row_exist(stud2.get_student_id(), password)) {
+	if (Student::check_row_exist(stud2.get_student_id(), password1)) {
 		cout << "if you want to editt password   for student press 1 " << endl;
 		cout << "if you want to exit  press 2 " << endl;
 		cin >> p;
+		auto b = DataBase::students_map.find(stud2.get_student_id());
+
+		f_name1 = b->second.get_f_name();
+		s_name1 = b->second.get_s_name();
+		th_name1 = b->second.get_th_name();
+		academic_year1 = b->second.get_acadamic_year();
+		stud2.set_f_name(f_name1);
+		stud2.set_s_name(s_name1);
+		stud2.set_th_name(th_name1);
+		stud2.set_acadamic_year(academic_year1);		
 		switch (p) {
 		case 1:
 			cout << "enter the new password you want  " << endl;
@@ -64,15 +77,8 @@ void Student::edit_stud_data()
 			cout << "if you want to submit click 1 else click any number " << endl;
 			cin >> clk1;
 			if (clk1 == 1) {
-				auto x = DataBase::students_map.find(password);
-					
-				stud2.set_student_id(stoi(x->first));
-				stud2.set_f_name(x->second.get_f_name());
-				stud2.set_s_name(x->second.get_s_name());
-				stud2.set_th_name(x->second.get_th_name());
-				stud2.set_acadamic_year(x->second.get_acadamic_year());
-				stud2.set_student_password(new_password);
-				DataBase::students_map.erase(password);
+				
+				DataBase::students_map.erase(stud2.get_student_id());
 				DataBase::students_map.insert(make_pair(stud2.get_student_id(), stud2));
 				stud2.STUDENT_CHANGED = true;
 			}
@@ -85,7 +91,9 @@ void Student::edit_stud_data()
 			}
 		case 2:
 			break;
-		default:
+		
+		
+	default:
 			break;
 		}
 	}
