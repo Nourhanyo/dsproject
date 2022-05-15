@@ -36,6 +36,29 @@ string Student::get_student_password() {
 string Student::get_acadamic_year() {
 	return  acadamic_year;
 }
+string Student::get_student_id() {
+	return   to_string(id);
+}
+///////////////////////////////////////////////////////////////////////////
+void Student::set_student_id(int idd) {
+	id = idd;
+}
+void Student::set_f_name(string f) {
+	f_name = f;
+}
+void Student::set_s_name(string s) {
+	s_name = s;
+}
+void Student::set_th_name(string th) {
+	th_name = th;
+}
+void Student::set_student_password(string pass) {
+	password = pass;
+}
+void Student::set_acadamic_year(string aca) {
+	acadamic_year = aca;
+}
+////////////////////////////////////////////////////////////////////////
 void Student::edit_stud_data()
 {
 	Student stud2;
@@ -66,7 +89,7 @@ void Student::edit_stud_data()
 		stud2.set_f_name(f_name1);
 		stud2.set_s_name(s_name1);
 		stud2.set_th_name(th_name1);
-		stud2.set_acadamic_year(academic_year1);		
+		stud2.set_acadamic_year(academic_year1);
 		switch (p) {
 		case 1:
 			cout << "enter the new password you want  " << endl;
@@ -75,31 +98,22 @@ void Student::edit_stud_data()
 			cout << "if you want to submit click 1 else click any number " << endl;
 			cin >> clk1;
 			if (clk1 == 1) {
-				
 				DataBase::students_map.erase(stud2.get_student_id());
 				DataBase::students_map.insert(make_pair(stud2.get_student_id(), stud2));
 				stud2.STUDENT_CHANGED = true;
 			}
 			else {
-
 				cout << "index does not be  modified " << endl;
-
-
-
 			}
 		case 2:
 			break;
-		
-		
-	default:
+
+		default:
 			break;
 		}
 	}
 	else {
-
 		cout << "student  does not  exist " << endl;
-
-
 	}
 }
 void Student::edit_f_and_p_course()
@@ -112,7 +126,7 @@ void Student::edit_f_and_p_course()
 	int num_of_in_p;
 	string f_course_name;
 	string in_p_name;
-	string new_f_course; 
+	string new_f_course;
 	string new_p_course;
 
 	int clk;
@@ -146,41 +160,25 @@ void Student::edit_f_and_p_course()
 							for (auto x : DataBase::finished_vector) {
 								if (x.first == id && x.second == f_course_name)
 								{
-
 									break;
-
-
 								}
 
 								index++;
-
-
 							}
 							cout << index;
 							DataBase::finished_vector[index].first = id;
 							DataBase::finished_vector[index].second = new_f_course;
-
-
 						}
 						else {
-
 							cout << "index does not be  modified " << endl;
-
-
-
 						}
 					}
 					else {
-
 						cout << "course does not  exist " << endl;
-
-
 					}
 				}
 			}
 			else {
-
-
 				cout << "index out of range " << endl;
 			}
 			break;
@@ -201,41 +199,25 @@ void Student::edit_f_and_p_course()
 							for (auto x : DataBase::progress_vector) {
 								if (x.first == id && x.second == in_p_name)
 								{
-
 									break;
-
-
 								}
 
 								index++;
-
-
 							}
 							cout << index;
 							DataBase::progress_vector[index].first = id;
 							DataBase::progress_vector[index].second = new_p_course;
-
-
 						}
 						else {
-
 							cout << "index does not be  modified " << endl;
-
-
-
 						}
 					}
 					else {
-
 						cout << "course does not  exist " << endl;
-
-
 					}
 				}
 			}
 			else {
-
-
 				cout << "index out of range " << endl;
 			}
 			break;
@@ -244,87 +226,43 @@ void Student::edit_f_and_p_course()
 		default:
 			break;
 		}
-
-		
 	}
 }
 bool Student::check_row_exist(string id, string password)
 {
 	bool flag = false;
-
-
 	for (auto x : DataBase::students_map) {
 		if (id == x.first && password == x.second.get_student_password()) {
-
 			flag = true;
 		}
-
-
 	}
-
 	return flag;
 }
-bool Student::check_row_exist_f( int id , string f_course  )
+bool Student::check_row_exist_f(int id, string f_course)
 {
 	bool flag = false;
-
 
 	for (auto x : DataBase::finished_vector) {
 		if (id == x.first && f_course == x.second) {
-
 			flag = true;
 		}
-
-
 	}
 
 	return flag;
 }
-bool Student::check_row_exist_p(int id , string in_p_course  )
+bool Student::check_row_exist_p(int id, string in_p_course)
 {
 	bool flag = false;
 
-
 	for (auto x : DataBase::progress_vector) {
 		if (id == x.first && in_p_course == x.second) {
-
 			flag = true;
 		}
-
-
 	}
 
 	return flag;
 }
-
-
-
-
-string Student::get_student_id() {
-	return   to_string(id);
-}
-
 ///////////////////////////////////////////////////////////////////////////
-void Student::set_student_id(int idd) {
-	id = idd;
-}
-void Student::set_f_name(string f) {
-	f_name = f;
-}
-void Student::set_s_name(string s) {
-	s_name = s;
-}
-void Student::set_th_name(string th) {
-	th_name = th;
-}
-void Student::set_student_password(string pass) {
-	password = pass;
-}
-void Student::set_acadamic_year(string aca) {
-	acadamic_year = aca;
-}
-
-////////////////////////////////////////////////////////////////////////
 void Student::View_CoursesDetails() {
 	system("cls");
 	cout << "  \n                                        .....Your Course Details..... \n\n";

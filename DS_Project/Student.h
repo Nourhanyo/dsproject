@@ -20,6 +20,9 @@ private:
 	bool check_taken_course_before(int, string);
 	bool check_course_exist(string);
 	bool check_max_num_studs(string, string);
+	bool check_row_exist(string, string);
+	bool check_row_exist_f(int, string);
+	bool check_row_exist_p(int, string);
 public:
 	static bool STUDENT_CHANGED;
 	///////////////////////////////////////////////////////////////////////////
@@ -33,15 +36,6 @@ public:
 	string get_student_password();
 	string get_acadamic_year();
 	/////////////////////////////////////////////////////////////////////////////
-	void edit_stud_data();
-	void edit_f_and_p_course();
-	bool check_row_exist(string, string); 
-	bool check_row_exist_f(int, string);
-	bool check_row_exist_p(int, string);
-
-
-	/////////////////////////////////////////////////////////////////////////////
-
 	void set_student_id(int);
 	void set_f_name(string);
 	void set_s_name(string);
@@ -50,6 +44,9 @@ public:
 	void set_acadamic_year(string);
 	void View_CoursesDetails();
 	///////////////////////////////////////////////////////////////////////////
+	void edit_stud_data();
+	void edit_f_and_p_course();
+	/////////////////////////////////////////////////////////////////////////////
 	void view_stud_courses();
 	void view_prog_courses(int);
 	void vies_finished_courses(int);

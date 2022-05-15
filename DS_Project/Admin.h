@@ -8,7 +8,7 @@ class Admin
 
 {
 private:
-	static int id;
+	int id;
 	string fname;
 	string lname;
 	string password;
@@ -20,12 +20,11 @@ private:
 	bool check_ccode_exist(string);
 	bool check_ccode2_exist(string, string);
 	bool check_cname2_exist(string, string);
-
 public:
 	static bool ADMIN_CHANGED;
 	static bool PRE_LIST_CHANGED;
 	Admin();
-	Admin(string Fnam, string lName, string pass);
+	Admin(int, string Fnam, string lName, string pass);
 	string get_admin_id();
 	string get_fname();
 	string get_lname();
@@ -43,9 +42,9 @@ public:
 	void add_f_course_in_p_course();
 	bool check_id_repeated(string);
 	bool check_if_id_exist(string);
-	bool check_row_repeated(int,string);
+	bool check_row_repeated(int, string);
 	bool check_row_repeated2(int, string);
-
+	/////////////////////////////////////////////////////////////
 	void Addcourse();
 	void ModifyCourses();
 	/////////////////////////////////////////////////////////////
@@ -54,4 +53,6 @@ public:
 	void view_stud_finished_courses(int);
 	/////////////////////////////////////////////////////////////
 	void view_studs_of_course();
+	/////////////////////////////////////////////////////////////
+	int check_num_courses_can_add(int);
 };

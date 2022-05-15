@@ -11,9 +11,8 @@ sqlite3* dd;
 using namespace std;
 bool Admin::ADMIN_CHANGED = false;
 bool Admin::PRE_LIST_CHANGED = false;
-int Admin::id = 0; /*for static variable (id)*/
-Admin::Admin(string Fnam, string lName, string pass) {
-	id++;
+Admin::Admin(int iid,string Fnam, string lName, string pass) {
+	id = iid;
 	get_fname() = Fnam;
 	get_lname() = lName;
 	password = pass;
@@ -71,120 +70,91 @@ void Admin::fill_prerequisite_list()
 	}
 	PRE_LIST_CHANGED = true;
 }
+//////////////////////////////////////////////////////////////////////////
 bool Admin::check_id_repeated(string st_id)
 {
 	bool flag = true;
-
 	for (auto x : DataBase::students_map) {
 		if (st_id == x.first) {
-
 			cout << " id already exist " << endl;
 			flag = false;
 		}
-
-
 	}
 
 	return flag;
 }
-bool Admin::check_if_id_exist(string  id )
+/****************************************************/
+bool Admin::check_if_id_exist(string  id)
 {
 	bool flag = false;
 
-
 	for (auto x : DataBase::students_map) {
 		if (id == x.first) {
-
 			flag = true;
 		}
-
-
 	}
 
 	return flag;
 }
-bool Admin::check_row_repeated(int id ,string f_course )
+/***************************************************/
+bool Admin::check_row_repeated(int id, string f_course)
 {
-	
 	bool flag = true;
-
 
 	for (auto x : DataBase::finished_vector) {
-		if ( id == x.first && f_course == x.second) {
-
+		if (id == x.first && f_course == x.second) {
 			flag = false;
 		}
-
-
 	}
 
 	return flag;
 }
-bool Admin::check_row_repeated2(int id , string progress_course )
+/****************************************************************/
+bool Admin::check_row_repeated2(int id, string progress_course)
 {
 	bool flag = true;
-
 
 	for (auto x : DataBase::progress_vector) {
 		if (id == x.first && progress_course == x.second) {
-
 			flag = false;
 		}
-
-
 	}
 
 	return flag;
 }
+/************************************************************************/
 void Admin::add_stud()
 {
 	Student student;
 	int num_of_students;
-	int s_id; 
+	int s_id;
 	string f_name1;
 	string s_name1;
 	string th_name1;
 	string password1;
 	string academic_year1;
-	cout << "enter the number of student you want to add  " << endl;
-    cin >> num_of_students;
+	cout << "Enter the number of students you want to add  " << endl;
+	cin >> num_of_students;
 	for (int i = 0; i < num_of_students; i++) {
-		cout << "enter the id of student" << endl;
-		cin >> s_id;
-		cout << "enter student name " << endl;
+		cout << "\t\t\t\t" << i+1 <<endl;
+		cout << "Enter student Full Name: " ;
 		cin >> f_name1 >> s_name1 >> th_name1;
-		cout << "enter student password " << endl;
+		cout << "\nEnter student password: " ;
 		cin >> password1;
-		cout << "enter student acadamic_year " << endl;
+		cout << "\nEnter student acadamic_year: ";
 		cin >> academic_year1;
-		student.set_student_id(s_id);
+		student.set_student_id(DataBase::students_map.size() + 1);
 		student.set_f_name(f_name1);
 		student.set_s_name(s_name1);
 		student.set_th_name(th_name1);
 		student.set_student_password(password1);
 		student.set_acadamic_year(academic_year1);
-		if(Admin::check_id_repeated(student.get_student_id())){
-			DataBase::students_map.insert(make_pair(student.get_student_id(), student));
-			student.STUDENT_CHANGED = true;
-
-		}
-		
-
-
+		DataBase::students_map.insert(make_pair(student.get_student_id(), student));
+		student.STUDENT_CHANGED = true;
+		cout << "\n\n-----------------------------------------------------------------------------------------------\n\n";
 	}
-	if (student.STUDENT_CHANGED) {
-
-		cout << "done" << endl;
-
-
-	}
-
-
-
-
-
+	cout << "\nDONE" << endl;
 }
-
 void Admin::add_f_course_in_p_course()
 {
 	bool flag = true;
@@ -194,112 +164,100 @@ void Admin::add_f_course_in_p_course()
 	int stud_num;
 	string f_courses;
 	string in_p_courses;
+	Student stud, student;
 
-	Student stud;
-	while (flag) {
-		cout << "if you want to add finished courses for student press 1 " << endl;
-		cout << "if you want to add in progress  courses for student press 2 " << endl;
-		cout << "if you want to exit press 3 " << endl;
-		cin >> press;
+	cout << "IF you want to add finished courses for student press 1 " << endl;
+	cout << "IF you want to add in progress  courses for student press 2 " << endl;
+	cout << "IF you want to exit press 3 " << endl;
+	cin >> press;
 
-		switch (press) {
-
-		case 1:
-			cout << "enter the number of student you want to add  " << endl;
-			cin >> stud_num;
-			for (int i = 0; i < stud_num; i++) {
-				cout << "enter student id " << endl;
-				cin >> id_;
-
-
-				stud.set_student_id(id_);
-				if (Admin::check_if_id_exist(stud.get_student_id())) {
-					cout << "enter the number of finished courses you want add " << endl;
-					cin >> clk;
-					for (int j = 0; j < clk; j++) {
-
-						cout << "enter finished course name" << endl;
-						cin >> f_courses;
+	switch (press) {
+	case 1:
+		cout << "Enter the number of student you want to add  " << endl;
+		cin >> stud_num;
+		for (int i = 0; i < stud_num; i++) {
+			cout << "enter student id " << endl;
+			cin >> id_;
+			stud.set_student_id(id_);
+			student = DataBase::students_map[to_string(id_)];
+			if (Admin::check_if_id_exist(stud.get_student_id())) {
+				cout << "This Student is " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << endl;
+				cout << "Enter the number of finished courses you want add " << endl;
+				cin >> clk;
+				for (int j = 0; j < clk; j++) {
+					cout << "Enter finished course name" << endl;
+					cin >> f_courses;
+					if (check_course_name_exist(f_courses)) {
 						if (Admin::check_row_repeated(stoi(stud.get_student_id()), f_courses)) {
 							DataBase::finished_vector.push_back(make_pair(stoi(stud.get_student_id()), f_courses));
-
 						}
 						else {
-							continue;
+							cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Has already Taken " << f_courses << endl;
 						}
 					}
-
-
-
+					else {
+						cout << "\nEnter a Correct Course Name\n";
+					}
 				}
-
-
-
-				else {
-
-
-					cout << "id does not exist " << endl;
-
-				}
-
-
-
-
 			}
-			break;
-		case 2:
+			else {
+				cout << "ID does not exist " << endl;
+			}
+		}
+		break;
+	case 2:
 
-			cout << "enter the number of student you want to add  " << endl;
-			cin >> stud_num;
-			for (int i = 0; i < stud_num; i++) {
-				cout << "enter student id " << endl;
-				cin >> id_;
+		cout << "Enter student ID " << endl;
+		cin >> id_;
+		stud.set_student_id(id_);
+		student = DataBase::students_map[to_string(id_)];
+		if (Admin::check_if_id_exist(stud.get_student_id())) {
+			if (check_num_courses_can_add(id_) < 7) {
+				int available_num_courses = (7 - check_num_courses_can_add(id_));
 
-				stud.set_student_id(id_);
-				if (Admin::check_if_id_exist(stud.get_student_id())) {
-					cout << "enter the number of in progrss  courses you want add " << endl;
-					cin >> clk;
+				cout << "This Student is " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << endl;
+				cout << "You can add to this student at most " << available_num_courses << " Courses\n";
+				cout << "Enter the number of in progrss  courses you want add " << endl;
+				cin >> clk;
+				if (clk <= available_num_courses) {
 					for (int j = 0; j < clk; j++) {
-
-						cout << "enter  in progrss course name" << endl;
+						cout << "Enter Course name" << endl;
 						cin >> in_p_courses;
-						if (Admin::check_row_repeated2(stoi(stud.get_student_id()), in_p_courses)) {
-							DataBase::progress_vector.push_back(make_pair(stoi(stud.get_student_id()), in_p_courses));
+						if (check_course_name_exist(in_p_courses)) {
+							if (Admin::check_row_repeated2(stoi(stud.get_student_id()), in_p_courses)) {
+								DataBase::progress_vector.push_back(make_pair(stoi(stud.get_student_id()), in_p_courses));
+							}
+							else {
+								cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Is Taking " << f_courses << " Right Now" << endl;;
+							}
 						}
 						else {
+							cout << "\nEnter a Correct Course Name\n";
 							continue;
 						}
 					}
-
-
-
 				}
-
-
-
 				else {
-
-
-					cout << "id does not exist " << endl;
-
+					cout << "You can add to" << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " at most " << available_num_courses << " Courses\n";
 				}
-
-
-
 			}
 
-			break;
-		case 3:
-			flag = false;
-			break;
+			else {
+				cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Has already  7 Courses" << endl;
 
-
-
+			}
+		}
+		else {
+			cout << "ID does not exist " << endl;
 		}
 
+		break;
+	case 3:
+		flag = false;
+		break;
 	}
-}
 
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Admin::Addcourse() {
 	system("cls");
@@ -530,7 +488,7 @@ bool Admin::check_course_code_exist(string code) {
 	}
 	return false;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/***********************************************************/
 bool Admin::check_course_name_exist(string name) {
 	for (auto x : DataBase::courses_map) {
 		if (name == x.second.get_Course_name())
@@ -538,7 +496,7 @@ bool Admin::check_course_name_exist(string name) {
 	}
 	return false;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**********************************************************/
 bool Admin::check_cname_exist(string name) {
 	for (auto x : DataBase::courses_map) {
 		if (name == x.second.get_Course_name())
@@ -546,7 +504,7 @@ bool Admin::check_cname_exist(string name) {
 	}
 	return true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/********************************************************/
 bool Admin::check_ccode_exist(string code) {
 	for (auto x : DataBase::courses_map) {
 		if (code == x.first)
@@ -554,7 +512,7 @@ bool Admin::check_ccode_exist(string code) {
 	}
 	return true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*********************************************************/
 bool Admin::check_ccode2_exist(string code, string codeee) {
 	for (auto x : DataBase::courses_map) {
 		if (code == x.first && code != codeee)
@@ -562,7 +520,7 @@ bool Admin::check_ccode2_exist(string code, string codeee) {
 	}
 	return true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*******************************************************************/
 bool Admin::check_cname2_exist(string name, string nam) {
 	for (auto x : DataBase::courses_map) {
 		if (name == x.second.get_Course_name() && name != nam)
@@ -570,7 +528,7 @@ bool Admin::check_cname2_exist(string name, string nam) {
 	}
 	return true;
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*******************************************************************/
 void Admin::view_courses_of_stud() {
 	int stud_id;
 	cout << "Enter the ID for Student \n";
@@ -673,3 +631,14 @@ void Admin::view_studs_of_course() {
 	else
 		cout << "\nEnter a Correct Course Name\n";
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int Admin::check_num_courses_can_add(int iid){
+	int count = 0;
+	for (auto x : DataBase::progress_vector) {
+		if (iid == x.first) {
+			count++;
+		}
+	}
+	return count;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
