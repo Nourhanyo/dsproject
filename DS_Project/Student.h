@@ -33,7 +33,7 @@ public:
 	string get_student_password();
 	string get_acadamic_year();
 	/////////////////////////////////////////////////////////////////////////////
-	void edit_stud_data();
+	void edit_f_and_p_course();
 	
 	bool check_row_exist(string, string); 
 	bool check_row_exist_f(int, string);

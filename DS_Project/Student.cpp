@@ -38,13 +38,14 @@ string Student::get_student_password() {
 string Student::get_acadamic_year() {
 	return  acadamic_year;
 }
-void Student::edit_stud_data()
+void Student::edit_f_and_p_course()
 {
 	Student stud1;
 	int id;
 	int p;
 	string password;
 	int num_of_finished_c;
+	int num_of_in_p;
 	string f_course_name;
 	string in_p_name;
 	string new_f_course; 
@@ -60,6 +61,8 @@ void Student::edit_stud_data()
 	if (Student::check_row_exist(stud1.get_student_id(), stud1.get_student_password())) {
 		cout << "if you want to edit finished courses for student press 1 " << endl;
 		cout << "if you want to edit in progress  courses for student press 2 " << endl;
+		cout << "if you want to exit t press 3 " << endl;
+
 		cin >> p;
 		switch (p) {
 		case 1:
@@ -70,9 +73,9 @@ void Student::edit_stud_data()
 					cout << "enter the name of finished course you want to edit " << endl;
 					cin >> f_course_name;
 					if (Student::check_row_exist_f(id, f_course_name)) {
-						cout << "enter the name of finished course you want to edit " << endl;
+						cout << "enter the name of finished course you want  " << endl;
 						cin >> new_f_course;
-						cout << "if you want to submit click 1 " << endl;
+						cout << "if you want to submit click 1 else click any number " << endl;
 						cin >> clk;
 						if (clk == 1) {
 							int index = 0;
@@ -82,7 +85,7 @@ void Student::edit_stud_data()
 
 									break;
 
-								
+
 								}
 
 								index++;
@@ -97,17 +100,86 @@ void Student::edit_stud_data()
 						}
 						else {
 
+							cout << "index does not be  modified " << endl;
 
 
 
 						}
 					}
+					else {
+
+						cout << "course does not  exist " << endl;
+
+
+					}
 				}
 			}
+			else {
 
+
+				cout << "index out of range " << endl;
+			}
+			break;
+		case 2:
+			cout << "enter the number of  in progress courses you want to edit " << endl;
+			cin >> num_of_in_p;
+			if (num_of_in_p <= DataBase::progress_vector.capacity()) {
+				for (int i = 0; i < num_of_in_p; i++) {
+					cout << "enter the name of  in progress course you want to edit " << endl;
+					cin >> in_p_name;
+					if (Student::check_row_exist_p(id, in_p_name)) {
+						cout << "enter the name of  in progress course you want  " << endl;
+						cin >> new_p_course;
+						cout << "if you want to submit click 1 else click any number " << endl;
+						cin >> clk;
+						if (clk == 1) {
+							int index = 0;
+							for (auto x : DataBase::progress_vector) {
+								if (x.first == id && x.second == in_p_name)
+								{
+
+									break;
+
+
+								}
+
+								index++;
+
+
+							}
+							cout << index;
+							DataBase::progress_vector[index].first = id;
+							DataBase::progress_vector[index].second = new_p_course;
+
+
+						}
+						else {
+
+							cout << "index does not be  modified " << endl;
+
+
+
+						}
+					}
+					else {
+
+						cout << "course does not  exist " << endl;
+
+
+					}
+				}
+			}
+			else {
+
+
+				cout << "index out of range " << endl;
+			}
+			break;
+		case 3:
+			break;
 		default:
 			break;
-			}
+		}
 
 		
 	}
