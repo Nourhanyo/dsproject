@@ -138,6 +138,7 @@ bool Admin::check_row_repeated2(int id , string progress_course )
 }
 void Admin::add_stud()
 {
+	Student student;
 	int num_of_students;
 	int s_id; 
 	string f_name1;
@@ -145,7 +146,7 @@ void Admin::add_stud()
 	string th_name1;
 	string password1;
 	string academic_year1;
-	cout << "enter the number of stdent you want to add  " << endl;
+	cout << "enter the number of student you want to add  " << endl;
     cin >> num_of_students;
 	for (int i = 0; i < num_of_students; i++) {
 		cout << "enter the id of student" << endl;
@@ -156,7 +157,6 @@ void Admin::add_stud()
 		cin >> password1;
 		cout << "enter student acadamic_year " << endl;
 		cin >> academic_year1;
-		Student student;
 		student.set_student_id(s_id);
 		student.set_f_name(f_name1);
 		student.set_s_name(s_name1);
@@ -166,12 +166,18 @@ void Admin::add_stud()
 		if(Admin::check_id_repeated(student.get_student_id())){
 			DataBase::students_map.insert(make_pair(student.get_student_id(), student));
 			student.STUDENT_CHANGED = true;
+
 		}
 		
 
 
 	}
+	if (student.STUDENT_CHANGED) {
 
+		cout << "done" << endl;
+
+
+	}
 
 
 
@@ -188,18 +194,18 @@ void Admin::add_f_course_in_p_course()
 	int stud_num;
 	string f_courses;
 	string in_p_courses;
-	cout << "if you want to add finished courses for student press 1 " << endl;
-	cout << "if you want to add in progress  courses for student press 2 " << endl;
-	cout << "if you want to exit press 3 " << endl;
+
 	Student stud;
 	while (flag) {
-
+		cout << "if you want to add finished courses for student press 1 " << endl;
+		cout << "if you want to add in progress  courses for student press 2 " << endl;
+		cout << "if you want to exit press 3 " << endl;
 		cin >> press;
 
 		switch (press) {
 
 		case 1:
-			cout << "enter the number of stdent you want to add  " << endl;
+			cout << "enter the number of student you want to add  " << endl;
 			cin >> stud_num;
 			for (int i = 0; i < stud_num; i++) {
 				cout << "enter student id " << endl;
@@ -216,6 +222,7 @@ void Admin::add_f_course_in_p_course()
 						cin >> f_courses;
 						if (Admin::check_row_repeated(stoi(stud.get_student_id()), f_courses)) {
 							DataBase::finished_vector.push_back(make_pair(stoi(stud.get_student_id()), f_courses));
+
 						}
 						else {
 							continue;
@@ -242,7 +249,7 @@ void Admin::add_f_course_in_p_course()
 			break;
 		case 2:
 
-			cout << "enter the number of stdent you want to add  " << endl;
+			cout << "enter the number of student you want to add  " << endl;
 			cin >> stud_num;
 			for (int i = 0; i < stud_num; i++) {
 				cout << "enter student id " << endl;

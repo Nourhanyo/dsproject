@@ -16,12 +16,12 @@ int main() {
 	d.load_DB();
 	Student s;
 	Admin ad;
-    cout << "If you want to add student data press 1 " << endl;
-    cout << "If you want to add student  finished and in  progress course  press 2 " << endl;
+   
 
     while (flag) {
 
-
+        cout << "If you want to add student data press 1 " << endl;
+        cout << "If you want to add student  finished and in  progress course  press 2 " << endl;
         cin >> press;
         switch (press) {
 
@@ -36,6 +36,7 @@ int main() {
 
             flag = false;
             break;
+            system("pause");
 
         default:
 
