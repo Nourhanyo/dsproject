@@ -36,9 +36,274 @@ string Student::get_student_password() {
 string Student::get_acadamic_year() {
 	return  acadamic_year;
 }
+void Student::edit_stud_data()
+{
+	Student stud2;
+	int id;
+	int p;
+	string password1;
+	string new_password;
+	int clk1;
+	string f_name1;
+	string s_name1;
+	string th_name1;
+	string academic_year1;
+	cout << "enter the password of student you want to edit " << endl;
+	cin >> password1;
+	cout << "enter the id of student you want to edit " << endl;
+	cin >> id;
+	stud2.set_student_id(id);
+	if (Student::check_row_exist(stud2.get_student_id(), password1)) {
+		cout << "if you want to editt password   for student press 1 " << endl;
+		cout << "if you want to exit  press 2 " << endl;
+		cin >> p;
+		auto b = DataBase::students_map.find(stud2.get_student_id());
+
+		f_name1 = b->second.get_f_name();
+		s_name1 = b->second.get_s_name();
+		th_name1 = b->second.get_th_name();
+		academic_year1 = b->second.get_acadamic_year();
+		stud2.set_f_name(f_name1);
+		stud2.set_s_name(s_name1);
+		stud2.set_th_name(th_name1);
+		stud2.set_acadamic_year(academic_year1);		
+		switch (p) {
+		case 1:
+			cout << "enter the new password you want  " << endl;
+			cin >> new_password;
+			stud2.set_student_password(new_password);
+			cout << "if you want to submit click 1 else click any number " << endl;
+			cin >> clk1;
+			if (clk1 == 1) {
+				
+				DataBase::students_map.erase(stud2.get_student_id());
+				DataBase::students_map.insert(make_pair(stud2.get_student_id(), stud2));
+				stud2.STUDENT_CHANGED = true;
+			}
+			else {
+
+				cout << "index does not be  modified " << endl;
+
+
+
+			}
+		case 2:
+			break;
+		
+		
+	default:
+			break;
+		}
+	}
+	else {
+
+		cout << "student  does not  exist " << endl;
+
+
+	}
+}
+void Student::edit_f_and_p_course()
+{
+	Student stud1;
+	int id;
+	int p;
+	string password;
+	int num_of_finished_c;
+	int num_of_in_p;
+	string f_course_name;
+	string in_p_name;
+	string new_f_course; 
+	string new_p_course;
+
+	int clk;
+	cout << "enter the password of student you want to edit " << endl;
+	cin >> password;
+	stud1.set_student_password(password);
+	cout << "enter the id of student you want to edit " << endl;
+	cin >> id;
+	stud1.set_student_id(id);
+	if (Student::check_row_exist(stud1.get_student_id(), stud1.get_student_password())) {
+		cout << "if you want to edit finished courses for student press 1 " << endl;
+		cout << "if you want to edit in progress  courses for student press 2 " << endl;
+		cout << "if you want to exit t press 3 " << endl;
+
+		cin >> p;
+		switch (p) {
+		case 1:
+			cout << "enter the number of  finished courses you want to edit " << endl;
+			cin >> num_of_finished_c;
+			if (num_of_finished_c <= DataBase::finished_vector.capacity()) {
+				for (int i = 0; i < num_of_finished_c; i++) {
+					cout << "enter the name of finished course you want to edit " << endl;
+					cin >> f_course_name;
+					if (Student::check_row_exist_f(id, f_course_name)) {
+						cout << "enter the name of finished course you want  " << endl;
+						cin >> new_f_course;
+						cout << "if you want to submit click 1 else click any number " << endl;
+						cin >> clk;
+						if (clk == 1) {
+							int index = 0;
+							for (auto x : DataBase::finished_vector) {
+								if (x.first == id && x.second == f_course_name)
+								{
+
+									break;
+
+
+								}
+
+								index++;
+
+
+							}
+							cout << index;
+							DataBase::finished_vector[index].first = id;
+							DataBase::finished_vector[index].second = new_f_course;
+
+
+						}
+						else {
+
+							cout << "index does not be  modified " << endl;
+
+
+
+						}
+					}
+					else {
+
+						cout << "course does not  exist " << endl;
+
+
+					}
+				}
+			}
+			else {
+
+
+				cout << "index out of range " << endl;
+			}
+			break;
+		case 2:
+			cout << "enter the number of  in progress courses you want to edit " << endl;
+			cin >> num_of_in_p;
+			if (num_of_in_p <= DataBase::progress_vector.capacity()) {
+				for (int i = 0; i < num_of_in_p; i++) {
+					cout << "enter the name of  in progress course you want to edit " << endl;
+					cin >> in_p_name;
+					if (Student::check_row_exist_p(id, in_p_name)) {
+						cout << "enter the name of  in progress course you want  " << endl;
+						cin >> new_p_course;
+						cout << "if you want to submit click 1 else click any number " << endl;
+						cin >> clk;
+						if (clk == 1) {
+							int index = 0;
+							for (auto x : DataBase::progress_vector) {
+								if (x.first == id && x.second == in_p_name)
+								{
+
+									break;
+
+
+								}
+
+								index++;
+
+
+							}
+							cout << index;
+							DataBase::progress_vector[index].first = id;
+							DataBase::progress_vector[index].second = new_p_course;
+
+
+						}
+						else {
+
+							cout << "index does not be  modified " << endl;
+
+
+
+						}
+					}
+					else {
+
+						cout << "course does not  exist " << endl;
+
+
+					}
+				}
+			}
+			else {
+
+
+				cout << "index out of range " << endl;
+			}
+			break;
+		case 3:
+			break;
+		default:
+			break;
+		}
+
+		
+	}
+}
+bool Student::check_row_exist(string id, string password)
+{
+	bool flag = false;
+
+
+	for (auto x : DataBase::students_map) {
+		if (id == x.first && password == x.second.get_student_password()) {
+
+			flag = true;
+		}
+
+
+	}
+
+	return flag;
+}
+bool Student::check_row_exist_f( int id , string f_course  )
+{
+	bool flag = false;
+
+
+	for (auto x : DataBase::finished_vector) {
+		if (id == x.first && f_course == x.second) {
+
+			flag = true;
+		}
+
+
+	}
+
+	return flag;
+}
+bool Student::check_row_exist_p(int id , string in_p_course  )
+{
+	bool flag = false;
+
+
+	for (auto x : DataBase::progress_vector) {
+		if (id == x.first && in_p_course == x.second) {
+
+			flag = true;
+		}
+
+
+	}
+
+	return flag;
+}
+
+
+
+
 string Student::get_student_id() {
 	return   to_string(id);
 }
+
 ///////////////////////////////////////////////////////////////////////////
 void Student::set_student_id(int idd) {
 	id = idd;
@@ -58,6 +323,7 @@ void Student::set_student_password(string pass) {
 void Student::set_acadamic_year(string aca) {
 	acadamic_year = aca;
 }
+
 ////////////////////////////////////////////////////////////////////////
 void Student::View_CoursesDetails() {
 	system("cls");

@@ -39,6 +39,13 @@ public:
 	void fill_prerequisite_list();
 	~Admin();
 	/////////////////////////////////////////////////////////////
+	void add_stud();
+	void add_f_course_in_p_course();
+	bool check_id_repeated(string);
+	bool check_if_id_exist(string);
+	bool check_row_repeated(int,string);
+	bool check_row_repeated2(int, string);
+
 	void Addcourse();
 	void ModifyCourses();
 	/////////////////////////////////////////////////////////////
