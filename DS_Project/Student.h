@@ -10,7 +10,7 @@ using namespace std;
 class Student
 {
 private:
-	static int id;
+	int id;
 	string f_name;
 	string s_name;
 	string th_name;

@@ -169,7 +169,7 @@ void Admin::Edit() {
 	oldname = it->second.get_Course_name();
 	oldhours = it->second.get_hours();
 	oldmaxstud = it->second.get_max_numstud();
-	if (check_course_exist(codeee)) {
+	if (check_course_code_exist(codeee)) {
 		cout << "  \n";
 		cout << "Enter New Course Name : \n";
 		cin >> nam;
@@ -264,7 +264,7 @@ void Admin::Delete() {
 	cout << "*********************************DELETE PAGE *************************************\n\n\n";
 	cout << "Enter COURSE code YOU WANT to DELETE ? ....\n";
 	cin >> code;
-	if (check_course_exist(code)) {
+	if (check_course_code_exist(code)) {
 		course.set_code(code);
 		DataBase::courses_map.erase(course.get_code());
 		course.COURSE_CHANGED = true;
@@ -294,9 +294,17 @@ void Admin::Delete() {
 	}
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool Admin::check_course_exist(string code) {
+bool Admin::check_course_code_exist(string code) {
 	for (auto x : DataBase::courses_map) {
 		if (code == x.first)
+			return true;
+	}
+	return false;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool Admin::check_course_name_exist(string name) {
+	for (auto x : DataBase::courses_map) {
+		if (name == x.second.get_Course_name())
 			return true;
 	}
 	return false;
@@ -338,61 +346,101 @@ void Admin::view_courses_of_stud() {
 	int stud_id;
 	cout << "Enter the ID for Student \n";
 	cin >> stud_id;
-	if (DataBase::students_map.size() > stud_id) {
+	if (DataBase::students_map.size() >= stud_id) {
 		view_stud_prog_courses(stud_id);
 		view_stud_finished_courses(stud_id);
 	}
-	else{
+	else {
 		cout << "This ID Has NO Student...\n";
 	}
 }
 /****************************************/
 void Admin::view_stud_prog_courses(int id_) {
+	vector<string>prog_course;
 	Student student = DataBase::students_map[to_string(id_)];
-	cout << "The Courses in Progress for " <<student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " are:\n";
-	int count = 0;
 	for (auto x : DataBase::progress_vector) {
-		if (id_ == x.first){
-			cout <<count<<"- " << x.second;
+		if (id_ == x.first) {
+			prog_course.push_back(x.second);
+		}
+	}
+	if (prog_course.size() != 0) {
+		cout << "The Courses in Progress for " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " are:\n";
+		int count = 1;
+		for (auto x : prog_course) {
+			cout << count << "- " << x << endl;
 			count++;
 		}
 	}
+	else
+		cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Has NO Progress Courses\n";
 }
 /****************************************************/
 void Admin::view_stud_finished_courses(int id_) {
-
+	vector<string>finish_course;
+	Student student = DataBase::students_map[to_string(id_)];
 	for (auto x : DataBase::finished_vector) {
-		if (id_ == x.first){
-			cout << "the courses finsished are\n" << x.second;
+		if (id_ == x.first) {
+			finish_course.push_back(x.second);
 		}
 	}
+	if (finish_course.size() != 0) {
+		cout << "The Courses in Progress for " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " are:\n";
+		int count = 1;
+		for (auto x : finish_course) {
+			cout << count << "- " << x << endl;
+			count++;
+		}
+	}
+	else
+		cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Has NO Finished Courses\n";
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Admin::view_studs_of_course() {
 	string course_name;
-	vector <int>id;
+	vector <int>id_prog;
+	vector <int>id_finish;
 	cout << "Enter the course name\n";
 	cin >> course_name;
-
-	for (auto x : DataBase::progress_vector) {
-		if (course_name == x.second)
-		{
-			id.push_back(x.first);
+	if (check_course_name_exist(course_name)) {
+		for (auto x : DataBase::progress_vector) {
+			if (course_name == x.second)
+			{
+				id_prog.push_back(x.first);
+			}
 		}
+		for (auto x : DataBase::finished_vector) {
+			if (course_name == x.second)
+			{
+				id_finish.push_back(x.first);
+			}
+		}
+		if (id_prog.size() != 0) {
+			cout << "Students Who Are Taking " << course_name << " Right Now:\n\n";
+			cout << "ID             Full Nmae\n";
+			cout << "-------------------------------\n";
+			for (int i = 0; i < id_prog.size(); i++)
+			{
+				Student student = DataBase::students_map[to_string(id_prog[i])];
+				cout << student.get_student_id() << "    -->   " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << endl;
+			}
+		}
+		else
+			cout << "No One Is Taking " << course_name << " Right Now\n\n";
+		/********************************************************************************/
+		cout << "\n-----------------------------------------------------------------------------------\n";
+		if (id_finish.size() != 0) {
+			cout << "\nStudents Who Finished " << course_name << " Before:\n\n";
+			cout << "ID             Full Nmae\n";
+			cout << "-------------------------------\n";
+			for (int i = 0; i < id_finish.size(); i++)
+			{
+				Student student = DataBase::students_map[to_string(id_prog[i])];
+				cout << student.get_student_id() << "    -->   " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << endl;
+			}
+		}
+		else
+			cout << "No One Finished " << course_name << " Before\n\n";
 	}
-	
-	for (int i = 0; i < id.size(); i++)
-	{
-		Student student=DataBase::students_map[to_string(id[i])];
-		cout << student.get_f_name() << endl;
-	}
-	//for (auto x : DataBase::students_map) {
-	//	for (int i = 0; i < id.size(); i++)
-	//	{
-	//		if (stoi(x.first) == id[i]){
-	//			cout << x.second.get_f_name() <<" " << x.second.get_s_name() << " " << x.second.get_th_name()<<endl;
-	//		}
-	//	}
-	//}
+	else
+		cout << "\nEnter a Correct Course Name\n";
 }
-	

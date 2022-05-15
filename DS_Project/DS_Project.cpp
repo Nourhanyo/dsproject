@@ -14,7 +14,7 @@ int main() {
 	d.load_DB();
 	Student s;
 	Admin ad;
-	ad.view_stud_prog_courses(1);
+	ad.view_studs_of_course();
 	//s.view_available_courses();
 	//d.update_DB();
 	return 0;

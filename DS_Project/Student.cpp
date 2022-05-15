@@ -12,14 +12,12 @@ vector<string> remainCrs_vec;
 vector<string> AvailabeCrs_vec;
 sqlite3* DB;
 bool Student::STUDENT_CHANGED = false;
-int Student::id = 0;/*for static variable (id)*/
-Student::Student(int id, string fnam, string snam, string thnam, string pass, string aca) {
-	this->id = id;
+Student::Student(int idd, string fnam, string snam, string thnam, string pass, string aca) {
+	id = idd;
 	f_name = fnam;
 	s_name = snam;
 	th_name = thnam;
 	password = pass;
-	id++;
 }
 Student::Student() {}
 ///////////////////////////////////////////////////////////////////////////
@@ -85,7 +83,7 @@ void Student::View_CoursesDetails() {
 }
 ///////////////////////////////////////////////////////////////////////////
 void Student::view_stud_courses() {
-	cout << endl << "Enter id: ";
+	cout << endl << "Enter id: ";//take from login
 	int id_;
 	cin >> id_;
 	view_prog_courses(id_);
@@ -93,25 +91,41 @@ void Student::view_stud_courses() {
 }
 /*****************************************/
 void Student::view_prog_courses(int iid) {
-	cout << "Your Progress courses are :\n";
-	int count = 0;
+	vector<string>prog_course;
 	for (auto x : DataBase::progress_vector) {
 		if (iid == x.first) {
-			count++;
-			cout << count << "-" << x.second << endl;
+			prog_course.push_back(x.second);
 		}
 	}
+	if (prog_course.size() != 0) {
+		cout << "Your Courses in Progress are: \n";
+		int count = 1;
+		for (auto x : prog_course) {
+			cout << count << "- " << x << endl;
+			count++;
+		}
+	}
+	else
+		cout << " You Has NO Progress Courses\n";
 }
 /*************************************************/
 void Student::vies_finished_courses(int iid) {
-	cout << "Your Finished courses are :\n";
-	int count = 0;
-	for (auto x : DataBase::finished_vector) {
+	vector<string>finish_course;
+	for (auto x : DataBase::progress_vector) {
 		if (iid == x.first) {
-			count++;
-			cout << count << "-" << x.second << endl;
+			finish_course.push_back(x.second);
 		}
 	}
+	if (finish_course.size() != 0) {
+		cout << "Your Finished Courses are: \n";
+		int count = 1;
+		for (auto x : finish_course) {
+			cout << count << "- " << x << endl;
+			count++;
+		}
+	}
+	else
+		cout << " You Has NO Finished Courses\n";
 }
 ///////////////////////////////////////////////////////////////////////////
 void Student::Request_course(int iid) {//Before it ->view available courses
@@ -250,7 +264,7 @@ void Student::fill_pre_list()
 	}
 }
 ///////////////////////////////////////////////////////////////////////////
-void Student::get_finished_courses(int iid){
+void Student::get_finished_courses(int iid) {
 	for (auto x : DataBase::finished_vector)
 	{
 		if (iid == x.first) { finishedCourses_forStud_vec.push_back(x.second); }

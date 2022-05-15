@@ -14,7 +14,8 @@ private:
 	string password;
 	void Delete();
 	void Edit();
-	bool check_course_exist(string);
+	bool check_course_code_exist(string);
+	bool check_course_name_exist(string);
 	bool check_cname_exist(string);
 	bool check_ccode_exist(string);
 	bool check_ccode2_exist(string, string);
