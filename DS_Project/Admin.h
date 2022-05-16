@@ -22,6 +22,11 @@ private:
 	bool check_cname2_exist(string, string);
 	bool check_num_hours(int hours);
 	bool check_num_maxstud(int numstud);
+	bool check_id_repeated(string);
+	bool check_if_id_exist(string);
+	bool check_row_repeated(int, string);
+	bool check_row_repeated2(int, string);
+	int check_num_courses_can_add(int);
 public:
 	static bool ADMIN_CHANGED;
 	static bool PRE_LIST_CHANGED;
@@ -42,10 +47,6 @@ public:
 	/////////////////////////////////////////////////////////////
 	void add_stud();
 	void add_f_course_in_p_course();
-	bool check_id_repeated(string);
-	bool check_if_id_exist(string);
-	bool check_row_repeated(int, string);
-	bool check_row_repeated2(int, string);
 	/////////////////////////////////////////////////////////////
 	void Addcourse();
 	void ModifyCourses();
@@ -56,5 +57,4 @@ public:
 	/////////////////////////////////////////////////////////////
 	void view_studs_of_course();
 	/////////////////////////////////////////////////////////////
-	int check_num_courses_can_add(int);
 };

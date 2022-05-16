@@ -17,8 +17,38 @@ int main() {
 	d.load_DB();
 	Student s;
 	Admin ad;
-	Menu m;
-	m.login();
+	cout << "If you want to add student data click  1 " << endl;
+	cout << "If you want to add student  finished and in  progress course  click 2 " << endl;
+	cout << "If you want to edit  student data click 3 " << endl;
+	cout << "If you want to edit  student  finished and in  progress course  click  4  " << endl;
+	cout << "If you want to exit click 5 " << endl;
+
+	cin >> press;
+	switch (press) {
+	case 1:
+		ad.add_stud();
+		break;
+	case 2:
+		ad.add_f_course_in_p_course();
+		break;
+	case  3:
+		s.edit_stud_data();
+		break;
+	case 4:
+		s.edit_f_and_p_course();
+		break;
+	case 5:
+		flag = false;
+		break;
+		system("pause");
+
+	default:
+
+		cout << " wrong choice " << endl;
+		break;
+	}
+
+	//m.login();
 
 	
 		 
@@ -34,37 +64,7 @@ int main() {
 
 
 
-/*cout << "If you want to add student data click  1 " << endl;
-		cout << "If you want to add student  finished and in  progress course  click 2 " << endl;
-		cout << "If you want to edit  student data click 3 " << endl;
-		cout << "If you want to edit  student  finished and in  progress course  click  4  " << endl;
-		cout << "If you want to exit click 5 " << endl;
 
-		cin >> press;
-		switch (press) {
-		case 1:
-			ad.add_stud();
-			break;
-		case 2:
-			ad.add_f_course_in_p_course();
-			break;
-		case  3:
-			s.edit_stud_data();
-			break;
-		case 4:
-			s.edit_f_and_p_course();
-			break;
-		case 5:
-			flag = false;
-			break;
-			system("pause");
-
-		default:
-
-			cout << " wrong choice " << endl;
-			break;
-		}
-	*/
 
 	//ad.ModifyCourses();
 	//s.view_available_courses();
