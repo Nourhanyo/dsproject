@@ -11,7 +11,7 @@ sqlite3* dd;
 using namespace std;
 bool Admin::ADMIN_CHANGED = false;
 bool Admin::PRE_LIST_CHANGED = false;
-Admin::Admin(int iid,string Fnam, string lName, string pass) {
+Admin::Admin(int iid, string Fnam, string lName, string pass) {
 	id = iid;
 	get_fname() = Fnam;
 	get_lname() = lName;
@@ -125,9 +125,7 @@ bool Admin::check_row_repeated2(int id, string progress_course)
 /************************************************************************/
 void Admin::add_stud()
 {
-	Student student;
 	int num_of_students;
-	int s_id;
 	string f_name1;
 	string s_name1;
 	string th_name1;
@@ -136,20 +134,15 @@ void Admin::add_stud()
 	cout << "Enter the number of students you want to add  " << endl;
 	cin >> num_of_students;
 	for (int i = 0; i < num_of_students; i++) {
-		cout << "\t\t\t\t" << i+1 <<endl;
-		cout << "Enter student Full Name: " ;
+		cout << "\t\t\t\t" << i + 1 << endl;
+		cout << "Enter student Full Name: ";
 		cin >> f_name1 >> s_name1 >> th_name1;
-		cout << "\nEnter student password: " ;
+		cout << "\nEnter student password: ";
 		cin >> password1;
 		cout << "\nEnter student acadamic_year: ";
 		cin >> academic_year1;
-		student.set_student_id(DataBase::students_map.size() + 1);
-		student.set_f_name(f_name1);
-		student.set_s_name(s_name1);
-		student.set_th_name(th_name1);
-		student.set_student_password(password1);
-		student.set_acadamic_year(academic_year1);
-		DataBase::students_map.insert(make_pair(student.get_student_id(), student));
+		Student student(DataBase::students_map.size() + 1, f_name1, s_name1, th_name1, password1, academic_year1);
+		DataBase::students_map.insert(make_pair(to_string(DataBase::students_map.size() + 1), student));
 		student.STUDENT_CHANGED = true;
 		cout << "\n\n-----------------------------------------------------------------------------------------------\n\n";
 	}
@@ -260,37 +253,31 @@ void Admin::add_f_course_in_p_course()
 		flag = false;
 		break;
 	}
-
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Admin::Addcourse() {
 	system("cls");
 	cout << "******************************Add Course Page******************************\n\n\n";
-	Course course;
 	string cod, nam;
 	int maxstud, ho;
 	cout << "Enter Course Code : \n";
 	cin >> cod;
-	course.set_code(cod);
-
-	if (check_ccode_exist(course.get_code())) {
+	if (check_ccode_exist(cod)) {
 		cout << "  \n\n";
 		cout << "Enter Course Name : \n";
 		cin >> nam;
-		course.set_Course_Name(nam);
-		if (check_cname_exist(course.get_Course_name())) {
+		if (check_cname_exist(nam)) {
 			cout << "  \n\n";
 			cout << "Enter Max_numstud  : \n";
 			cin >> maxstud;
-			course.set_max_numstud(maxstud);
-			if (check_num_maxstud(course.get_max_numstud())) {
+			if (check_num_maxstud(maxstud)) {
 				cout << "  \n\n";
 				cout << "Enter Course hours : \n";
 				cin >> ho;
-				course.set_hours(ho);
-				if (check_num_hours(course.get_hours())) {
+				if (check_num_hours(ho)) {
 					cout << "  \n\n";
-					DataBase::courses_map.insert(make_pair(course.get_code(), course));
+					Course course(cod, nam, ho, maxstud);
+					DataBase::courses_map.insert(make_pair(cod, course));
 					/////
 					//insert prerequest courses after sohyp respond ?
 					////
@@ -309,16 +296,13 @@ void Admin::Addcourse() {
 				system("pause 0");
 				system("cls");
 				Addcourse();///////////////////////////////change/>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 			}
 		}
-
 		else {
 			cout << "This Name Is Duplicated...\n";
 			system("pause 0");
 			system("cls");
 			Addcourse();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
-
 		}
 	}
 	else {
@@ -361,7 +345,6 @@ void Admin::ModifyCourses() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Admin::Edit() {
 	system("cls");
-	Course course;
 	string nam = "";
 	string cod = "";
 	string oldname;
@@ -384,26 +367,23 @@ void Admin::Edit() {
 		cout << "  \n";
 		cout << "Enter New Course Name : \n";
 		cin >> nam;
-		course.set_Course_Name(nam);
-		if (check_cname2_exist(course.get_Course_name(), oldname)) {
+		if (check_cname2_exist(nam, oldname)) {
 			cout << "  \n";
 			cout << "Enter New Course Code : \n";
 			cin >> cod;
-			course.set_code(cod);
-			if (check_ccode2_exist(course.get_code(), codeee)) {
+			if (check_ccode2_exist(cod, codeee)) {
 				cout << "  \n";
 				cout << "Enter New Course hours : \n";
 				cin >> hour;
-				course.set_hours(hour);
-				if (check_num_hours(course.get_hours())) {
+				if (check_num_hours(hour)) {
 					cout << "  \n";
 					cout << "Enter New max_numstud : \n";
 					cin >> maxx;
-					course.set_max_numstud(maxx);
-					if (check_num_maxstud(course.get_max_numstud())) {
+					if (check_num_maxstud(maxx)) {
 						cout << "\n";
 						DataBase::courses_map.erase(codeee);
-						DataBase::courses_map.insert(make_pair(course.get_code(), course));
+						Course course(cod, nam, hour, maxx);
+						DataBase::courses_map.insert(make_pair(cod, course));
 						course.COURSE_CHANGED = true;
 						cout << "Course Updated succesfully \n\n";
 						cout << "1-if you Wanna Undo your Old Course Data\n\n"
@@ -464,7 +444,6 @@ void Admin::Edit() {
 				system("pause 0");
 				system("cls");
 				ModifyCourses();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
-
 			}
 		}
 		else {
@@ -531,7 +510,6 @@ bool Admin::check_course_name_exist(string name) {
 	for (auto x : DataBase::courses_map) {
 		if (name == x.second.get_Course_name())
 			return true;
-		
 	}
 	return false;
 }
@@ -671,7 +649,7 @@ void Admin::view_studs_of_course() {
 		cout << "\nEnter a Correct Course Name\n";
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int Admin::check_num_courses_can_add(int iid){
+int Admin::check_num_courses_can_add(int iid) {
 	int count = 0;
 	for (auto x : DataBase::progress_vector) {
 		if (iid == x.first) {
@@ -685,7 +663,6 @@ bool Admin::check_num_hours(int hours) {
 	Course course;
 	const int max_hours = 5;
 	if (hours <= max_hours) {
-
 		return true;
 	}
 	else {
@@ -697,7 +674,6 @@ bool Admin::check_num_maxstud(int numstud) {
 	Course course;
 	const int maxnum_of_stud = 100000;
 	if (numstud <= maxnum_of_stud) {
-
 		return true;
 	}
 	else {

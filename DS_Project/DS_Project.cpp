@@ -50,21 +50,9 @@ int main() {
 
 	//m.login();
 
-	
-		 
 	d.update_DB();
 	return 0;
 }
 
-
-
-
-
-
-
-
-
-
-
-	//ad.ModifyCourses();
-	//s.view_available_courses();
+//ad.ModifyCourses();
+//s.view_available_courses();
