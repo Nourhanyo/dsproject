@@ -5,6 +5,7 @@
 #include "Student.h"
 #include"Course.h"
 #include "DataBase.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -16,9 +17,24 @@ int main() {
 	d.load_DB();
 	Student s;
 	Admin ad;
+	Menu m;
+	m.login();
 
 	
-		cout << "If you want to add student data click  1 " << endl;
+		 
+	d.update_DB();
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+/*cout << "If you want to add student data click  1 " << endl;
 		cout << "If you want to add student  finished and in  progress course  click 2 " << endl;
 		cout << "If you want to edit  student data click 3 " << endl;
 		cout << "If you want to edit  student  finished and in  progress course  click  4  " << endl;
@@ -48,10 +64,7 @@ int main() {
 			cout << " wrong choice " << endl;
 			break;
 		}
-	
+	*/
 
 	//ad.ModifyCourses();
 	//s.view_available_courses();
-	d.update_DB();
-	return 0;
-}

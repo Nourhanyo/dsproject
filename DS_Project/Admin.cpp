@@ -279,23 +279,42 @@ void Admin::Addcourse() {
 			cout << "Enter Max_numstud  : \n";
 			cin >> maxstud;
 			course.set_max_numstud(maxstud);
-			cout << "  \n\n";
-			cout << "Enter Course hours : \n";
-			cin >> ho;
-			course.set_hours(ho);
-			cout << "  \n\n";
-			DataBase::courses_map.insert(make_pair(course.get_code(), course));
-			/////
-			//insert prerequest courses after sohyp respond ?
-			////
-			cout << "Course Data inserted successfully \n";
-			course.COURSE_CHANGED = true;
+			if (check_num_maxstud(course.get_max_numstud())) {
+				cout << "  \n\n";
+				cout << "Enter Course hours : \n";
+				cin >> ho;
+				course.set_hours(ho);
+				if (check_num_hours(course.get_hours())) {
+					cout << "  \n\n";
+					DataBase::courses_map.insert(make_pair(course.get_code(), course));
+					/////
+					//insert prerequest courses after sohyp respond ?
+					////
+					cout << "Course Data inserted successfully \n";
+					course.COURSE_CHANGED = true;
+				}
+				else {
+					cout << "the Number of hours Exceeds the limits (5)...\n";
+					system("pause 0");
+					system("cls");
+					Addcourse();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
+				}
+			}
+			else {
+				cout << "the Number of Student Exceeds the limits (10,000)...\n";
+				system("pause 0");
+				system("cls");
+				Addcourse();///////////////////////////////change/>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+			}
 		}
+
 		else {
 			cout << "This Name Is Duplicated...\n";
 			system("pause 0");
 			system("cls");
 			Addcourse();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
+
 		}
 	}
 	else {
@@ -352,12 +371,12 @@ void Admin::Edit() {
 	cout << "******************************Edite_PAGE************************************\n\n\n";
 	cout << "Enter Course Code  you want to edite ?: \n";
 	cin >> codeee;
-	auto it = DataBase::courses_map.find(codeee);
-	oldcode = it->first;
-	oldname = it->second.get_Course_name();
-	oldhours = it->second.get_hours();
-	oldmaxstud = it->second.get_max_numstud();
 	if (check_course_code_exist(codeee)) {
+		auto it = DataBase::courses_map.find(codeee);
+		oldcode = it->first;
+		oldname = it->second.get_Course_name();
+		oldhours = it->second.get_hours();
+		oldmaxstud = it->second.get_max_numstud();
 		cout << "  \n";
 		cout << "Enter New Course Name : \n";
 		cin >> nam;
@@ -372,72 +391,87 @@ void Admin::Edit() {
 				cout << "Enter New Course hours : \n";
 				cin >> hour;
 				course.set_hours(hour);
-				cout << "  \n";
-				cout << "Enter New max_numstud : \n";
-				cin >> maxx;
-				course.set_max_numstud(maxx);
-
-				cout << "\n";
-
-				DataBase::courses_map.erase(codeee);
-				DataBase::courses_map.insert(make_pair(course.get_code(), course));
-				course.COURSE_CHANGED = true;
-				cout << "Course Updated succesfully \n\n";
-				cout << "1-if you Wanna Undo your Old Course Data\n\n"
-					<< "2-if you Wanna go back choose\n\n"
-					<< "3-if you Wanna go Home choose\n\n"
-					<< "if you Wanna Exit choose Else number\n\n";
-				cout << "ENTER YOUR Choice ...\n";
-				cin >> choice;
-				switch (choice)
-				{
-				case 1:
-					DataBase::courses_map.erase(course.get_code());
-					course.set_Course_Name(oldname);
-					course.set_code(oldcode);
-					course.set_hours(oldhours);
-					course.set_max_numstud(oldmaxstud);
-					DataBase::courses_map.insert(make_pair(course.get_code(), course));
-					system("cls");
-					cout << endl;
-					cout << "Old Course Data undo succesfully\n\n";
-					cout << "press Enter to go back Modify Course Menu !\n\n";
+				if (check_num_hours(course.get_hours())) {
+					cout << "  \n";
+					cout << "Enter New max_numstud : \n";
+					cin >> maxx;
+					course.set_max_numstud(maxx);
+					if (check_num_maxstud(course.get_max_numstud())) {
+						cout << "\n";
+						DataBase::courses_map.erase(codeee);
+						DataBase::courses_map.insert(make_pair(course.get_code(), course));
+						course.COURSE_CHANGED = true;
+						cout << "Course Updated succesfully \n\n";
+						cout << "1-if you Wanna Undo your Old Course Data\n\n"
+							<< "2-if you Wanna go back choose\n\n"
+							<< "3-if you Wanna go Home choose\n\n"
+							<< "if you Wanna Exit choose Else number\n\n";
+						cout << "ENTER YOUR Choice ...\n";
+						cin >> choice;
+						switch (choice)
+						{
+						case 1:
+							DataBase::courses_map.erase(course.get_code());
+							course.set_Course_Name(oldname);
+							course.set_code(oldcode);
+							course.set_hours(oldhours);
+							course.set_max_numstud(oldmaxstud);
+							DataBase::courses_map.insert(make_pair(course.get_code(), course));
+							system("cls");
+							cout << endl;
+							cout << "Old Course Data undo succesfully\n\n";
+							cout << "press Enter to go back Modify Course Menu !\n\n";
+							system("pause 0");
+							ModifyCourses();
+							break;
+						case 2:
+							ModifyCourses();
+							break;
+						case 3:
+							/*
+							* Admin Home()
+							*/
+							break;
+						default:
+							system("cls");
+							cout << "                                                                      \n\n\n";
+							cout << "                                  ______________________________________\n\n";
+							cout << "                                  ************ See You Soon ************\n";
+							cout << "                                  ______________________________________\n\n\n\n";
+							break;
+						}
+					}
+					else {
+						cout << "the Number of Student Exceeds the limits (10,000)...\n";
+						system("pause 0");
+						system("cls");
+						ModifyCourses();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
+					}
+				}
+				else {
+					cout << "the Number of hours Exceeds the limits (5)...\n";
 					system("pause 0");
-					ModifyCourses();
-					break;
-				case 2:
-					ModifyCourses();
-					break;
-				case 3:
-					/*
-					* Admin Home()
-					*/
-					break;
-				default:
 					system("cls");
-					cout << "                                                                      \n\n\n";
-					cout << "                                  ______________________________________\n\n";
-					cout << "                                  ************ See You Soon ************\n";
-					cout << "                                  ______________________________________\n\n\n\n";
-					break;
+					ModifyCourses();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
 				}
 			}
 			else {
 				cout << "This Code Is Duplicated...\n";
 				system("pause 0");
 				system("cls");
-				Edit();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
+				ModifyCourses();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
+
 			}
 		}
 		else {
 			cout << "This Name Is Duplicated...\n";
 			system("pause 0");
 			system("cls");
-			Edit();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
+			ModifyCourses();///////// &&&&&&&&&&        change to     +++++    <<<<<<<<<<<<<<<<<<<<<<<<<
 		}
 	}
 	else {
-		cout << "This Code Is Incorrect..\n";
+		cout << "This Code Not Found..!\n";
 		system("pause 0");
 		system("cls");
 		ModifyCourses();
@@ -642,3 +676,27 @@ int Admin::check_num_courses_can_add(int iid){
 	return count;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+bool Admin::check_num_hours(int hours) {
+	Course course;
+	const int max_hours = 5;
+	if (hours <= max_hours) {
+
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+///////////////////////////////////////////////////////////////////////////
+bool Admin::check_num_maxstud(int numstud) {
+	Course course;
+	const int maxnum_of_stud = 100000;
+	if (numstud <= maxnum_of_stud) {
+
+		return true;
+	}
+	else {
+		return false;
+	}
+}

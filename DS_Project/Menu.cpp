@@ -7,86 +7,61 @@
 #include"sqlite/sqlite3.h"
 #include <vector>
 #include <algorithm>
+#include "DataBase.h"
 vector<string> LOGDATA;
 
-static int callbacklogin(void* data, int argc, char** argv, char** azColName)
-{
-	string uname = argv[0];
-	string upass = argv[1];
-	LOGDATA.push_back(uname);
-	LOGDATA.push_back(upass);
 
-	return 0;
-}
 
 void Menu::login() {
-	string uname, upass, un, up;
+	string name, pass;
 
-	sqlite3* DB;
-	int exit = 0;
-	exit = sqlite3_open("myDb.db", &DB);
-	string data("CALLBACK FUNCTION");
-	string sql;
 	system("cls");
 	cout << "\n";
-	cout << "                           ***************\n";
-	cout << "    ************           * Student Ums *           *************\n ";
-	cout << "                          ***************\n";
-	cout << "              ********************************************\n";
-	cout << "              ****************login page******************\n";
-	cout << "              ********************************************\n\n";
+	cout << "                        ************           * Student Ums *           *************\n ";
+	cout << endl;
+	cout << "                                           **********************\n";
+	cout << "                                           *     login page     *\n";
+	cout << "                                           **********************\n";
+
 	cout << "Enter your username : \n";
-	cin >> uname;
-	transform(uname.begin(), uname.end(), uname.begin(), ::tolower);
+	cin >> name;
+	transform(name.begin(), name.end(), name.begin(), ::tolower);
 
 	cout << "Enter your password :\n";
-	cin >> upass;
-	transform(upass.begin(), upass.end(), upass.begin(), ::tolower);
+	cin >> pass;
+	transform(pass.begin(), pass.end(), pass.begin(), ::tolower);
 
 	cout << "\n\n";
 
-	if (uname == "admin" && upass == "admin") {
-		adminmenu();
+	if (Check_Admin_Data(name, pass)) {
+		adminmenu(name);
 	}
-	sql = ("SELECT   ID,PASSWORD    FROM  STUDENT   WHERE ID='" + uname + "' AND PASSWORD ='" + upass + "'  ;");
-
-	if (exit) {
-		std::cerr << "Error open DB " << sqlite3_errmsg(DB) << std::endl;
-		return;
-	}
-	else
-		std::cout << "Opened Database Successfully! \n" << std::endl;
-
-	int rc = sqlite3_exec(DB, sql.c_str(), callbacklogin, (void*)data.c_str(), NULL);
-
-	if (rc != SQLITE_OK)
-		cerr << "Error SELECT" << endl;
 	else {
-		cout << "Operation OK!" << endl;
+		if (Check_Stud_Data(name, pass)) {
+			studmenu(name);
+		}
+		else {
+			cout << " Your Username Or Password is Wrong !  \n";
+			system("pause 0");
+			system("cls");
+			login();
+		}
 	}
 
-	if (uname == LOGDATA.at(0) && upass == LOGDATA.at(1)) {
-		studmenu();
-	}
-
-	else if (LOGDATA.empty()) {
-		cout << "   Your  Username Or Password  is Wrong !  \n";
-	}
 }
 
-void Menu::adminmenu() {
+void Menu::adminmenu(string name) {
 	Admin admin;
 	int choice;
 	system("cls");
-
 	cout << "\n";
-	cout << "                           ***************\n";
-	cout << "    ************           * Student Ums *           *************\n ";
-	cout << "                          ***************\n";
-	cout << "              ********************************************\n";
-	cout << "              ****************Admin page******************\n";
-	cout << "              ********************************************\n\n";
-
+	cout << "                        ************           * Student Ums *           *************\n ";
+	cout << endl;
+	cout << "                                           **********************\n";
+	cout << "                                           *      Admin Page    *\n";
+	cout << "                                           **********************\n";
+	cout << " Welcome, " << name << "\n";
+	cout << "**********************\n";
 	cout << "1-AddCourse\n";
 	cout << "2-AddStudent\n";
 	cout << "3-Update Course\n";
@@ -101,7 +76,7 @@ void Menu::adminmenu() {
 	{
 	case 1:
 		system("cls");
-		admin.addCourse();
+		admin.Addcourse();
 
 		break;
 	case 2:
@@ -111,16 +86,16 @@ void Menu::adminmenu() {
 
 	case 3:
 		system("cls");
-		admin.update();
+		admin.ModifyCourses();
 		break;
 
 	case 4:
 		system("cls");
-		admin.list_student_of_course();
+		/*admin.list_student_of_course();*/
 		break;
 	case 5:
 		system("cls");
-		admin.list_Courses_of_Student();
+		/*admin.list_Courses_of_Student();*/
 		break;
 
 	case 6:
@@ -132,25 +107,25 @@ void Menu::adminmenu() {
 		break;
 	default:
 		system("cls");
-		cout << "sorry wrong choice !!\n";
+		cout << "Sorry Wrong Choice !!\n";
 
-	then:adminmenu();
+	then:adminmenu(name);
 	}
 }
 
 /******************************************************************/
 
-void Menu::studmenu() {
+void Menu::studmenu(string name) {
 	int choice;
-
+	system("cls");
 	cout << "\n";
-	cout << "                           ***************\n";
-	cout << "    ************           * Student Ums *           *************\n ";
-	cout << "                          ***************\n";
-	cout << "              ********************************************\n";
-	cout << "              ***************  Welcome  ******************\n";
-	cout << "              ********************************************\n\n";
-
+	cout << "                        ************           * Student Ums *           *************\n ";
+	cout << endl;
+	cout << "                                           **********************\n";
+	cout << "                                           *     Student Page   *\n";
+	cout << "                                           **********************\n";
+	cout << " Welcome, " << name << "\n";
+	cout << "**********************\n";
 	cout << "1-   \n";
 	cout << "2-   \n";
 	cout << "3-   \n";
@@ -177,7 +152,32 @@ void Menu::studmenu() {
 		break;
 	default:
 		system("cls");
-		cout << "sorry wrong choice !!";
-		studmenu();
+		cout << "Sorry Wrong Choice....!";
+		studmenu(name);
 	}
+}
+bool Menu::Check_Stud_Data(string name, string password) {
+	for (auto x : DataBase::students_map) {
+
+		if (x.second.get_f_name() == name, x.second.get_student_password() == password) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+}
+bool Menu::Check_Admin_Data(string name, string password) {
+	for (auto x : DataBase::admins_map) {
+
+		if (x.second.get_fname() == name, x.second.get_admin_pass() == password) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+
+
 }

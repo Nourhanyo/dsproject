@@ -20,6 +20,8 @@ private:
 	bool check_ccode_exist(string);
 	bool check_ccode2_exist(string, string);
 	bool check_cname2_exist(string, string);
+	bool check_num_hours(int hours);
+	bool check_num_maxstud(int numstud);
 public:
 	static bool ADMIN_CHANGED;
 	static bool PRE_LIST_CHANGED;
