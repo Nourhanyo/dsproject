@@ -26,6 +26,7 @@ private:
 	bool check_if_id_exist(string);
 	bool check_row_repeated(int, string);
 	bool check_row_repeated2(int, string);
+	bool check_pre_exist(string, string);
 	int check_num_courses_can_add(int);
 public:
 	static bool ADMIN_CHANGED;
@@ -42,13 +43,13 @@ public:
 	void set_lname(string);
 	void set_admin_pass(string);
 	///////////////////////////////////////////////////////
-	void fill_prerequisite_list();
+	void fill_prerequisite_list(string);
 	~Admin();
 	/////////////////////////////////////////////////////////////
 	void add_stud();
 	void add_f_course_in_p_course();
 	/////////////////////////////////////////////////////////////
-	void Addcourse();
+	string Addcourse();
 	void ModifyCourses();
 	/////////////////////////////////////////////////////////////
 	void view_courses_of_stud();

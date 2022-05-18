@@ -23,6 +23,7 @@ private:
 	bool check_row_exist(string, string);
 	bool check_row_exist_f(int, string);
 	bool check_row_exist_p(int, string);
+	bool check_course_name_exist(string);
 public:
 	static bool STUDENT_CHANGED;
 	///////////////////////////////////////////////////////////////////////////
@@ -42,18 +43,18 @@ public:
 	void set_th_name(string);
 	void set_student_password(string);
 	void set_acadamic_year(string);
-	void View_CoursesDetails();
+	string View_CoursesDetails();
 	///////////////////////////////////////////////////////////////////////////
-	void edit_stud_data();
+	void edit_stud_data(int);
 	void edit_f_and_p_course();
 	/////////////////////////////////////////////////////////////////////////////
-	void view_stud_courses();
+	void view_stud_courses(int);
 	void view_prog_courses(int);
 	void vies_finished_courses(int);
 	///////////////////////////////////////////////////////////////////////////
-	void Request_course(int);
+	void Request_course(string,int);
 	///////////////////////////////////////////////////////////////////////////
-	void view_available_courses();
+	void view_available_courses(int);
 	void fill_available_crsVector(string s);
 	void fill_pre_list();
 	void get_remain_courses();

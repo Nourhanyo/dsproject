@@ -17,7 +17,10 @@ int main() {
 	d.load_DB();
 	Student s;
 	Admin ad;
-	cout << "If you want to add student data click  1 " << endl;
+	Menu m;
+	//ad.ModifyCourses();
+	m.login();
+	/*cout << "If you want to add student data click  1 " << endl;
 	cout << "If you want to add student  finished and in  progress course  click 2 " << endl;
 	cout << "If you want to edit  student data click 3 " << endl;
 	cout << "If you want to edit  student  finished and in  progress course  click  4  " << endl;
@@ -48,7 +51,7 @@ int main() {
 		break;
 	}
 
-	//m.login();
+	*/
 
 	d.update_DB();
 	return 0;

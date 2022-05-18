@@ -239,6 +239,7 @@ void DataBase::update_Student() {
 	for (auto x : students_map) {
 		query = "insert into STUDENT VALUES('" + x.first + "', '" + x.second.get_f_name() + "','" + x.second.get_s_name() + "','" + x.second.get_th_name() + "','" + x.second.get_student_password() + "','" + x.second.get_acadamic_year() + "'); ";
 		rc = sqlite3_exec(DB, query.c_str(), NULL, NULL, 0);
+		
 	}
 
 	if (rc != SQLITE_OK) {

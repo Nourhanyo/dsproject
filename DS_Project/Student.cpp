@@ -59,22 +59,13 @@ void Student::set_acadamic_year(string aca) {
 	acadamic_year = aca;
 }
 ////////////////////////////////////////////////////////////////////////
-void Student::edit_stud_data()
+void Student::edit_stud_data(int id)
 {
 	Student stud2;
-	int id;
-	int p;
-	string password1;
-	string new_password;
-	int clk1;
-	string f_name1;
-	string s_name1;
-	string th_name1;
-	string academic_year1;
-	cout << "enter the password of student you want to edit " << endl;
+	int  p, clk1;
+	string password1, new_password, f_name1, s_name1, th_name1, academic_year1;
+	cout << "Enter Your password" << endl;
 	cin >> password1;
-	cout << "enter the id of student you want to edit " << endl;
-	cin >> id;
 	stud2.set_student_id(id);
 	if (Student::check_row_exist(stud2.get_student_id(), password1)) {
 		cout << "if you want to editt password   for student press 1 " << endl;
@@ -116,6 +107,7 @@ void Student::edit_stud_data()
 		cout << "student  does not  exist " << endl;
 	}
 }
+////////////////////////////////////////////////////////////////////////
 void Student::edit_f_and_p_course()
 {
 	Student stud1;
@@ -228,54 +220,21 @@ void Student::edit_f_and_p_course()
 		}
 	}
 }
-bool Student::check_row_exist(string id, string password)
-{
-	bool flag = false;
-	for (auto x : DataBase::students_map) {
-		if (id == x.first && password == x.second.get_student_password()) {
-			flag = true;
-		}
-	}
-	return flag;
-}
-bool Student::check_row_exist_f(int id, string f_course)
-{
-	bool flag = false;
-
-	for (auto x : DataBase::finished_vector) {
-		if (id == x.first && f_course == x.second) {
-			flag = true;
-		}
-	}
-
-	return flag;
-}
-bool Student::check_row_exist_p(int id, string in_p_course)
-{
-	bool flag = false;
-
-	for (auto x : DataBase::progress_vector) {
-		if (id == x.first && in_p_course == x.second) {
-			flag = true;
-		}
-	}
-
-	return flag;
-}
 ///////////////////////////////////////////////////////////////////////////
-void Student::View_CoursesDetails() {
+string Student::View_CoursesDetails() {
 	system("cls");
 	cout << "  \n                                        .....Your Course Details..... \n\n";
-	string code;
-	cout << "Enter Course Code You Want to View....\n";
-	cin >> code;
+	string cname;
+	cout << "Enter Course name You Want to View....\n";
+	cin >> cname;
 	cout << endl;
-	if (check_course_exist(code)) {
+	if (check_course_name_exist(cname)) {
 		for (auto x : DataBase::courses_map) {
-			if (code == x.first) {
+			if (cname == x.second.get_Course_name()) {
 				cout << "Course Name : " << x.second.get_Course_name() << endl << "Course Code : " << x.first << endl << "Course Hours : " << x.second.get_hours() << endl << "Cours Maximum Num Of Studend : " << x.second.get_max_numstud() << endl;
 			}
 		}
+		return cname;
 	}
 	else {
 		system("cls");
@@ -286,10 +245,7 @@ void Student::View_CoursesDetails() {
 	}
 }
 ///////////////////////////////////////////////////////////////////////////
-void Student::view_stud_courses() {
-	cout << endl << "Enter id: ";//take from login
-	int id_;
-	cin >> id_;
+void Student::view_stud_courses(int id_) {
 	view_prog_courses(id_);
 	vies_finished_courses(id_);
 }
@@ -332,18 +288,18 @@ void Student::vies_finished_courses(int iid) {
 		cout << " You Has NO Finished Courses\n";
 }
 ///////////////////////////////////////////////////////////////////////////
-void Student::Request_course(int iid) {//Before it ->view available courses
-	string code, course_name;
+void Student::Request_course(string course_name,int iid) {//Before it ->view available courses....id from login
+	string code;
 	bool flag = true;
 	if (check_num_courses(iid)) {
 		while (flag) {
-			cout << "Enter Course Code That You Want To Take: ";
-			cin >> code;
+			cout << "Enter Course Name That You Want To Take: ";
+			cin >> course_name;
 
-			if (check_course_exist(code)) {
+			if (check_course_name_exist(course_name)){
 				for (auto x : DataBase::courses_map) {
-					if (code == x.first) {
-						course_name = x.second.get_Course_name();
+					if (course_name == x.second.get_Course_name()) {
+						code = x.first;
 						break;
 					}
 				}
@@ -375,56 +331,10 @@ void Student::Request_course(int iid) {//Before it ->view available courses
 	}
 }
 /***********************************************/
-bool Student::check_num_courses(int iid) {
-	const int max_num_courses = 7;
-	int count = 0;
-	for (auto x : DataBase::progress_vector) {
-		if (iid == x.first) {
-			count++;
-		}
-	}
-	if (count < max_num_courses) {
-		return true;
-	}
-	else
-		return false;
-}
-/************************************************/
-bool Student::check_taken_course_before(int iid, string course_name) {
-	for (auto x : DataBase::progress_vector) {
-		if (iid == x.first && course_name == x.second) {
-			return false;
-		}
-	}
-	return true;
-}
-/***************************************************************************/
-bool Student::check_course_exist(string code) {
-	for (auto x : DataBase::courses_map) {
-		if (code == x.first)
-			return true;
-	}
-	return false;
-}
-/******************************************************/
-bool Student::check_max_num_studs(string course_name, string code)
-{
-	int count = 0;
-	for (auto x : DataBase::progress_vector) {
-		if (x.second == course_name)
-			count++;
-	}
-	if (DataBase::courses_map[code].get_max_numstud() == count) {
-		return false;
-	}
-	return true;
-}
 ///////////////////////////////////////////////////////////////////////////
-void Student::view_available_courses()
+void Student::view_available_courses(int id)
 {
-	int id;
-	cout << "Enter Your Id :\n";
-	cin >> id;
+	
 	get_finished_courses(id);
 	get_remain_courses();
 	fill_pre_list();
@@ -433,10 +343,16 @@ void Student::view_available_courses()
 	cout << "\nAvaliableCrs\n*************\n";
 	for (size_t i = 0; i < AvailabeCrs_vec.size(); i++)
 	{
-		cout << AvailabeCrs_vec[i] << endl;
+		cout <<i+1<<"- " << AvailabeCrs_vec[i] << endl;
 	}
+	AvailabeCrs_vec.clear();
+	finishedCourses_forStud_vec.clear();
+	preList_forStud_vec.clear();
+	remainCrs_vec.clear();
+
+
 }
-/////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 void Student::fill_available_crsVector(string remain) {
 	int flag2 = -1;
 	for (int j = 0; j < preList_forStud_vec.size(); j++) {
@@ -488,5 +404,95 @@ void Student::get_remain_courses() {
 	}
 }
 ////////////////////////////////////////////////////////////////////////////
+bool Student::check_num_courses(int iid) {
+	const int max_num_courses = 7;
+	int count = 0;
+	for (auto x : DataBase::progress_vector) {
+		if (iid == x.first) {
+			count++;
+		}
+	}
+	if (count < max_num_courses) {
+		return true;
+	}
+	else
+		return false;
+}
+/************************************************/
+bool Student::check_taken_course_before(int iid, string course_name) {
+	for (auto x : DataBase::progress_vector) {
+		if (iid == x.first && course_name == x.second) {
+			return false;
+		}
+	}
+	return true;
+}
+/***************************************************************************/
+bool Student::check_course_exist(string code) {
+	for (auto x : DataBase::courses_map) {
+		if (code == x.first)
+			return true;
+	}
+	return false;
+}
+/******************************************************/
+bool Student::check_max_num_studs(string course_name, string code)
+{
+	int count = 0;
+	for (auto x : DataBase::progress_vector) {
+		if (x.second == course_name)
+			count++;
+	}
+	if (DataBase::courses_map[code].get_max_numstud() == count) {
+		return false;
+	}
+	return true;
+}
+/*************************************************************************/
+bool Student::check_row_exist(string id, string password)
+{
+	bool flag = false;
+	for (auto x : DataBase::students_map) {
+		if (id == x.first && password == x.second.get_student_password()) {
+			flag = true;
+		}
+	}
+	return flag;
+}
+/******************************************************************/
+bool Student::check_row_exist_f(int id, string f_course)
+{
+	bool flag = false;
+
+	for (auto x : DataBase::finished_vector) {
+		if (id == x.first && f_course == x.second) {
+			flag = true;
+		}
+	}
+
+	return flag;
+}
+/*****************************************************************/
+bool Student::check_row_exist_p(int id, string in_p_course)
+{
+	bool flag = false;
+
+	for (auto x : DataBase::progress_vector) {
+		if (id == x.first && in_p_course == x.second) {
+			flag = true;
+		}
+	}
+
+	return flag;
+}
+/*******************************************************************/
+bool Student::check_course_name_exist(string name) {
+	for (auto x : DataBase::courses_map) {
+		if (name == x.second.get_Course_name())
+			return true;
+	}
+	return false;
+}
+/**********************************************************/
 Student::~Student() {
 }
