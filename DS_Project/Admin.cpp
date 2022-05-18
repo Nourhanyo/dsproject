@@ -51,7 +51,6 @@ void Admin::set_admin_pass(string pas) {
 //////////////////////////////////////////////////////////////////////////
 void Admin::fill_prerequisite_list(string cName)
 {
-	system("cls");
 	vector<string> preList_vec;
 	int numOfPre;
 	string preName;
@@ -315,7 +314,7 @@ void Admin::ModifyCourses() {
 		break;
 	case 3:
 		Menu m;
-		m.adminmenu(Menu::name);
+		m.adminmenu();
 		break;
 	default:
 		system("cls");
@@ -392,7 +391,7 @@ void Admin::Edit() {
 							break;
 						case 3:
 							Menu m;
-							m.adminmenu(Menu::name);
+							m.adminmenu();
 							break;
 						default:
 							system("cls");
@@ -473,7 +472,7 @@ void Admin::Delete() {
 			break;
 		case 3:
 			Menu m;
-			m.adminmenu(Menu::name);
+			m.adminmenu();
 			break;
 		default:
 			cout << "..........................................................\n";

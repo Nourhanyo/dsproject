@@ -18,6 +18,9 @@ int main() {
 	Student s;
 	Admin ad;
 	Menu m;
+	
+	
+
 	//ad.ModifyCourses();
 	m.login();
 	/*cout << "If you want to add student data click  1 " << endl;

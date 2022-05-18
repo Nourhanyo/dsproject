@@ -12,12 +12,10 @@ using namespace std;
 vector<string> LOGDATA;
 string Menu::name;
 string Menu::name2;
-string Menu::name3;
 int Menu::id;
+int  pass;
 
 void Menu::login() {
-	string  pass;
-
 	system("cls");
 	cout << "\n";
 	cout << "                        ************           * Student Ums *           *************\n ";
@@ -25,39 +23,30 @@ void Menu::login() {
 	cout << "                                           **********************\n";
 	cout << "                                           *     login page     *\n";
 	cout << "                                           **********************\n";
-
-	cout << "Enter your full name : \n";
+	cout << "Enter your First & Second Name: ";
 	cin >> name;
-	transform(name.begin(), name.end(), name.begin(), ::tolower);
 	cin >> name2;
-	transform(name2.begin(), name2.end(), name2.begin(), ::tolower);
-	cin >> name3;
-	transform(name3.begin(), name3.end(), name3.begin(), ::tolower);
-
-	cout << "Enter your password :\n";
-	cin >> pass;
-	transform(pass.begin(), pass.end(), pass.begin(), ::tolower);
-
+//	transform(name.begin(), name.end(), name.begin(), ::tolower);
+//	transform(name2.begin(), name2.end(), name2.begin(), ::tolower);
 	cout << "\n\n";
-
+	cout << "Enter your password: ";
+	cin >> pass;
+	cout << "\n\n";
 	if (Check_Admin_Data(pass)) {
-		adminmenu(name);
+		adminmenu();
+	}
+	else if (Check_Stud_Data(pass)) {
+		studmenu();
 	}
 	else {
-		if (Check_Stud_Data( pass)) {
-			studmenu(name);
-		}
-		else {
-			cout << "Your Username Or Password is Wrong !  \n";
-			system("pause 0");
-			system("cls");
-			login();
-		}
+		cout << "Your Username Or Password is Wrong !  \n";
+		system("pause 0");
+		system("cls");
+		login();
 	}
-
 }
 
-void Menu::adminmenu(string name) {
+void Menu::adminmenu() {
 	Admin admin;
 	int choice;
 	system("cls");
@@ -77,7 +66,6 @@ void Menu::adminmenu(string name) {
 	cout << "6-Fill prerequisite of Specific Course\n";
 	cout << "7-Add finished courses and progressed courses\n";
 	cout << "8-Exit\n";
-
 	cout << "Enter your choice : ";
 	cin >> choice;
 
@@ -95,7 +83,7 @@ void Menu::adminmenu(string name) {
 		}
 		else {
 			system("pause");
-			adminmenu(name);
+			adminmenu();
 		}
 		break;
 			
@@ -103,7 +91,7 @@ void Menu::adminmenu(string name) {
 		system("cls");
 		admin.add_stud();
 		system("pause");
-		adminmenu(name);
+		adminmenu();
 		break;
 
 	case 3:
@@ -115,13 +103,13 @@ void Menu::adminmenu(string name) {
 		system("cls");
 		admin.view_studs_of_course();
 		system("pause");
-		adminmenu(name);
+		adminmenu();
 		break;
 	case 5:
 		system("cls");
 		admin.view_courses_of_stud();
 		system("pause");
-		adminmenu(name);
+		adminmenu();
 		break;
 	case 6:
 		system("cls");
@@ -129,13 +117,13 @@ void Menu::adminmenu(string name) {
 		cin >> course_name;
 		admin.fill_prerequisite_list(course_name);
 		system("pause");
-		adminmenu(name);
+		adminmenu();
 		break;
 	case7:
 		system("cls");
 		admin.add_f_course_in_p_course();
 		system("pause");
-		adminmenu(name);
+		adminmenu();
 		break;
 	case 8:
 		system("cls");
@@ -148,16 +136,16 @@ void Menu::adminmenu(string name) {
 		system("cls");
 		cout << "Sorry Wrong Choice !!\n";
 
-	then:adminmenu(name);
+	then:adminmenu();
 	}
 }
 
 /******************************************************************/
 
-void Menu::studmenu(string name) {
+void Menu::studmenu() {
 	Student stud;
 	for (auto x: DataBase::students_map) {
-		if (name == x.second.get_f_name() && name2 == x.second.get_s_name() && name3 == x.second.get_th_name()) {
+		if (name == x.second.get_f_name() && name2 == x.second.get_s_name()) {
 			id = stoi(x.first);
 			break;
 		}
@@ -177,7 +165,7 @@ void Menu::studmenu(string name) {
 	cout << "3-Regisiter for A Course\n";
 	cout << "4-View My Courses\n";
 	cout << "5-Edit My data\n";
-	cout << "6- Exist \n ";
+	cout << "6-Exist \n ";
 	cout << "Enter your choice : ";
 	cin >> choice;
 	int p;
@@ -188,7 +176,7 @@ void Menu::studmenu(string name) {
 		cout << "Your Available courses:\n";
 		stud.view_available_courses(id);
 		system("pause");
-		studmenu(name);
+		studmenu();
 		break;
 	case 2:system("cls");
 		cout << "Your Available courses:\n";
@@ -196,7 +184,7 @@ void Menu::studmenu(string name) {
 		cout << endl;
 		stud.View_CoursesDetails();
 		system("pause");
-		studmenu(name);
+		studmenu();
 		break;
 
 	case 3:system("cls");
@@ -214,7 +202,7 @@ void Menu::studmenu(string name) {
 			}
 			else {
 				cout << "invalid choice\n";
-				studmenu(name);
+				studmenu();
 			}
 
 		}
@@ -225,21 +213,21 @@ void Menu::studmenu(string name) {
 		}
 		else {
 			cout << "invalid choice\n";
-			studmenu(name);
+			studmenu();
 		}
 		system("pause");
-		studmenu(name);
+		studmenu();
 		break;
 
 	case 4:
 		stud.view_stud_courses(id);
 		system("pause");
-		studmenu(name);
+		studmenu();
 		break;
 	case 5:
 		stud.edit_stud_data(id);
 		system("pause");
-		studmenu(name);
+		studmenu();
 		break;
 	case 6:
 		system("cls");
@@ -251,31 +239,24 @@ void Menu::studmenu(string name) {
 	default:
 		system("cls");
 		cout << "Sorry Wrong Choice....!";
-		studmenu(name);
+		studmenu();
 	}
 }
-bool Menu::Check_Stud_Data( string password) {
+bool Menu::Check_Stud_Data(int password) {
 	for (auto x : DataBase::students_map) {
 
-		if (x.second.get_f_name() == name&& x.second.get_student_password() == password&&x.second.get_s_name()==name2&& x.second.get_th_name() == name3) {
+		if (x.second.get_f_name() == name && x.second.get_s_name() == name2 && stoi(x.second.get_student_password()) == pass) {
 			return true;
 		}
-		else {
-			return false;
-		}
 	}
+	return false;
 }
-bool Menu::Check_Admin_Data(string password) {
+bool Menu::Check_Admin_Data(int password) {
 	for (auto x : DataBase::admins_map) {
 
-		if (x.second.get_fname() == name && x.second.get_admin_pass() == password&& x.second.get_lname() == name2) {
+		if (x.second.get_fname() == name && x.second.get_lname() == name2 && stoi(x.second.get_admin_pass()) == pass) {
 			return true;
 		}
-		else {
-			return false;
-		}
 	}
-
-
-
+	return false;
 }

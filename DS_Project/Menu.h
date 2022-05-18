@@ -6,16 +6,15 @@ class Menu
 {
 private:
 	
-	bool Check_Stud_Data(string password);
-	bool Check_Admin_Data(string password);
+	bool Check_Stud_Data(int password);
+	bool Check_Admin_Data(int password);
 public:
 	static string name;
 	static string name2;
-	static string name3;
 	static int id;
 	void login();
-	void adminmenu(string);
-	void studmenu(string);
+	void adminmenu();
+	void studmenu();
 };
 
 

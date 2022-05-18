@@ -334,15 +334,20 @@ void Student::Request_course(string course_name,int iid) {//Before it ->view ava
 ///////////////////////////////////////////////////////////////////////////
 void Student::view_available_courses(int id)
 {
-	
+	vector<string>Avail_prog;
 	get_finished_courses(id);
 	get_remain_courses();
 	fill_pre_list();
-
 	// Printing Avaliable Crs
 	cout << "\nAvaliableCrs\n*************\n";
-	for (size_t i = 0; i < AvailabeCrs_vec.size(); i++)
-	{
+	for (auto x : AvailabeCrs_vec) {
+		for (auto y : DataBase::progress_vector) {
+			if (y.first == id && x == y.second) {
+				Avail_prog.push_back(x);
+			}
+		}
+	}
+	for (size_t i = 0; i < AvailabeCrs_vec.size(); i++){
 		cout <<i+1<<"- " << AvailabeCrs_vec[i] << endl;
 	}
 	AvailabeCrs_vec.clear();
