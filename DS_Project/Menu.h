@@ -8,6 +8,7 @@ private:
 	
 	bool Check_Stud_Data(int password);
 	bool Check_Admin_Data(int password);
+	void view_all_courses();
 public:
 	static string name;
 	static string name2;
@@ -15,6 +16,7 @@ public:
 	void login();
 	void adminmenu();
 	void studmenu();
+	
 };
 
 

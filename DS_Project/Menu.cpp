@@ -75,11 +75,15 @@ void Menu::adminmenu() {
 	case 1:
 		system("cls");
 		course_name=admin.Addcourse();
-		cout << "If ypu want to add course prerequisite press 1,else press 0\n";
+		cout << "If you want to add course prerequisite press 1\nfor get to admin menu press 0\n";
 		int p;
 		cin >> p;
 		if (p == 1) {
+			system("cls");
+			view_all_courses();
 			admin.fill_prerequisite_list(course_name);
+			system("pause");
+			adminmenu();
 		}
 		else {
 			system("pause");
@@ -101,6 +105,7 @@ void Menu::adminmenu() {
 
 	case 4:
 		system("cls");
+		view_all_courses();
 		admin.view_studs_of_course();
 		system("pause");
 		adminmenu();
@@ -113,13 +118,14 @@ void Menu::adminmenu() {
 		break;
 	case 6:
 		system("cls");
+		view_all_courses();
 		cout << "Enter Course name\n";
 		cin >> course_name;
 		admin.fill_prerequisite_list(course_name);
 		system("pause");
 		adminmenu();
 		break;
-	case7:
+	case 7:
 		system("cls");
 		admin.add_f_course_in_p_course();
 		system("pause");
@@ -194,14 +200,18 @@ void Menu::studmenu() {
 		cin >> p;
 		if (p == 1) {
 			s=stud.View_CoursesDetails();
-			cout << "If you want to regisiter for this course press 1\n";
+			cout << "If you want to regisiter for this course press 1...OR press 0 to go back\n";
 			cin >> p;
 			if (p == 1) {
 				stud.Request_course(s,id);
 
 			}
+			else if (p == 0) {
+				studmenu();
+			}
 			else {
 				cout << "invalid choice\n";
+				system("pause");
 				studmenu();
 			}
 
@@ -219,12 +229,14 @@ void Menu::studmenu() {
 		studmenu();
 		break;
 
-	case 4:
+	case 4:	system("cls");
+
 		stud.view_stud_courses(id);
 		system("pause");
 		studmenu();
 		break;
-	case 5:
+	case 5:	system("cls");
+
 		stud.edit_stud_data(id);
 		system("pause");
 		studmenu();
@@ -259,4 +271,13 @@ bool Menu::Check_Admin_Data(int password) {
 		}
 	}
 	return false;
+}
+void Menu::view_all_courses() {
+	int c = 1;
+	cout << "\t\t\t\t\tAll Courses...\n";
+	for (auto x : DataBase::courses_map) {
+		cout << c << "- " << x.second.get_Course_name() << endl;
+		c++;
+	}
+	cout << "\n\n\n";
 }

@@ -68,11 +68,8 @@ void Student::edit_stud_data(int id)
 	cin >> password1;
 	stud2.set_student_id(id);
 	if (Student::check_row_exist(stud2.get_student_id(), password1)) {
-		cout << "if you want to editt password   for student press 1 " << endl;
-		cout << "if you want to exit  press 2 " << endl;
-		cin >> p;
-		auto b = DataBase::students_map.find(stud2.get_student_id());
 
+		auto b = DataBase::students_map.find(stud2.get_student_id());
 		f_name1 = b->second.get_f_name();
 		s_name1 = b->second.get_s_name();
 		th_name1 = b->second.get_th_name();
@@ -81,28 +78,15 @@ void Student::edit_stud_data(int id)
 		stud2.set_s_name(s_name1);
 		stud2.set_th_name(th_name1);
 		stud2.set_acadamic_year(academic_year1);
-		switch (p) {
-		case 1:
-			cout << "enter the new password you want  " << endl;
-			cin >> new_password;
-			stud2.set_student_password(new_password);
-			cout << "if you want to submit click 1 else click any number " << endl;
-			cin >> clk1;
-			if (clk1 == 1) {
-				DataBase::students_map.erase(stud2.get_student_id());
-				DataBase::students_map.insert(make_pair(stud2.get_student_id(), stud2));
-				stud2.STUDENT_CHANGED = true;
-			}
-			else {
-				cout << "index does not be  modified " << endl;
-			}
-		case 2:
-			break;
 
-		default:
-			break;
-		}
+		cout << "Enter the new Password" << endl;
+		cin >> new_password;
+		stud2.set_student_password(new_password);
+		DataBase::students_map.erase(stud2.get_student_id());
+		DataBase::students_map.insert(make_pair(stud2.get_student_id(), stud2));
+		stud2.STUDENT_CHANGED = true;
 	}
+	
 	else {
 		cout << "student  does not  exist " << endl;
 	}
@@ -222,7 +206,6 @@ void Student::edit_f_and_p_course()
 }
 ///////////////////////////////////////////////////////////////////////////
 string Student::View_CoursesDetails() {
-	system("cls");
 	cout << "  \n                                        .....Your Course Details..... \n\n";
 	string cname;
 	cout << "Enter Course name You Want to View....\n";
@@ -271,7 +254,7 @@ void Student::view_prog_courses(int iid) {
 /*************************************************/
 void Student::vies_finished_courses(int iid) {
 	vector<string>finish_course;
-	for (auto x : DataBase::progress_vector) {
+	for (auto x : DataBase::finished_vector) {
 		if (iid == x.first) {
 			finish_course.push_back(x.second);
 		}
@@ -293,9 +276,6 @@ void Student::Request_course(string course_name,int iid) {//Before it ->view ava
 	bool flag = true;
 	if (check_num_courses(iid)) {
 		while (flag) {
-			cout << "Enter Course Name That You Want To Take: ";
-			cin >> course_name;
-
 			if (check_course_name_exist(course_name)){
 				for (auto x : DataBase::courses_map) {
 					if (course_name == x.second.get_Course_name()) {
@@ -334,21 +314,27 @@ void Student::Request_course(string course_name,int iid) {//Before it ->view ava
 ///////////////////////////////////////////////////////////////////////////
 void Student::view_available_courses(int id)
 {
-	vector<string>Avail_prog;
+	vector<string>AvailabeCrs_vec_finnal;
 	get_finished_courses(id);
 	get_remain_courses();
 	fill_pre_list();
+	bool flag = true;
 	// Printing Avaliable Crs
 	cout << "\nAvaliableCrs\n*************\n";
 	for (auto x : AvailabeCrs_vec) {
+		flag = true;
 		for (auto y : DataBase::progress_vector) {
 			if (y.first == id && x == y.second) {
-				Avail_prog.push_back(x);
+				flag = false;
 			}
 		}
+		if (flag == true) {
+			AvailabeCrs_vec_finnal.push_back(x);
+		}
 	}
-	for (size_t i = 0; i < AvailabeCrs_vec.size(); i++){
-		cout <<i+1<<"- " << AvailabeCrs_vec[i] << endl;
+
+	for (size_t i = 0; i < AvailabeCrs_vec_finnal.size(); i++){
+		cout <<i+1<<"- " << AvailabeCrs_vec_finnal[i] << endl;
 	}
 	AvailabeCrs_vec.clear();
 	finishedCourses_forStud_vec.clear();

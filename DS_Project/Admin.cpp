@@ -218,7 +218,7 @@ void Admin::add_f_course_in_p_course()
 					}
 				}
 				else {
-					cout << "You can add to" << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " at most " << available_num_courses << " Courses\n";
+					cout << "You can add to " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " at most " << available_num_courses << " Courses\n";
 				}
 			}
 
@@ -244,19 +244,19 @@ string Admin::Addcourse() {
 	cout << "Enter Course Code : \n";
 	cin >> cod;
 	if (check_ccode_exist(cod)) {
-		cout << "  \n\n";
+		cout << "  \n";
 		cout << "Enter Course Name : \n";
 		cin >> nam;
 		if (check_cname_exist(nam)) {
-			cout << "  \n\n";
+			cout << "  \n";
 			cout << "Enter Max_numstud  : \n";
 			cin >> maxstud;
 			if (check_num_maxstud(maxstud)) {
-				cout << "  \n\n";
+				cout << "  \n";
 				cout << "Enter Course hours : \n";
 				cin >> ho;
 				if (check_num_hours(ho)) {
-					cout << "  \n\n";
+					cout << "  \n";
 					Course course(cod, nam, ho, maxstud);
 					DataBase::courses_map.insert(make_pair(cod, course));
 					/////
@@ -531,7 +531,7 @@ void Admin::view_stud_finished_courses(int id_) {
 		}
 	}
 	if (finish_course.size() != 0) {
-		cout << "The Courses in Progress for " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " are:\n";
+		cout << "The Finished Courses for " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " are:\n";
 		int count = 1;
 		for (auto x : finish_course) {
 			cout << count << "- " << x << endl;
@@ -581,7 +581,7 @@ void Admin::view_studs_of_course() {
 			cout << "-------------------------------\n";
 			for (int i = 0; i < id_finish.size(); i++)
 			{
-				Student student = DataBase::students_map[to_string(id_prog[i])];
+				Student student = DataBase::students_map[to_string(id_finish[i])];
 				cout << student.get_student_id() << "    -->   " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << endl;
 			}
 		}
