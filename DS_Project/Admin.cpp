@@ -14,7 +14,9 @@ using namespace std;
 bool Admin::ADMIN_CHANGED = false;
 bool Admin::PRE_LIST_CHANGED = false;
 //STACK FOR UNDO EDIT AND DELETE
-stack<Course>undo;
+stack<Course>undo_course_map;
+vector < pair<string, string>>undo_preq;
+int count_undo = 0;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Admin::Admin(int iid, string Fnam, string lName, string pass) {
 	id = iid;
@@ -24,7 +26,6 @@ Admin::Admin(int iid, string Fnam, string lName, string pass) {
 }
 Admin::Admin() {
 }
-Admin::~Admin() {}
 /*******************************************************************************************************************/
 //GETTER FOR ADMIN DATA.....
 string Admin::get_admin_id() {
@@ -348,7 +349,7 @@ void Admin::Edit() {
 	cin >> codeee;
 	if (check_course_code_exist(codeee)) {
 		Course course1 = DataBase::courses_map[(codeee)];
-		undo.push(course1);
+		undo_course_map.push(course1);
 		cout << "  \n";
 		cout << "Enter New Course Name : \n";
 		cin >> nam;
@@ -368,7 +369,7 @@ void Admin::Edit() {
 						cout << "\n";
 						DataBase::courses_map.erase(codeee);
 						Course course(cod, nam, hour, maxx);
-						undo.push(course);
+						undo_course_map.push(course);
 						DataBase::courses_map.insert(make_pair(cod, course));
 						course.COURSE_CHANGED = true;
 						cout << "Course Updated succesfully \n\n";
@@ -382,9 +383,9 @@ void Admin::Edit() {
 						switch (choice)
 						{
 						case 1:
-							DataBase::courses_map.erase(undo.top().get_code());
-							undo.pop();
-							DataBase::courses_map.insert(make_pair(undo.top().get_code(), undo.top()));
+							DataBase::courses_map.erase(undo_course_map.top().get_code());
+							undo_course_map.pop();
+							DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
 							system("cls");
 							cout << endl;
 							cout << "Old Course Data undo succesfully\n\n";
@@ -445,44 +446,37 @@ void Admin::Edit() {
 }
 void Admin::Delete() {
 	system("cls");
-	Course course;
 	string code;
 	cout << "*********************************DELETE PAGE *************************************\n\n\n";
+	view_all_courses();
 	cout << "Enter COURSE code YOU WANT to DELETE ? ....\n";
 	cin >> code;
 	if (check_course_code_exist(code)) {
-		Course course1 = DataBase::courses_map[(code)];
-		undo.push(course1);
-
-		DataBase::courses_map.erase(course1.get_code());
+		Course course = DataBase::courses_map[(code)];
+		undo_course_map.push(course);
+		DataBase::courses_map.erase(course.get_code());
+		Delete_prerequisite(course.get_Course_name());
 		course.COURSE_CHANGED = true;
-		cout << "Course " << code << " Deleted succesfully\n\n";
+		cout << "Course " << course.get_Course_name() << " Deleted succesfully\n\n";
 		int choice;
 		cout << endl << endl;
 		cout << "1-if you Wanna Undo your Old Course Data\n\n"
 			<< "2-if you Wanna go back choose\n\n"
-			<< "3-if you Wanna go Home choose\n\n"
-			<< "if you Wanna Exit choose Else number\n\n";
+			<< "3-if you Wanna go Home choose\n\n";
 		cout << "ENTER YOUR Choice ...\n";
 		cin >> choice;
 		switch (choice)
 		{
 		case 1:
-			DataBase::courses_map.insert(make_pair(undo.top().get_code(), undo.top()));
+			undo();
 			cout << "Old Course Data undo succesfully\n\n";
-			undo.pop();
 			break;
 		case 2:
 			ModifyCourses();
 			break;
-		case 3:
+		default:
 			Menu m;
 			m.adminmenu();
-			break;
-		default:
-			cout << "..........................................................\n";
-			cout << ".......................See You Soon....................... \n";
-			cout << "..........................................................\n\n";
 			break;
 		}
 	}
@@ -492,6 +486,57 @@ void Admin::Delete() {
 		system("cls");
 		ModifyCourses();
 	}
+}
+void Admin::Delete_prerequisite(string course_name){
+	int count = 0;
+	string main_course;
+	vector<string>firsts;
+	for (auto x : DataBase::prerequisite_vector) {
+		if (x.first == course_name) {
+			undo_preq.push_back(make_pair(x.first, x.second));
+			main_course = x.second;
+			DataBase::prerequisite_vector.erase(DataBase::prerequisite_vector.begin() + count);
+			PRE_LIST_CHANGED = true;
+			break;
+		}
+		count++;
+	}
+	while (true) {
+		count = 0;
+		for (auto x : DataBase::prerequisite_vector) {
+			if (x.second == course_name) {
+				undo_preq.push_back(make_pair(x.first, x.second));
+				firsts.push_back(x.first);
+				DataBase::prerequisite_vector.erase(DataBase::prerequisite_vector.begin() + count);
+				PRE_LIST_CHANGED = true;
+				break;
+			}
+			count++;
+		}
+		if (count >= DataBase::prerequisite_vector.size())
+			break;
+	}
+	for (auto x : firsts) {
+		cout << x << " " << main_course<<endl;
+		DataBase::prerequisite_vector.push_back(make_pair(x,main_course));
+		PRE_LIST_CHANGED = true;
+	}
+	count_undo = firsts.size();
+}
+void Admin::undo(){
+	DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
+	for (int i = 0; i < count_undo; i++){
+		DataBase::prerequisite_vector.pop_back();
+		PRE_LIST_CHANGED = true;
+	}
+
+	for (auto x : undo_preq) {
+		DataBase::prerequisite_vector.push_back(make_pair(x.first, x.second));
+		PRE_LIST_CHANGED = true;
+	}
+	//
+	cout << DataBase::prerequisite_vector.size() << endl;
+	undo_preq.clear();
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*THERE FUNCTIONS VIEW ALL COURSES OF STUDENT*/
@@ -599,6 +644,16 @@ void Admin::view_studs_of_course() {
 	}
 	else
 		cout << "\nEnter a Correct Course Name\n";
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Admin::view_all_courses(){
+	int c = 1;
+	cout << "\t\t\t\t\tAll Courses...\n";
+	for (auto x : DataBase::courses_map) {
+		cout << c << "- " << x.second.get_Course_name() <<"----> "<< x.second.get_code() << endl;
+		c++;
+	}
+	cout << "\n\n\n";
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int Admin::check_num_courses_can_add(int iid) {
@@ -727,3 +782,4 @@ bool Admin::check_cname2_exist(string name, string nam) {
 	return true;
 }
 /************************************************************************/
+Admin::~Admin() {}

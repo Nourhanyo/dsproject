@@ -13,13 +13,13 @@ private:
 	string lname;
 	string password;
 	/*******************************************/
-	void Delete();
 	void Edit();
+	void Delete();
+	void Delete_prerequisite(string);
+	void undo();
 	/*******************************************/
 	bool check_course_code_exist(string);
 	bool check_course_name_exist(string);
-	bool check_cname_exist(string);
-	bool check_ccode_exist(string);
 	bool check_ccode2_exist(string, string);
 	bool check_cname2_exist(string, string);
 	bool check_num_hours(int hours);
@@ -33,6 +33,7 @@ private:
 	/*******************************************/
 	void view_stud_prog_courses(int);
 	void view_stud_finished_courses(int);
+	void view_all_courses();
 public:
 	static bool ADMIN_CHANGED;
 	static bool PRE_LIST_CHANGED;
