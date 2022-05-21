@@ -6,9 +6,6 @@
 #include"Course.h"
 #include "DataBase.h"
 #include "Menu.h"
-
-using namespace std;
-
 using namespace std;
 int main() {
 	DataBase d;

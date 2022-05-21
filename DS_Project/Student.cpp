@@ -79,7 +79,6 @@ void Student::edit_stud_data(int id)
 		DataBase::students_map[to_string(id)].set_student_password(new_password);
 		STUDENT_CHANGED = true;
 	}
-
 	else {
 		cout << "Your Password Is Incorrect" << endl;
 	}
@@ -242,7 +241,7 @@ void Student::view_prog_courses(int iid) {
 		}
 	}
 	else
-		cout << " You Has NO Progress Courses\n";
+		cout << " You Have NO Progress Courses\n";
 }
 void Student::view_finished_courses(int iid) {
 	vector<string>finish_course;
@@ -260,7 +259,7 @@ void Student::view_finished_courses(int iid) {
 		}
 	}
 	else
-		cout << " You Has NO Finished Courses\n";
+		cout << " You Have NO Finished Courses\n";
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Student::Request_course(string course_name, int iid) {
@@ -287,7 +286,7 @@ void Student::Request_course(string course_name, int iid) {
 			if (check_taken_course_before(iid, course_name)) {
 				//CHECK IF THIS STUD TAKE THe COURSE BEFORE
 				DataBase::progress_vector.push_back(make_pair(iid, course_name));
-				cout << "You Take: " << course_name << " Course Successfully...\n";
+				cout << "You Took: " << course_name << " Course Successfully...\n";
 				PROG_CHANGED = true;
 			}
 			else {

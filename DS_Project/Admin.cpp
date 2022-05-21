@@ -13,6 +13,7 @@ using namespace std;
 //FLAGS TO UBDATE DATA OF STUDENT AND PROGRESSED COURSES IN DB
 bool Admin::ADMIN_CHANGED = false;
 bool Admin::PRE_LIST_CHANGED = false;
+int Admin::idd_;
 //STACK FOR UNDO EDIT AND DELETE
 stack<Course>undo_course_map;
 vector < pair<string, string>>undo_preq;
@@ -125,8 +126,8 @@ void Admin::add_stud()
 			cout << "\nEnter student acadamic_year again: ";
 			cin >> academic_year1;
 		}
-		Student student(DataBase::students_map.size() + 1, f_name1, s_name1, th_name1, password1, academic_year1);
-		DataBase::students_map.insert(make_pair(to_string(DataBase::students_map.size() + 1), student));
+		Student student(last_id_stud()+1, f_name1, s_name1, th_name1, password1, academic_year1);
+		DataBase::students_map.insert(make_pair(to_string(last_id_stud() + 1), student));
 		student.STUDENT_CHANGED = true;
 		cout << "\n\n-----------------------------------------------------------------------------------------------\n\n";
 	}
@@ -151,7 +152,6 @@ void Admin::add_f_course_in_p_course()
 
 	switch (press) {
 	case 1:
-
 		cout << "enter student id " << endl;
 		cin >> id_;
 		stud.set_student_id(id_);
@@ -179,7 +179,6 @@ void Admin::add_f_course_in_p_course()
 		else {
 			cout << "ID does not exist " << endl;
 		}
-
 		break;
 	case 2:
 		system("cls");
@@ -218,6 +217,7 @@ void Admin::add_f_course_in_p_course()
 						}
 						else {
 							cout << "\nEnter a Correct Course Name\n";
+							j--;
 							continue;
 						}
 					}
@@ -236,7 +236,6 @@ void Admin::add_f_course_in_p_course()
 		}
 		break;
 	case 3:
-		flag = false;
 		break;
 	}
 }
@@ -374,7 +373,7 @@ void Admin::Edit() {
 						course.COURSE_CHANGED = true;
 						cout << "Course Updated succesfully \n\n";
 						/**********************************************************/
-						cout << "1-if you Wanna Undo your Old Course Data\n\n"
+						cout<< "1-if you Wanna Undo your Old Course Data\n\n"
 							<< "2-if you Wanna go back choose\n\n"
 							<< "3-if you Wanna go Home choose\n\n"
 							<< "if you Wanna Exit choose Else number\n\n";
@@ -386,6 +385,7 @@ void Admin::Edit() {
 							DataBase::courses_map.erase(undo_course_map.top().get_code());
 							undo_course_map.pop();
 							DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
+							undo_course_map.pop();
 							system("cls");
 							cout << endl;
 							cout << "Old Course Data undo succesfully\n\n";
@@ -410,7 +410,7 @@ void Admin::Edit() {
 						}
 					}
 					else {
-						cout << "the Number of Student Exceeds the limits (10,000)...\n";
+						cout << "the Number of Student Exceeds the limits (2000)...\n";
 						system("pause 0");
 						system("cls");
 						ModifyCourses();
@@ -507,6 +507,8 @@ void Admin::Delete_prerequisite(string course_name){
 			if (x.second == course_name) {
 				undo_preq.push_back(make_pair(x.first, x.second));
 				firsts.push_back(x.first);
+				DataBase::prerequisite_vector.push_back(make_pair(x.first,main_course));
+				count_undo++;
 				DataBase::prerequisite_vector.erase(DataBase::prerequisite_vector.begin() + count);
 				PRE_LIST_CHANGED = true;
 				break;
@@ -516,12 +518,7 @@ void Admin::Delete_prerequisite(string course_name){
 		if (count >= DataBase::prerequisite_vector.size())
 			break;
 	}
-	for (auto x : firsts) {
-		cout << x << " " << main_course<<endl;
-		DataBase::prerequisite_vector.push_back(make_pair(x,main_course));
-		PRE_LIST_CHANGED = true;
-	}
-	count_undo = firsts.size();
+	
 }
 void Admin::undo(){
 	DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
@@ -534,8 +531,6 @@ void Admin::undo(){
 		DataBase::prerequisite_vector.push_back(make_pair(x.first, x.second));
 		PRE_LIST_CHANGED = true;
 	}
-	//
-	cout << DataBase::prerequisite_vector.size() << endl;
 	undo_preq.clear();
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -544,7 +539,7 @@ void Admin::view_courses_of_stud() {
 	int stud_id;
 	cout << "Enter the ID for Student \n";
 	cin >> stud_id;
-	if (DataBase::students_map.size() >= stud_id) {
+	if (last_id_stud() >= stud_id) {
 		view_stud_prog_courses(stud_id);
 		view_stud_finished_courses(stud_id);
 	}
@@ -782,4 +777,10 @@ bool Admin::check_cname2_exist(string name, string nam) {
 	return true;
 }
 /************************************************************************/
+int Admin::last_id_stud() {
+	for (auto x : DataBase::students_map) {
+		idd_ = stoi(x.first);
+	}
+	return idd_;
+}
 Admin::~Admin() {}

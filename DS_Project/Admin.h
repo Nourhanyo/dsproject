@@ -34,9 +34,12 @@ private:
 	void view_stud_prog_courses(int);
 	void view_stud_finished_courses(int);
 	void view_all_courses();
+	/*******************************************/
+	int last_id_stud();
 public:
 	static bool ADMIN_CHANGED;
 	static bool PRE_LIST_CHANGED;
+	static int idd_;
 	/////////////////////////////////////////////////////////////
 	Admin();
 	Admin(int, string Fnam, string lName, string pass);

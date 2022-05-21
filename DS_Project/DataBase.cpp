@@ -6,12 +6,12 @@
 using namespace std;
 static sqlite3* DB{};
 /////////////////////////////////////////////////////////////////////////////////////////
-map<string, Student>DataBase::students_map;
-map<string, Course>DataBase::courses_map;
-map<string, Admin>DataBase::admins_map;
-vector<pair<int, string>>DataBase::finished_vector;
-vector<pair<int, string>>DataBase::progress_vector;
-vector<pair<string, string>>DataBase::prerequisite_vector;
+map<string,Student>DataBase::students_map;
+map<string,Course>DataBase::courses_map;
+map<string,Admin>DataBase::admins_map;
+vector<pair<int,string>>DataBase::finished_vector;
+vector<pair<int,string>>DataBase::progress_vector;
+vector<pair<string,string>>DataBase::prerequisite_vector;
 /////////////////////////////////////////////////////////////////////////////////////////
 void DataBase::load_DB() {
 	sqlite3_open("myDb.db", &DB);
@@ -36,24 +36,18 @@ bool DataBase::load_students_in_memory(std::map<std::string, Student>& students)
 		std::cerr << "Error:  " << sqlite3_errmsg(DB) << std::endl;
 		return false;
 	}
-
 	while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
 		std::string id = std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 0)));
-
 		// create student object
 		Student student;
-
 		student.set_student_id(stoi(id)); // set id
-		student.set_f_name(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
+		student.set_f_name(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));//set id
 		student.set_s_name(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 2))));
-		student.set_th_name(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 3))));// set student name
-		student.set_student_password(string(reinterpret_cast<const char*>(sqlite3_column_text(result, 4)))); // set student password
-		student.set_acadamic_year(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 5)))); // set student academic_year
-
+		student.set_th_name(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 3))));//set student name
+		student.set_student_password(string(reinterpret_cast<const char*>(sqlite3_column_text(result, 4)))); //set student password
+		student.set_acadamic_year(std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 5)))); //set student academic_year
 		// load student to students hash tables
 		students[id] = student;
-
-		//printf("Student: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
 	return true;
 }
@@ -84,8 +78,6 @@ bool DataBase::load_courses_in_memory(std::map<std::string, Course>& courses) //
 
 		// load student to students hash tables
 		courses[code] = course;
-
-		//printf("Course: %s loaded successfully.\n", sqlite3_column_text(result, 1));
 	}
 	return true;
 }
@@ -164,7 +156,6 @@ bool DataBase::load_ProgressedCourse_in_memory(vector<pair<int, string>>& prog_v
 
 	while ((exec = sqlite3_step(result)) == SQLITE_ROW) {
 		int id_stud = stoi(reinterpret_cast<const char*>(sqlite3_column_text(result, 0)));
-
 		string Pcourse_name = (std::string(reinterpret_cast<const char*>(sqlite3_column_text(result, 1))));
 		prog_vector.push_back(make_pair(id_stud, Pcourse_name));
 
@@ -199,15 +190,11 @@ bool DataBase::load_CoursesPREREQUISITE_in_memory(vector<pair<string, string>>& 
 	}
 	sqlite3_close(DB);
 	return true;
-
-	return false;
 }
 /////////////////////////////////////////////////////////////////////////////////////////
+/***************************************************************************************/
 /////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////
+/***************************************************************************************/
 void DataBase::update_DB() {
 	sqlite3_open("myDb.db", &DB);
 	Student s;
@@ -226,7 +213,6 @@ void DataBase::update_Student() {
 	sqlite3_stmt* result;
 	// construct query
 	string sql("DELETE FROM STUDENT;");
-
 	// execute prepared query
 	int rc = sqlite3_exec(DB, sql.c_str(), NULL, NULL, 0);
 	// check query status
