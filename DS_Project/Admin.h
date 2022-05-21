@@ -12,8 +12,10 @@ private:
 	string fname;
 	string lname;
 	string password;
+	/*******************************************/
 	void Delete();
 	void Edit();
+	/*******************************************/
 	bool check_course_code_exist(string);
 	bool check_course_name_exist(string);
 	bool check_cname_exist(string);
@@ -28,11 +30,16 @@ private:
 	bool check_row_repeated2(int, string);
 	bool check_pre_exist(string, string);
 	int check_num_courses_can_add(int);
+	/*******************************************/
+	void view_stud_prog_courses(int);
+	void view_stud_finished_courses(int);
 public:
 	static bool ADMIN_CHANGED;
 	static bool PRE_LIST_CHANGED;
+	/////////////////////////////////////////////////////////////
 	Admin();
 	Admin(int, string Fnam, string lName, string pass);
+	/////////////////////////////////////////////////////////////
 	string get_admin_id();
 	string get_fname();
 	string get_lname();
@@ -44,18 +51,18 @@ public:
 	void set_admin_pass(string);
 	///////////////////////////////////////////////////////
 	void fill_prerequisite_list(string);
-	~Admin();
 	/////////////////////////////////////////////////////////////
 	void add_stud();
-	void add_f_course_in_p_course();
 	/////////////////////////////////////////////////////////////
 	string Addcourse();
+	/////////////////////////////////////////////////////////////
+	void add_f_course_in_p_course();
+	/////////////////////////////////////////////////////////////
 	void ModifyCourses();
 	/////////////////////////////////////////////////////////////
 	void view_courses_of_stud();
-	void view_stud_prog_courses(int);
-	void view_stud_finished_courses(int);
 	/////////////////////////////////////////////////////////////
 	void view_studs_of_course();
 	/////////////////////////////////////////////////////////////
+	~Admin();
 };

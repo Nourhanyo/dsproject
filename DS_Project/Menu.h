@@ -5,9 +5,9 @@ using namespace std;
 class Menu
 {
 private:
-	
-	bool Check_Stud_Data(int password);
-	bool Check_Admin_Data(int password);
+
+	bool Check_Stud_Data(string password);
+	bool Check_Admin_Data(string password);
 	void view_all_courses();
 public:
 	static string name;
@@ -16,9 +16,4 @@ public:
 	void login();
 	void adminmenu();
 	void studmenu();
-	
 };
-
-
-
- 

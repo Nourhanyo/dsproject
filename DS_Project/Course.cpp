@@ -3,13 +3,22 @@
 #include<vector>
 #include <algorithm>
 #include"DataBase.h"
+//FLAG TO UBDATE DATA OF COURSES IN DB
 bool Course::COURSE_CHANGED = false;
+
 Course::Course(string cod, string nam, int h, int max) {
 	code = cod;
 	name = nam;
 	hours = h;
 	max_numstud = max;
 }
+Course::Course() {
+	hours = 0;
+	name = "";
+	code = "";
+	max_numstud = 0;
+}
+//////////////////////////////////////////////////////
 int Course::get_max_numstud() {
 	return max_numstud;
 }
@@ -23,7 +32,6 @@ int Course::get_hours() {
 void Course::set_hours(int hour) {
 	hours = hour;
 }
-
 //////////////////////////////////////////////////////
 string Course::get_Course_name() {
 	return name;
@@ -38,12 +46,5 @@ string Course::get_code() {
 void Course::set_code(string cod) {
 	code = cod;
 }
-////////////////////////////////////////////
-Course::Course() {
-	hours = 0;
-	name = "";
-	code = "";
-	max_numstud = 0;
-}
-///////////////////////////////////////////////
+//////////////////////////////////////////////////////
 Course::~Course() {}
