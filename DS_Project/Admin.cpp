@@ -506,7 +506,6 @@ void Admin::Delete_prerequisite(string course_name){
 		for (auto x : DataBase::prerequisite_vector) {
 			if (x.second == course_name) {
 				undo_preq.push_back(make_pair(x.first, x.second));
-				firsts.push_back(x.first);
 				DataBase::prerequisite_vector.push_back(make_pair(x.first,main_course));
 				count_undo++;
 				DataBase::prerequisite_vector.erase(DataBase::prerequisite_vector.begin() + count);
@@ -522,11 +521,12 @@ void Admin::Delete_prerequisite(string course_name){
 }
 void Admin::undo(){
 	DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
+	undo_course_map.pop();
 	for (int i = 0; i < count_undo; i++){
 		DataBase::prerequisite_vector.pop_back();
 		PRE_LIST_CHANGED = true;
 	}
-
+	count_undo = 0;
 	for (auto x : undo_preq) {
 		DataBase::prerequisite_vector.push_back(make_pair(x.first, x.second));
 		PRE_LIST_CHANGED = true;
