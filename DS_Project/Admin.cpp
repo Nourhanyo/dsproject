@@ -18,6 +18,7 @@ int Admin::idd_;
 stack<Course>undo_course_map;
 vector < pair<string, string>>undo_preq;
 int count_undo = 0;
+int count_erase = 0;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Admin::Admin(int iid, string Fnam, string lName, string pass) {
 	id = iid;
@@ -137,21 +138,17 @@ void Admin::add_stud()
 void Admin::add_f_course_in_p_course()
 {
 	bool flag = true;
-	int press;
-	int id_;
-	int clk;
-	int stud_num;
-	string f_courses;
-	string in_p_courses;
+	int id_,clk,stud_num;
+	string f_courses,in_p_courses;
 	Student stud, student;
-
 	cout << "IF you want to add finished courses for student press 1 " << endl;
 	cout << "IF you want to add in progress  courses for student press 2 " << endl;
 	cout << "IF you want to exit press 3 " << endl;
+	char press;
 	cin >> press;
 
 	switch (press) {
-	case 1:
+	case '1':
 		cout << "enter student id " << endl;
 		cin >> id_;
 		stud.set_student_id(id_);
@@ -165,6 +162,7 @@ void Admin::add_f_course_in_p_course()
 				cin >> f_courses;
 				if (check_course_name_exist(f_courses)) {
 					if (Admin::check_row_repeated(stoi(stud.get_student_id()), f_courses)) {
+						remove_from_prog(f_courses, stoi(stud.get_student_id()));
 						DataBase::finished_vector.push_back(make_pair(stoi(stud.get_student_id()), f_courses));
 					}
 					else {
@@ -180,7 +178,7 @@ void Admin::add_f_course_in_p_course()
 			cout << "ID does not exist " << endl;
 		}
 		break;
-	case 2:
+	case '2':
 		system("cls");
 		cout << "Enter student ID " << endl;
 		cin >> id_;
@@ -208,10 +206,15 @@ void Admin::add_f_course_in_p_course()
 						cin >> in_p_courses;
 						if (check_course_name_exist(in_p_courses)) {
 							if (Admin::check_row_repeated2(stoi(stud.get_student_id()), in_p_courses)) {
-								DataBase::progress_vector.push_back(make_pair(stoi(stud.get_student_id()), in_p_courses));
+								if (Admin::check_row_repeated(stoi(stud.get_student_id()), in_p_courses)) {
+									DataBase::progress_vector.push_back(make_pair(stoi(stud.get_student_id()), in_p_courses));
+								}
+								else {
+									cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Has already Taken " << in_p_courses << endl;
+								}
 							}
 							else {
-								cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Is Taking " << f_courses << " Right Now" << endl;
+								cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Is Taking " << in_p_courses << " Right Now" << endl;
 								j--;
 							}
 						}
@@ -235,7 +238,11 @@ void Admin::add_f_course_in_p_course()
 			cout << "ID does not exist " << endl;
 		}
 		break;
-	case 3:
+	case '3':
+		Menu m;
+		m.adminmenu();
+	default:
+		m.adminmenu();
 		break;
 	}
 }
@@ -308,19 +315,19 @@ void Admin::ModifyCourses() {
 	cout << "1-Edite Course Data \n\n";
 	cout << "2-Delete Course    \n\n";
 	cout << "3-Go Back    \n\n";
-	int choice;
+	char choice;
 	cout << "Enter your Choice\n";
 	cin >> choice;
+		Menu m;
 	switch (choice)
 	{
-	case 1:
+	case '1':
 		Edit();
 		break;
-	case 2:
+	case '2':
 		Delete();
 		break;
-	case 3:
-		Menu m;
+	case '3':
 		m.adminmenu();
 		break;
 	default:
@@ -333,109 +340,93 @@ void Admin::ModifyCourses() {
 }
 void Admin::Edit() {
 	system("cls");
-	string nam = "";
-	string cod = "";
-	string oldname;
-	string oldcode;
-	int oldhours;
-	int oldmaxstud;
-	int hour;
-	int maxx;
-	int choice;
-	string codeee;
-	cout << "******************************Edite_PAGE************************************\n\n\n";
+	view_all_courses();
+	string cod = "",nam = "", oldname, oldcode, codeee;
+	int oldhours,oldmaxstud,hour,maxx;
+	char choice;
+	cout << "******************************Edite_PAGE************************************\n\n";
 	cout << "Enter Course Code  you want to edite ?: \n";
 	cin >> codeee;
 	if (check_course_code_exist(codeee)) {
 		Course course1 = DataBase::courses_map[(codeee)];
+		nam = course1.get_Course_name();
 		undo_course_map.push(course1);
 		cout << "  \n";
-		cout << "Enter New Course Name : \n";
-		cin >> nam;
-		if (check_cname2_exist(nam, oldname)) {
+		cout << "Course Name : " << course1.get_Course_name() << endl;
+		cout << "  \n";
+		cout << "Enter New Course Code : ";
+		cin >> cod;
+		if (check_ccode2_exist(cod, codeee)) {
 			cout << "  \n";
-			cout << "Enter New Course Code : \n";
-			cin >> cod;
-			if (check_ccode2_exist(cod, codeee)) {
+			cout << "Enter New Course hours : ";
+			cin >> hour;
+			if (check_num_hours(hour)) {
 				cout << "  \n";
-				cout << "Enter New Course hours : \n";
-				cin >> hour;
-				if (check_num_hours(hour)) {
-					cout << "  \n";
-					cout << "Enter New max_numstud : \n";
-					cin >> maxx;
-					if (check_num_maxstud(maxx)) {
-						cout << "\n";
-						DataBase::courses_map.erase(codeee);
-						Course course(cod, nam, hour, maxx);
-						undo_course_map.push(course);
-						DataBase::courses_map.insert(make_pair(cod, course));
-						course.COURSE_CHANGED = true;
-						cout << "Course Updated succesfully \n\n";
-						/**********************************************************/
-						cout<< "1-if you Wanna Undo your Old Course Data\n\n"
-							<< "2-if you Wanna go back choose\n\n"
-							<< "3-if you Wanna go Home choose\n\n"
-							<< "if you Wanna Exit choose Else number\n\n";
-						cout << "ENTER YOUR Choice ...\n";
-						cin >> choice;
-						switch (choice)
-						{
-						case 1:
-							DataBase::courses_map.erase(undo_course_map.top().get_code());
-							undo_course_map.pop();
-							DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
-							undo_course_map.pop();
-							system("cls");
-							cout << endl;
-							cout << "Old Course Data undo succesfully\n\n";
-							cout << "press Enter to go back Modify Course Menu !\n\n";
-							system("pause 0");
-							ModifyCourses();
-							break;
-						case 2:
-							ModifyCourses();
-							break;
-						case 3:
-							Menu m;
-							m.adminmenu();
-							break;
-						default:
-							system("cls");
-							cout << "                                                                      \n\n\n";
-							cout << "                                  ______________________________________\n\n";
-							cout << "                                  ************ See You Soon ************\n";
-							cout << "                                  ______________________________________\n\n\n\n";
-							break;
-						}
-					}
-					else {
-						cout << "the Number of Student Exceeds the limits (2000)...\n";
-						system("pause 0");
+				cout << "Enter New max_numstud : ";
+				cin >> maxx;
+				if (check_num_maxstud(maxx)) {
+					cout << "\n";
+					DataBase::courses_map.erase(codeee);
+					Course course(cod, nam, hour, maxx);
+					undo_course_map.push(course);
+					DataBase::courses_map.insert(make_pair(cod, course));
+					course.COURSE_CHANGED = true;
+					cout << "Course Updated succesfully \n\n";
+					/**********************************************************/
+					cout<< "1-if you Wanna Undo your Old Course Data\n\n"
+						<< "2-if you Wanna go back choose\n\n"
+						<< "3-if you Wanna go Home choose\n\n"
+						<< "if you Wanna Exit choose Else number\n\n";
+					cout << "ENTER YOUR Choice ...\n";
+					cin >> choice;
+					switch (choice)
+					{
+					case '1':
+						DataBase::courses_map.erase(undo_course_map.top().get_code());
+						undo_course_map.pop();
+						DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
+						undo_course_map.pop();
 						system("cls");
+						cout << endl;
+						cout << "Old Course Data undo succesfully\n\n";
+						cout << "press Enter to go back Modify Course Menu !\n\n";
+						system("pause 0");
 						ModifyCourses();
+						break;
+					case '2':
+						ModifyCourses();
+						break;
+					case '3':
+						Menu m;
+						m.adminmenu();
+						break;
+					default:
+						m.adminmenu();
+						break;
 					}
 				}
 				else {
-					cout << "the Number of hours Exceeds the limits (5)...\n";
+					cout << "the Number of Student Exceeds the limits (2000)...\n";
 					system("pause 0");
 					system("cls");
 					ModifyCourses();
 				}
 			}
 			else {
-				cout << "This Code Is Duplicated...\n";
+				cout << "the Number of hours Exceeds the limits (5)...\n";
 				system("pause 0");
 				system("cls");
 				ModifyCourses();
 			}
 		}
 		else {
-			cout << "This Name Is Duplicated...\n";
+			cout << "This Code Is Duplicated...\n";
 			system("pause 0");
 			system("cls");
 			ModifyCourses();
 		}
+
+
 	}
 	else {
 		cout << "This Code Not Found..!\n";
@@ -458,7 +449,7 @@ void Admin::Delete() {
 		Delete_prerequisite(course.get_Course_name());
 		course.COURSE_CHANGED = true;
 		cout << "Course " << course.get_Course_name() << " Deleted succesfully\n\n";
-		int choice;
+		char choice;
 		cout << endl << endl;
 		cout << "1-if you Wanna Undo your Old Course Data\n\n"
 			<< "2-if you Wanna go back choose\n\n"
@@ -467,15 +458,17 @@ void Admin::Delete() {
 		cin >> choice;
 		switch (choice)
 		{
-		case 1:
+		case '1':
 			undo();
-			cout << "Old Course Data undo succesfully\n\n";
+			cout << "Old Course Data insert succesfully\n\n";
+			Menu m;
+			m.adminmenu();
 			break;
-		case 2:
+		case '2':
 			ModifyCourses();
 			break;
 		default:
-			Menu m;
+			
 			m.adminmenu();
 			break;
 		}
@@ -648,7 +641,21 @@ void Admin::view_all_courses(){
 		cout << c << "- " << x.second.get_Course_name() <<"----> "<< x.second.get_code() << endl;
 		c++;
 	}
-	cout << "\n\n\n";
+	cout << "\n";
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+int Admin::last_id_stud() {
+	for (auto x : DataBase::students_map) {
+		idd_ = stoi(x.first);
+	}
+	return idd_;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Admin::remove_from_prog(string cname, int idd) {
+	if (!check_row_repeated2(idd, cname)) {
+		DataBase::progress_vector.erase(DataBase::progress_vector.begin() + count_erase);
+	}
+	count_erase = 0;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int Admin::check_num_courses_can_add(int iid) {
@@ -729,7 +736,10 @@ bool Admin::check_row_repeated2(int id, string progress_course)
 	for (auto x : DataBase::progress_vector) {
 		if (id == x.first && progress_course == x.second) {
 			flag = false;
+			break;
 		}
+		count_erase++;
+		
 	}
 
 	return flag;
@@ -777,10 +787,4 @@ bool Admin::check_cname2_exist(string name, string nam) {
 	return true;
 }
 /************************************************************************/
-int Admin::last_id_stud() {
-	for (auto x : DataBase::students_map) {
-		idd_ = stoi(x.first);
-	}
-	return idd_;
-}
 Admin::~Admin() {}

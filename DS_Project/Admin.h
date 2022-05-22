@@ -36,6 +36,8 @@ private:
 	void view_all_courses();
 	/*******************************************/
 	int last_id_stud();
+	/*******************************************/
+	void remove_from_prog(string,int);
 public:
 	static bool ADMIN_CHANGED;
 	static bool PRE_LIST_CHANGED;

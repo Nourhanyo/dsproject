@@ -87,16 +87,10 @@ void Student::edit_stud_data(int id)
 void Student::edit_f_and_p_course()
 {
 	Student stud1;
-	int id;
-	int p;
+	int id,num_of_finished_c,num_of_in_p;
+	char p;
 	string password;
-	int num_of_finished_c;
-	int num_of_in_p;
-	string f_course_name;
-	string in_p_name;
-	string new_f_course;
-	string new_p_course;
-
+	string f_course_name,new_f_course,new_p_course,in_p_name;
 	int clk;
 	cout << "enter the password of student you want to edit " << endl;
 	cin >> password;
@@ -111,7 +105,7 @@ void Student::edit_f_and_p_course()
 
 		cin >> p;
 		switch (p) {
-		case 1:
+		case '1':
 			cout << "enter the number of  finished courses you want to edit " << endl;
 			cin >> num_of_finished_c;
 			if (num_of_finished_c <= DataBase::finished_vector.capacity()) {
@@ -150,7 +144,7 @@ void Student::edit_f_and_p_course()
 				cout << "index out of range " << endl;
 			}
 			break;
-		case 2:
+		case '2':
 			cout << "enter the number of  in progress courses you want to edit " << endl;
 			cin >> num_of_in_p;
 			if (num_of_in_p <= DataBase::progress_vector.capacity()) {
@@ -189,7 +183,7 @@ void Student::edit_f_and_p_course()
 				cout << "index out of range " << endl;
 			}
 			break;
-		case 3:
+		case '3':
 			break;
 		default:
 			break;

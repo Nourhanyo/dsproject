@@ -47,7 +47,7 @@ void Menu::login() {
 //////////////////////////////////////////////////////////////////////////
 void Menu::adminmenu() {
 	Admin admin;
-	int choice;
+	char choice;
 	system("cls");
 	cout << "\n";
 	cout << "                        ************           * Student Ums *           *************\n ";
@@ -71,7 +71,7 @@ void Menu::adminmenu() {
 	string course_name;
 	switch (choice)
 	{
-	case 1:
+	case '1':
 		system("cls");
 		course_name = admin.Addcourse();
 		cout << "If you want to add course prerequisite press 1\nfor get to admin menu press 0\n";
@@ -89,30 +89,30 @@ void Menu::adminmenu() {
 			adminmenu();
 		}
 		break;
-	case 2:
+	case '2':
 		system("cls");
 		admin.add_stud();
 		system("pause");
 		adminmenu();
 		break;
-	case 3:
+	case '3':
 		system("cls");
 		admin.ModifyCourses();
 		break;
-	case 4:
+	case '4':
 		system("cls");
 		view_all_courses();
 		admin.view_studs_of_course();
 		system("pause");
 		adminmenu();
 		break;
-	case 5:
+	case '5':
 		system("cls");
 		admin.view_courses_of_stud();
 		system("pause");
 		adminmenu();
 		break;
-	case 6:
+	case '6':
 		system("cls");
 		view_all_courses();
 		cout << "Enter Course name\n";
@@ -121,13 +121,13 @@ void Menu::adminmenu() {
 		system("pause");
 		adminmenu();
 		break;
-	case 7:
+	case '7':
 		system("cls");
 		admin.add_f_course_in_p_course();
 		system("pause");
 		adminmenu();
 		break;
-	case 8:
+	case '8':
 		system("cls");
 		cout << "                                                                      \n\n\n";
 		cout << "                                  ______________________________________\n\n";
@@ -149,7 +149,7 @@ void Menu::studmenu() {
 			break;
 		}
 	}
-	int choice;
+	char choice;
 	system("cls");
 	cout << "\n";
 	cout << "                        ************           * Student Ums *           *************\n ";
@@ -167,17 +167,17 @@ void Menu::studmenu() {
 	cout << "6-Exist \n";
 	cout << "Enter your choice : ";
 	cin >> choice;
-	int p;
+	char p;
 	string s;
 	switch (choice)
 	{
-	case 1:system("cls");
+	case '1':system("cls");
 		cout << "Your Available courses:\n";
 		stud.view_available_courses(id);
 		system("pause");
 		studmenu();
 		break;
-	case 2:system("cls");
+	case '2':system("cls");
 		cout << "Your Available courses:\n";
 		stud.view_available_courses(id);
 		cout << endl;
@@ -185,21 +185,21 @@ void Menu::studmenu() {
 		system("pause");
 		studmenu();
 		break;
-	case 3:system("cls");
+	case '3':system("cls");
 		cout << "Your Available courses:\n";
 		stud.view_available_courses(id);
 		cout << "press 1 to view details of specific Course...press 2 to register for a course: ";
 		cin >> p;
-		if (p == 1) {
+		if (p == '1') {
 			s = stud.View_CoursesDetails();
 			if (s == "")
 				break;
 			cout << "If you want to regisiter for this course press 1...OR press 0 to go back\n";
 			cin >> p;
-			if (p == 1) {
+			if (p == '1') {
 				stud.Request_course(s, id);
 			}
-			else if (p == 0) {
+			else if (p == '0') {
 				studmenu();
 			}
 			else {
@@ -208,7 +208,7 @@ void Menu::studmenu() {
 				studmenu();
 			}
 		}
-		else if (p == 2) {
+		else if (p == '2') {
 			cout << "\nEnter Course Came\n";
 			cin >> s;
 			transform(s.begin(), s.end(), s.begin(), ::tolower);
@@ -222,19 +222,19 @@ void Menu::studmenu() {
 		studmenu();
 		break;
 
-	case 4:
+	case '4':
 		system("cls");
 		stud.view_stud_courses(id);
 		system("pause");
 		studmenu();
 		break;
-	case 5:
+	case '5':
 		system("cls");
 		stud.edit_stud_data(id);
 		system("pause");
 		studmenu();
 		break;
-	case 6:
+	case '6':
 		system("cls");
 		cout << "                                                                      \n\n\n";
 		cout << "                                  ______________________________________\n\n";
