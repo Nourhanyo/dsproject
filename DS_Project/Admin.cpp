@@ -68,6 +68,17 @@ void Admin::fill_prerequisite_list(string cName)
 		//CHECK IF THIS COURSE ALREADY EXIST
 		cout << "Enter number of prerequisite courses :\n";
 		cin >> numOfPre;
+		while (!cin.good()) {// validation  input should be integer
+			//Error messagge
+			cout << "Error : Please Enter Integer Number !\n";
+			//clear cin
+			//then ignore data
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			//then get  input Again
+			cout << "Enter number of prerequisite courses :\n";
+			cin >> numOfPre;
+		}
 		if (numOfPre <= size) {
 			for (int i = 0; i < numOfPre; i++)
 			{
@@ -110,6 +121,17 @@ void Admin::add_stud()
 	string f_name1, s_name1, th_name1, password1, academic_year1;
 	cout << "Enter the number of students you want to add  " << endl;
 	cin >> num_of_students;
+	while (!cin.good()) {// validation  input should be integer
+		//Error messagge
+		cout << "Error : Please Enter Integer Number !\n";
+		//clear cin
+		//then ignore data
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		//then get  input Again
+		cout << "Enter the number of students you want to add  " << endl;
+		cin >> num_of_students;
+	}
 	for (int i = 0; i < num_of_students; i++) {
 		cout << "Enter student number: " << i + 1 << endl;
 		cout << "Enter student Full Name: ";
@@ -127,7 +149,7 @@ void Admin::add_stud()
 			cout << "\nEnter student acadamic_year again: ";
 			cin >> academic_year1;
 		}
-		Student student(last_id_stud()+1, f_name1, s_name1, th_name1, password1, academic_year1);
+		Student student(last_id_stud() + 1, f_name1, s_name1, th_name1, password1, academic_year1);
 		DataBase::students_map.insert(make_pair(to_string(last_id_stud() + 1), student));
 		student.STUDENT_CHANGED = true;
 		cout << "\n\n-----------------------------------------------------------------------------------------------\n\n";
@@ -138,8 +160,8 @@ void Admin::add_stud()
 void Admin::add_f_course_in_p_course()
 {
 	bool flag = true;
-	int id_,clk,stud_num;
-	string f_courses,in_p_courses;
+	int id_, clk, stud_num;
+	string f_courses, in_p_courses;
 	Student stud, student;
 	cout << "IF you want to add finished courses for student press 1 " << endl;
 	cout << "IF you want to add in progress  courses for student press 2 " << endl;
@@ -151,12 +173,34 @@ void Admin::add_f_course_in_p_course()
 	case '1':
 		cout << "enter student id " << endl;
 		cin >> id_;
+		while (!cin.good()) {// validation  input should be integer
+			//Error messagge
+			cout << "Error : Please Enter Integer Number !\n";
+			//clear cin
+			//then ignore data
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			//then get  input Again
+			cout << "enter student id " << endl;
+			cin >> id_;
+		}
 		stud.set_student_id(id_);
 		if (Admin::check_if_id_exist(stud.get_student_id())) {
 			student = DataBase::students_map[to_string(id_)];
 			cout << "This Student is " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << endl;
 			cout << "Enter the number of finished courses you want add " << endl;
 			cin >> clk;
+			while (!cin.good()) {// validation  input should be integer
+				//Error messagge
+				cout << "Error : Please Enter Integer Number !\n";
+				//clear cin
+				//then ignore data
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+				//then get  input Again
+				cout << "Enter the number of finished courses you want add " << endl;
+				cin >> clk;
+			}
 			for (int j = 0; j < clk; j++) {
 				cout << "Enter finished course name" << endl;
 				cin >> f_courses;
@@ -182,6 +226,17 @@ void Admin::add_f_course_in_p_course()
 		system("cls");
 		cout << "Enter student ID " << endl;
 		cin >> id_;
+		while (!cin.good()) {// validation  input should be integer
+			//Error messagge
+			cout << "Error : Please Enter Integer Number !\n";
+			//clear cin
+			//then ignore data
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			//then get  input Again
+			cout << "enter student id " << endl;
+			cin >> id_;
+		}
 		stud.set_student_id(id_);
 		if (Admin::check_if_id_exist(stud.get_student_id())) {
 			student = DataBase::students_map[to_string(id_)];
@@ -200,6 +255,17 @@ void Admin::add_f_course_in_p_course()
 				cout << "\nYou can add to this student at most " << available_num_courses << " Courses\n";
 				cout << "Enter the number of in progrss  courses you want add " << endl;
 				cin >> clk;
+				while (!cin.good()) {// validation  input should be integer
+				//Error messagge
+					cout << "Error : Please Enter Integer Number !\n";
+					//clear cin
+					//then ignore data
+					cin.clear();
+					cin.ignore(INT_MAX, '\n');
+					//then get  input Again
+					cout << "Enter the number of finished courses you want add " << endl;
+					cin >> clk;
+				}
 				if (clk <= available_num_courses) {
 					for (int j = 0; j < clk; j++) {
 						cout << "Enter Course name" << endl;
@@ -268,10 +334,32 @@ string Admin::Addcourse() {
 			cout << "  \n";
 			cout << "Enter Max_numstud  : \n";
 			cin >> maxstud;
+			while (!cin.good()) {// validation  input should be integer
+				//Error messagge
+				cout << "Error : Please Enter Integer Number !\n";
+				//clear cin
+				//then ignore data
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+				//then get  input Again
+				cout << "Enter Max_numstud  : \n";
+				cin >> maxstud;
+			}
 			if (check_num_maxstud(maxstud)) {
 				cout << "  \n";
 				cout << "Enter Course hours : \n";
 				cin >> ho;
+				while (!cin.good()) {// validation  input should be integer
+				//Error messagge
+					cout << "Error : Please Enter Integer Number !\n";
+					//clear cin
+					//then ignore data
+					cin.clear();
+					cin.ignore(INT_MAX, '\n');
+					//then get  input Again
+					cout << "Enter Course hours : \n";
+					cin >> ho;
+				}
 				if (check_num_hours(ho)) {
 					cout << "  \n";
 					Course course(cod, nam, ho, maxstud);
@@ -318,7 +406,7 @@ void Admin::ModifyCourses() {
 	char choice;
 	cout << "Enter your Choice\n";
 	cin >> choice;
-		Menu m;
+	Menu m;
 	switch (choice)
 	{
 	case '1':
@@ -341,8 +429,8 @@ void Admin::ModifyCourses() {
 void Admin::Edit() {
 	system("cls");
 	view_all_courses();
-	string cod = "",nam = "", oldname, oldcode, codeee;
-	int oldhours,oldmaxstud,hour,maxx;
+	string cod = "", nam = "", oldname, oldcode, codeee;
+	int oldhours, oldmaxstud, hour, maxx;
 	char choice;
 	cout << "******************************Edite_PAGE************************************\n\n";
 	cout << "Enter Course Code  you want to edite ?: \n";
@@ -360,10 +448,32 @@ void Admin::Edit() {
 			cout << "  \n";
 			cout << "Enter New Course hours : ";
 			cin >> hour;
+			while (!cin.good()) {// validation  input should be integer
+				//Error messagge
+				cout << "Error : Please Enter Integer Number !\n";
+				//clear cin
+				//then ignore data
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+				//then get  input Again
+				cout << "Enter New Course hours : ";
+				cin >> hour;
+			}
 			if (check_num_hours(hour)) {
 				cout << "  \n";
 				cout << "Enter New max_numstud : ";
 				cin >> maxx;
+				while (!cin.good()) {// validation  input should be integer
+				    //Error messagge
+					cout << "Error : Please Enter Integer Number !\n";
+					//clear cin
+					//then ignore data
+					cin.clear();
+					cin.ignore(INT_MAX, '\n');
+					//then get  input Again
+					cout << "Enter New max_numstud : ";
+					cin >> maxx;
+				}
 				if (check_num_maxstud(maxx)) {
 					cout << "\n";
 					DataBase::courses_map.erase(codeee);
@@ -373,7 +483,7 @@ void Admin::Edit() {
 					course.COURSE_CHANGED = true;
 					cout << "Course Updated succesfully \n\n";
 					/**********************************************************/
-					cout<< "1-if you Wanna Undo your Old Course Data\n\n"
+					cout << "1-if you Wanna Undo your Old Course Data\n\n"
 						<< "2-if you Wanna go back choose\n\n"
 						<< "3-if you Wanna go Home choose\n\n"
 						<< "if you Wanna Exit choose Else number\n\n";
@@ -425,8 +535,6 @@ void Admin::Edit() {
 			system("cls");
 			ModifyCourses();
 		}
-
-
 	}
 	else {
 		cout << "This Code Not Found..!\n";
@@ -468,7 +576,7 @@ void Admin::Delete() {
 			ModifyCourses();
 			break;
 		default:
-			
+
 			m.adminmenu();
 			break;
 		}
@@ -480,7 +588,7 @@ void Admin::Delete() {
 		ModifyCourses();
 	}
 }
-void Admin::Delete_prerequisite(string course_name){
+void Admin::Delete_prerequisite(string course_name) {
 	int count = 0;
 	string main_course;
 	vector<string>firsts;
@@ -499,7 +607,7 @@ void Admin::Delete_prerequisite(string course_name){
 		for (auto x : DataBase::prerequisite_vector) {
 			if (x.second == course_name) {
 				undo_preq.push_back(make_pair(x.first, x.second));
-				DataBase::prerequisite_vector.push_back(make_pair(x.first,main_course));
+				DataBase::prerequisite_vector.push_back(make_pair(x.first, main_course));
 				count_undo++;
 				DataBase::prerequisite_vector.erase(DataBase::prerequisite_vector.begin() + count);
 				PRE_LIST_CHANGED = true;
@@ -510,12 +618,11 @@ void Admin::Delete_prerequisite(string course_name){
 		if (count >= DataBase::prerequisite_vector.size())
 			break;
 	}
-	
 }
-void Admin::undo(){
+void Admin::undo() {
 	DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
 	undo_course_map.pop();
-	for (int i = 0; i < count_undo; i++){
+	for (int i = 0; i < count_undo; i++) {
 		DataBase::prerequisite_vector.pop_back();
 		PRE_LIST_CHANGED = true;
 	}
@@ -532,6 +639,17 @@ void Admin::view_courses_of_stud() {
 	int stud_id;
 	cout << "Enter the ID for Student \n";
 	cin >> stud_id;
+	while (!cin.good()) {// validation  input should be integer
+				//Error messagge
+		cout << "Error : Please Enter Integer Number !\n";
+		//clear cin
+		//then ignore data
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		//then get  input Again
+		cout << "Enter the ID for Student \n";
+		cin >> stud_id;
+	}
 	if (last_id_stud() >= stud_id) {
 		view_stud_prog_courses(stud_id);
 		view_stud_finished_courses(stud_id);
@@ -634,11 +752,11 @@ void Admin::view_studs_of_course() {
 		cout << "\nEnter a Correct Course Name\n";
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Admin::view_all_courses(){
+void Admin::view_all_courses() {
 	int c = 1;
 	cout << "\t\t\t\t\tAll Courses...\n";
 	for (auto x : DataBase::courses_map) {
-		cout << c << "- " << x.second.get_Course_name() <<"----> "<< x.second.get_code() << endl;
+		cout << c << "- " << x.second.get_Course_name() << "----> " << x.second.get_code() << endl;
 		c++;
 	}
 	cout << "\n";
@@ -739,7 +857,6 @@ bool Admin::check_row_repeated2(int id, string progress_course)
 			break;
 		}
 		count_erase++;
-		
 	}
 
 	return flag;

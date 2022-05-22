@@ -67,7 +67,7 @@ void Student::set_acadamic_year(string aca) {
 /*THIS FUNCTION COULD CHANGE ONLY PASSWORD*/
 void Student::edit_stud_data(int id)
 {
-	int  p, clk1;
+	/*int  p, clk1;*/
 	string password1, new_password;
 	cout << "Enter Your Old password" << endl;
 	cin >> password1;
@@ -87,16 +87,27 @@ void Student::edit_stud_data(int id)
 void Student::edit_f_and_p_course()
 {
 	Student stud1;
-	int id,num_of_finished_c,num_of_in_p;
+	int id, num_of_finished_c, num_of_in_p;
 	char p;
 	string password;
-	string f_course_name,new_f_course,new_p_course,in_p_name;
+	string f_course_name, new_f_course, new_p_course, in_p_name;
 	int clk;
 	cout << "enter the password of student you want to edit " << endl;
 	cin >> password;
 	stud1.set_student_password(password);
 	cout << "enter the id of student you want to edit " << endl;
 	cin >> id;
+	while (!cin.good()) {// validation  input should be integer
+				//Error messagge
+		cout << "Error : Please Enter Integer Number !\n";
+		//clear cin
+		//then ignore data
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		//then get  input Again
+		cout << "enter the id of student you want to edit " << endl;
+		cin >> id;
+	}
 	stud1.set_student_id(id);
 	if (Student::check_row_exist(stud1.get_student_id(), stud1.get_student_password())) {
 		cout << "if you want to edit finished courses for student press 1 " << endl;
@@ -108,6 +119,17 @@ void Student::edit_f_and_p_course()
 		case '1':
 			cout << "enter the number of  finished courses you want to edit " << endl;
 			cin >> num_of_finished_c;
+			while (!cin.good()) {// validation  input should be integer
+				//Error messagge
+				cout << "Error : Please Enter Integer Number !\n";
+				//clear cin
+				//then ignore data
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+				//then get  input Again
+				cout << "enter the number of  finished courses you want to edit " << endl;
+				cin >> num_of_finished_c;
+			}
 			if (num_of_finished_c <= DataBase::finished_vector.capacity()) {
 				for (int i = 0; i < num_of_finished_c; i++) {
 					cout << "enter the name of finished course you want to edit " << endl;
@@ -117,6 +139,17 @@ void Student::edit_f_and_p_course()
 						cin >> new_f_course;
 						cout << "if you want to submit click 1 else click any number " << endl;
 						cin >> clk;
+						while (!cin.good()) {// validation  input should be integer
+							//Error messagge
+							cout << "Error : Please Enter Integer Number !\n";
+							//clear cin
+							//then ignore data
+							cin.clear();
+							cin.ignore(INT_MAX, '\n');
+							//then get  input Again
+							cout << "if you want to submit click 1 else click any number " << endl;
+							cin >> clk;
+						}
 						if (clk == 1) {
 							int index = 0;
 							for (auto x : DataBase::finished_vector) {
@@ -147,6 +180,17 @@ void Student::edit_f_and_p_course()
 		case '2':
 			cout << "enter the number of  in progress courses you want to edit " << endl;
 			cin >> num_of_in_p;
+			while (!cin.good()) {// validation  input should be integer
+							//Error messagge
+				cout << "Error : Please Enter Integer Number !\n";
+				//clear cin
+				//then ignore data
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+				//then get  input Again
+				cout << "enter the number of  in progress courses you want to edit " << endl;
+				cin >> num_of_in_p;
+			}
 			if (num_of_in_p <= DataBase::progress_vector.capacity()) {
 				for (int i = 0; i < num_of_in_p; i++) {
 					cout << "enter the name of  in progress course you want to edit " << endl;
@@ -156,6 +200,17 @@ void Student::edit_f_and_p_course()
 						cin >> new_p_course;
 						cout << "if you want to submit click 1 else click any number " << endl;
 						cin >> clk;
+						while (!cin.good()) {// validation  input should be integer
+							//Error messagge
+							cout << "Error : Please Enter Integer Number !\n";
+							//clear cin
+							//then ignore data
+							cin.clear();
+							cin.ignore(INT_MAX, '\n');
+							//then get  input Again
+							cout << "if you want to submit click 1 else click any number " << endl;
+							cin >> clk;
+						}
 						if (clk == 1) {
 							int index = 0;
 							for (auto x : DataBase::progress_vector) {
