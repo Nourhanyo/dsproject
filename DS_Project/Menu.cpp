@@ -118,7 +118,6 @@ void Menu::adminmenu() {
 		cout << "Enter Course name\n";
 		cin >> course_name;
 		admin.fill_prerequisite_list(course_name);
-		system("pause");
 		adminmenu();
 		break;
 	case '7':

@@ -17,6 +17,7 @@ int Admin::idd_;
 //STACK FOR UNDO EDIT AND DELETE
 stack<Course>undo_course_map;
 vector < pair<string, string>>undo_preq;
+vector<string>main_courses;
 int count_undo = 0;
 int count_erase = 0;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,6 +294,7 @@ void Admin::add_f_course_in_p_course()
 				}
 				else {
 					cout << "You can add to " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " at most " << available_num_courses << " Courses\n";
+
 				}
 			}
 
@@ -590,25 +592,13 @@ void Admin::Delete() {
 }
 void Admin::Delete_prerequisite(string course_name) {
 	int count = 0;
-	string main_course;
 	vector<string>firsts;
-	for (auto x : DataBase::prerequisite_vector) {
-		if (x.first == course_name) {
-			undo_preq.push_back(make_pair(x.first, x.second));
-			main_course = x.second;
-			DataBase::prerequisite_vector.erase(DataBase::prerequisite_vector.begin() + count);
-			PRE_LIST_CHANGED = true;
-			break;
-		}
-		count++;
-	}
 	while (true) {
 		count = 0;
 		for (auto x : DataBase::prerequisite_vector) {
-			if (x.second == course_name) {
+			if (x.first == course_name) {
 				undo_preq.push_back(make_pair(x.first, x.second));
-				DataBase::prerequisite_vector.push_back(make_pair(x.first, main_course));
-				count_undo++;
+				main_courses.push_back(x.second);
 				DataBase::prerequisite_vector.erase(DataBase::prerequisite_vector.begin() + count);
 				PRE_LIST_CHANGED = true;
 				break;
@@ -618,6 +608,25 @@ void Admin::Delete_prerequisite(string course_name) {
 		if (count >= DataBase::prerequisite_vector.size())
 			break;
 	}
+	while (true) {
+		count = 0;
+		for (auto x : DataBase::prerequisite_vector) {
+			if (x.second == course_name) {
+				undo_preq.push_back(make_pair(x.first, x.second));
+				for (auto y : main_courses) {
+					DataBase::prerequisite_vector.push_back(make_pair(x.first, y));
+					count_undo++;
+				}
+				DataBase::prerequisite_vector.erase(DataBase::prerequisite_vector.begin() + count);
+				PRE_LIST_CHANGED = true;
+				break;
+			}
+			count++;
+		}
+		if (count >= DataBase::prerequisite_vector.size())
+			break;
+	}
+
 }
 void Admin::undo() {
 	DataBase::courses_map.insert(make_pair(undo_course_map.top().get_code(), undo_course_map.top()));
@@ -631,9 +640,9 @@ void Admin::undo() {
 		DataBase::prerequisite_vector.push_back(make_pair(x.first, x.second));
 		PRE_LIST_CHANGED = true;
 	}
+	system("pause");
 	undo_preq.clear();
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+}/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*THERE FUNCTIONS VIEW ALL COURSES OF STUDENT*/
 void Admin::view_courses_of_stud() {
 	int stud_id;
