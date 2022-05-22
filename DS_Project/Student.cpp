@@ -360,7 +360,6 @@ void Student::view_available_courses(int id)
 	fill_pre_list();
 	bool flag = true;
 	// Printing Avaliable Crs
-	cout << "\nAvaliableCrs\n*************\n";
 	for (auto x : AvailabeCrs_vec) {
 		flag = true;
 		for (auto y : DataBase::progress_vector) {

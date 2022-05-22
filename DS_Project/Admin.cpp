@@ -189,7 +189,7 @@ void Admin::add_f_course_in_p_course()
 		if (Admin::check_if_id_exist(stud.get_student_id())) {
 			student = DataBase::students_map[to_string(id_)];
 			cout << "This Student is " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << endl;
-			cout << "Enter the number of finished courses you want add " << endl;
+			cout << "Enter number Courses You Want To Add " << endl;
 			cin >> clk;
 			while (!cin.good()) {// validation  input should be integer
 				//Error messagge
@@ -199,7 +199,7 @@ void Admin::add_f_course_in_p_course()
 				cin.clear();
 				cin.ignore(INT_MAX, '\n');
 				//then get  input Again
-				cout << "Enter the number of finished courses you want add " << endl;
+				cout << "Enter the number of courses you want add " << endl;
 				cin >> clk;
 			}
 			for (int j = 0; j < clk; j++) {
@@ -254,7 +254,10 @@ void Admin::add_f_course_in_p_course()
 					}
 				}
 				cout << "\nYou can add to this student at most " << available_num_courses << " Courses\n";
-				cout << "Enter the number of in progrss  courses you want add " << endl;
+				Student s;
+				cout << "\nAvailable Courses for : " << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name()<<" :\n";
+				s.view_available_courses(id_);
+				cout << "Enter The Number Courses You Want Add " << endl;
 				cin >> clk;
 				while (!cin.good()) {// validation  input should be integer
 				//Error messagge
@@ -264,7 +267,7 @@ void Admin::add_f_course_in_p_course()
 					cin.clear();
 					cin.ignore(INT_MAX, '\n');
 					//then get  input Again
-					cout << "Enter the number of finished courses you want add " << endl;
+					cout << "Enter the number of Courses you want add " << endl;
 					cin >> clk;
 				}
 				if (clk <= available_num_courses) {
@@ -275,6 +278,7 @@ void Admin::add_f_course_in_p_course()
 							if (Admin::check_row_repeated2(stoi(stud.get_student_id()), in_p_courses)) {
 								if (Admin::check_row_repeated(stoi(stud.get_student_id()), in_p_courses)) {
 									DataBase::progress_vector.push_back(make_pair(stoi(stud.get_student_id()), in_p_courses));
+									cout << student.get_f_name() << " " << student.get_s_name() << " Took " << in_p_courses << " Successfully\n";
 								}
 								else {
 									cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Has already Taken " << in_p_courses << endl;

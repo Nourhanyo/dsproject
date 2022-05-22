@@ -63,7 +63,7 @@ void Menu::adminmenu() {
 	cout << "4-View List OF Students in Specific Course\n";
 	cout << "5-View List OF Courses of Specific Student\n";
 	cout << "6-Fill prerequisite of Specific Course\n";
-	cout << "7-Add finished courses and progressed courses\n";
+	cout << "7-Add finished Courses and progressed Courses To Specific Student\n";
 	cout << "8-Exit\n";
 	cout << "Enter your choice : ";
 	cin >> choice;
@@ -134,8 +134,8 @@ void Menu::adminmenu() {
 		cout << "                                  ______________________________________\n\n\n\n";
 		break;
 	default:
-		system("cls");
-		cout << "Sorry Wrong Choice !!\n";
+		cout << "Sorry Wrong Choice....!\n";
+		system("pause");
 	then:adminmenu();
 	}
 }
@@ -171,13 +171,13 @@ void Menu::studmenu() {
 	switch (choice)
 	{
 	case '1':system("cls");
-		cout << "Your Available courses:\n";
+		cout << "\t\t\t\t\tYour Available COURSES\n\t\t\t\t\t-----------------------\n";
 		stud.view_available_courses(id);
 		system("pause");
 		studmenu();
 		break;
 	case '2':system("cls");
-		cout << "Your Available courses:\n";
+		cout << "\t\t\t\t\tYour Available COURSES\n\t\t\t\t\t-----------------------\n";
 		stud.view_available_courses(id);
 		cout << endl;
 		stud.View_CoursesDetails();
@@ -185,7 +185,7 @@ void Menu::studmenu() {
 		studmenu();
 		break;
 	case '3':system("cls");
-		cout << "Your Available courses:\n";
+		cout << "\t\t\t\t\tYour Available COURSES\n\t\t\t\t\t-----------------------\n";
 		stud.view_available_courses(id);
 		cout << "press 1 to view details of specific Course...press 2 to register for a course: ";
 		cin >> p;
@@ -241,9 +241,9 @@ void Menu::studmenu() {
 		cout << "                                  ______________________________________\n\n\n\n";
 		break;
 	default:
-		system("cls");
-		cout << "Sorry Wrong Choice....!";
-		studmenu();
+		cout << "Sorry Wrong Choice....!\n";
+		system("pause");
+	then:studmenu();
 	}
 }
 //////////////////////////////////////////////////////////////////////////
