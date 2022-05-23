@@ -211,7 +211,7 @@ void Admin::add_f_course_in_p_course()
 						DataBase::finished_vector.push_back(make_pair(stoi(stud.get_student_id()), f_courses));
 					}
 					else {
-						cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Has already Taken " << f_courses << endl;
+						cout << student.get_f_name() << " " << student.get_s_name() << " " << student.get_th_name() << " Has already Finished " << f_courses << endl;
 					}
 				}
 				else {
@@ -847,6 +847,7 @@ bool Admin::check_if_id_exist(string  id)
 	return flag;
 }
 /************************************************************************/
+//check finished course exist for stud
 bool Admin::check_row_repeated(int id, string f_course)
 {
 	bool flag = true;
@@ -860,6 +861,7 @@ bool Admin::check_row_repeated(int id, string f_course)
 	return flag;
 }
 /************************************************************************/
+//check progress course exist for stud
 bool Admin::check_row_repeated2(int id, string progress_course)
 {
 	bool flag = true;
